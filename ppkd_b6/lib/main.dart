@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ppkd_b6/flutter2.dart';
+import 'flutter2.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,9 +30,11 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: const Color.fromARGB(255, 183, 58, 58)),
+        colorScheme: .fromSeed(
+          seedColor: const Color.fromARGB(255, 183, 58, 58),
+        ),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Pag'),
+      home: HiKata(),
     );
   }
 }
