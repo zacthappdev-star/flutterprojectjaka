@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ppkd_b6/flutter2.dart';
-import 'flutter3.dart';
+import 'package:ppkd_b6/flutter4.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,7 +33,7 @@ class MyApp extends StatelessWidget {
           seedColor: const Color.fromARGB(255, 183, 58, 58),
         ),
       ),
-      home: TUGAS3(),
+      home: Tugas4(),
     );
   }
 }

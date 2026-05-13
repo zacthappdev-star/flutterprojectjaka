@@ -35,14 +35,13 @@ class ProfilePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-
             // Nama Lengkap
             const Text(
               'Jaka Agus Dermawan',
               style: TextStyle(
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
-                color: Colors.black
+                color: Colors.black,
               ),
             ),
 
@@ -50,21 +49,13 @@ class ProfilePage extends StatelessWidget {
 
             // Kota + Icon
             Row(
-              mainAxisAlignment : MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: const [
-                Icon(
-                  Icons.location_on,
-                  color: Colors.red,
-                ),
+                Icon(Icons.location_on, color: Colors.red),
 
                 SizedBox(width: 8),
 
-                Text(
-                  'Jakarta, Indonesia',
-                  style: TextStyle(
-                    fontSize: 15,
-                  ),
-                ),
+                Text('Jakarta, Indonesia', style: TextStyle(fontSize: 15)),
               ],
             ),
 
@@ -73,11 +64,7 @@ class ProfilePage extends StatelessWidget {
             // Deskripsi
             const Text(
               'Saya adalah seorang peserta pelatihan yang sedang mendalami Flutter di PPKD.',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.black,
-                height: 1.5,
-              ),
+              style: TextStyle(fontSize: 16, color: Colors.black, height: 1.5),
             ),
           ],
         ),
