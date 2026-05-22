@@ -7,7 +7,7 @@ class TUGAS3 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           "Registrasi HI KATA",
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green),
         ),

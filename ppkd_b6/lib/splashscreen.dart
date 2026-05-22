@@ -7,7 +7,7 @@ void main() {
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
-  static const String routeName = '/splashscreen';
+  static String routeName = '/splashscreen';
 
   @override
   Widget build(BuildContext context) {

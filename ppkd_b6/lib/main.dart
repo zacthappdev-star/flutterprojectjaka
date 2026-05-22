@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ppkd_b6/SplashScreen.dart';
-import 'package:ppkd_b6/flutter6.dart';
+import 'package:ppkd_b6/flutter7.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,12 +33,12 @@ class MyApp extends StatelessWidget {
           seedColor: const Color.fromARGB(255, 183, 58, 58),
         ),
       ),
-      // home: SplashScreen(),
-      initialRoute: SplashScreen.routeName,
-      routes: {
-        SplashScreen.routeName: (context) => const SplashScreen(),
-        TampilanLogin.routeName: (context) => const TampilanLogin(),
-      },
+      home: Navigator7(),
+      // initialRoute: SplashScreen.routeName,
+      // routes: {
+      //   SplashScreen.routeName: (context) => const SplashScreen(),
+      //   TampilanLogin.routeName: (context) => const TampilanLogin(),
+      // },
     );
   }
 }
