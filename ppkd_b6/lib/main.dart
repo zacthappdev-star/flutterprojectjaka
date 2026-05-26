@@ -36,8 +36,8 @@ class MyApp extends StatelessWidget {
       home: Navigator8(),
       // initialRoute: SplashScreen.routeName,
       // routes: {
-      //   SplashScreen.routeName: (context) => const SplashScreen(),
-      //   TampilanLogin.routeName: (context) => const TampilanLogin(),
+      // SplashScreen.routeName: (context) => const SplashScreen(),
+      // TampilanLogin.routeName: (context) => const TampilanLogin(),
       // },
     );
   }

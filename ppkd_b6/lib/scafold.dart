@@ -12,7 +12,7 @@ class Profil extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Profil Saya',
-      home: const ProfilePage(),
+      home: ProfilePage(),
     );
   }
 }
@@ -24,19 +24,17 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profil Saya'),
+        title: Text('Profil Saya'),
         centerTitle: true,
         backgroundColor: Colors.red,
       ),
 
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
-
+        padding: EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Nama Lengkap
-            const Text(
+            Text(
               'Jaka Agus Dermawan',
               style: TextStyle(
                 fontSize: 25,
@@ -44,25 +42,17 @@ class ProfilePage extends StatelessWidget {
                 color: Colors.black,
               ),
             ),
-
-            const SizedBox(height: 8),
-
-            // Kota + Icon
+            SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 Icon(Icons.location_on, color: Colors.red),
-
                 SizedBox(width: 8),
-
                 Text('Jakarta, Indonesia', style: TextStyle(fontSize: 15)),
               ],
             ),
-
-            const SizedBox(height: 20),
-
-            // Deskripsi
-            const Text(
+            SizedBox(height: 20),
+            Text(
               'Saya adalah seorang peserta pelatihan yang sedang mendalami Flutter di PPKD.',
               style: TextStyle(fontSize: 16, color: Colors.black, height: 1.5),
             ),

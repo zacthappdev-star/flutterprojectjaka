@@ -14,10 +14,9 @@ class TUGAS3 extends StatelessWidget {
         backgroundColor: Colors.black,
         centerTitle: true,
       ),
-
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: EdgeInsets.all(10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 5,
@@ -32,7 +31,7 @@ class TUGAS3 extends StatelessWidget {
                   hintText: "Nama Lengkap",
                   filled: true,
                   fillColor: Colors.grey[100],
-                  prefixIcon: const Icon(Icons.person),
+                  prefixIcon: Icon(Icons.person),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -64,7 +63,7 @@ class TUGAS3 extends StatelessWidget {
                   hintText: "Masukkan Password",
                   filled: true,
                   fillColor: Colors.grey[100],
-                  prefixIcon: const Icon(Icons.key),
+                  prefixIcon: Icon(Icons.key),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -81,7 +80,7 @@ class TUGAS3 extends StatelessWidget {
                   hintText: "Ulangi Password",
                   filled: true,
                   fillColor: Colors.grey[100],
-                  prefixIcon: const Icon(Icons.key),
+                  prefixIcon: Icon(Icons.key),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -93,9 +92,7 @@ class TUGAS3 extends StatelessWidget {
                 crossAxisCount: 3,
                 mainAxisSpacing: 2,
                 crossAxisSpacing: 2,
-
                 children: [
-                  // JAPAN
                   Stack(
                     children: [
                       Container(
@@ -107,7 +104,6 @@ class TUGAS3 extends StatelessWidget {
                           ),
                         ),
                       ),
-
                       Positioned(
                         bottom: 6,
                         left: 0,
@@ -123,8 +119,6 @@ class TUGAS3 extends StatelessWidget {
                       ),
                     ],
                   ),
-
-                  // TOKYO
                   Stack(
                     children: [
                       Container(
@@ -136,7 +130,6 @@ class TUGAS3 extends StatelessWidget {
                           ),
                         ),
                       ),
-
                       Positioned(
                         bottom: 6,
                         left: 0,
@@ -152,8 +145,6 @@ class TUGAS3 extends StatelessWidget {
                       ),
                     ],
                   ),
-
-                  // FUJI
                   Stack(
                     children: [
                       Container(
@@ -165,7 +156,6 @@ class TUGAS3 extends StatelessWidget {
                           ),
                         ),
                       ),
-
                       Positioned(
                         bottom: 6,
                         left: 0,
@@ -181,8 +171,6 @@ class TUGAS3 extends StatelessWidget {
                       ),
                     ],
                   ),
-
-                  // SHIBUYA
                   Stack(
                     children: [
                       Container(
@@ -194,7 +182,6 @@ class TUGAS3 extends StatelessWidget {
                           ),
                         ),
                       ),
-
                       Positioned(
                         bottom: 6,
                         left: 0,
@@ -210,8 +197,6 @@ class TUGAS3 extends StatelessWidget {
                       ),
                     ],
                   ),
-
-                  // TAKOYAKI
                   Stack(
                     children: [
                       Container(
@@ -223,7 +208,6 @@ class TUGAS3 extends StatelessWidget {
                           ),
                         ),
                       ),
-
                       Positioned(
                         bottom: 6,
                         left: 0,
@@ -239,8 +223,6 @@ class TUGAS3 extends StatelessWidget {
                       ),
                     ],
                   ),
-
-                  // NINJA
                   Stack(
                     children: [
                       Container(

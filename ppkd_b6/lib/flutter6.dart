@@ -97,26 +97,6 @@ class _TampilanLoginState extends State<TampilanLogin> {
                         return null;
                       },
                     ),
-                    // SizedBox(height: 20),
-                    // TextFormField(
-                    //   obscureText: true,
-                    //   obscuringCharacter: "*",
-                    //   decoration: InputDecoration(
-                    //     hintText: "Nomer Telepon",
-                    //     prefixIcon: Icon(Icons.phone),
-                    //     border: OutlineInputBorder(
-                    //       borderRadius: BorderRadius.circular(15),
-                    //     ),
-                    //   ),
-                    //   validator: (value) {
-                    //     if (value == null || value.isEmpty) {
-                    //       return "Nomer Tidak Boleh Kosong";
-                    //     } else if (value.length < 12) {
-                    //       return "Nomer terlalu singkat";
-                    //     }
-                    //     return null;
-                    //   },
-                    // ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [

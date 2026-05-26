@@ -13,23 +13,19 @@ class Tugas4 extends StatelessWidget {
           padding: EdgeInsets.all(8),
           child: Image.asset("assets/images/leaves.png"),
         ),
-
         centerTitle: true,
-
         titleTextStyle: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 25,
           color: Colors.black,
         ),
-
         title: Container(
           padding: EdgeInsets.symmetric(horizontal: 21, vertical: 7),
-
           decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 19, 217, 231),
+            color: Color.fromARGB(255, 19, 217, 231),
             borderRadius: BorderRadius.circular(13),
             border: Border.all(
-              color: const Color.fromARGB(255, 1, 106, 177),
+              color: Color.fromARGB(255, 1, 106, 177),
               width: 3,
             ),
           ),
@@ -37,7 +33,7 @@ class Tugas4 extends StatelessWidget {
             "HI KATA",
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: const Color.fromARGB(255, 34, 1, 28),
+              color: Color.fromARGB(255, 34, 1, 28),
             ),
           ),
         ),
@@ -50,7 +46,7 @@ class Tugas4 extends StatelessWidget {
               hintText: "Nama Lengkap",
               filled: true,
               fillColor: Colors.grey[100],
-              prefixIcon: const Icon(Icons.person),
+              prefixIcon: Icon(Icons.person),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -76,7 +72,7 @@ class Tugas4 extends StatelessWidget {
               hintText: "Masukkan Password",
               filled: true,
               fillColor: Colors.grey[100],
-              prefixIcon: const Icon(Icons.key),
+              prefixIcon: Icon(Icons.key),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -90,7 +86,7 @@ class Tugas4 extends StatelessWidget {
               hintText: "Ulangi Password",
               filled: true,
               fillColor: Colors.grey[100],
-              prefixIcon: const Icon(Icons.key),
+              prefixIcon: Icon(Icons.key),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -102,14 +98,12 @@ class Tugas4 extends StatelessWidget {
             subtitle: Text("Mengenali huruf"),
             trailing: Icon(Icons.ac_unit_sharp),
           ),
-
           ListTile(
             leading: Icon(Icons.notification_add),
             title: Text("Belajar Katakana"),
             subtitle: Text("Mengenali Huruf"),
             trailing: Icon(Icons.ac_unit_sharp),
           ),
-
           ListTile(
             leading: Icon(Icons.read_more),
             title: Text("Belajar Hiragana"),

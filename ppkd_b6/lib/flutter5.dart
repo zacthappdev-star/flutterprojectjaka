@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class Hikata1 extends StatefulWidget {
   const Hikata1({super.key});
-
   @override
   State<Hikata1> createState() => _Hikata1State();
 }
@@ -12,7 +11,6 @@ class _Hikata1State extends State<Hikata1> {
   bool like = false;
   bool perkenalkan = false;
   bool deskripsi = false;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
