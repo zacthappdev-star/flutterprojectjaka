@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:ppkd_b6/flutter102.dart';
+import 'package:ppkd_b6/flutter6.dart';
+import 'package:ppkd_b6/flutter8.dart';
+import 'package:ppkd_b6/local/database/preference_handler.dart';
+import 'package:ppkd_b6/splashscreen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Preference.init();
   runApp(const MyApp());
 }
 
@@ -33,12 +38,13 @@ class MyApp extends StatelessWidget {
           seedColor: const Color.fromARGB(255, 183, 58, 58),
         ),
       ),
-      home: Formlogin(),
-      // initialRoute: SplashScreen.routeName,
-      // routes: {
-      // SplashScreen.routeName: (context) => const SplashScreen(),
-      // TampilanLogin.routeName: (context) => const TampilanLogin(),
-      // },
+      // home: SplashScreen(),
+      initialRoute: SplashScreen.routeName,
+      routes: {
+        SplashScreen.routeName: (context) => const SplashScreen(),
+        TampilanLogin.routeName: (context) => const TampilanLogin(),
+        Navigator8.routeName: (context) => const Navigator8(),
+      },
     );
   }
 }

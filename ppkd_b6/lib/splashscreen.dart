@@ -1,13 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:ppkd_b6/flutter6.dart';
+import 'package:ppkd_b6/flutter7.dart';
+import 'package:ppkd_b6/local/database/preference_handler.dart';
 
-void main() {
-  runApp(MaterialApp(debugShowCheckedModeBanner: false, home: SplashScreen()));
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  static String routeName = '/splashscreen';
+
+  @override
+  State<SplashScreen> createState() => SplashScreenState();
 }
 
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
-  static String routeName = '/splashscreen';
+class SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    checkLoginStatus();
+  }
+
+  Future<void> checkLoginStatus() async {
+    await Future.delayed(Duration(seconds: 4));
+
+    if (!mounted) return;
+
+    if (!Preference.isLogin) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Navigator7()),
+      );
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => TampilanLogin()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,33 +70,6 @@ class SplashScreen extends StatelessWidget {
                   fontSize: 16,
                   color: Colors.white70,
                   letterSpacing: 2,
-                  fontWeight: FontWeight.normal,
-                ),
-              ),
-              SizedBox(height: 80),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, TampilanLogin.routeName);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 18),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "Mulai Belajar",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
                 ),
               ),
             ],

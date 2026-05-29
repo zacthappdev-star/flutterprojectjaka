@@ -17,10 +17,7 @@ class HiKata extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // JARAK ATAS
             SizedBox(height: 30),
-
-            // NAMA / IDENTITAS
             Center(
               child: Text(
                 "JAKA AGUS DERMAWAN",
@@ -31,17 +28,14 @@ class HiKata extends StatelessWidget {
                 ),
               ),
             ),
-
             SizedBox(height: 25),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 25),
               padding: EdgeInsets.all(13),
-
               decoration: BoxDecoration(
                 color: Colors.green.shade50,
                 borderRadius: BorderRadius.circular(12),
               ),
-
               child: Row(
                 children: [
                   Icon(Icons.email, color: Colors.black54),
@@ -66,10 +60,8 @@ class HiKata extends StatelessWidget {
               ),
             ),
             SizedBox(height: 25),
-
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 22),
-
               child: Row(
                 children: [
                   Expanded(
@@ -82,9 +74,7 @@ class HiKata extends StatelessWidget {
                       child: Column(
                         children: [
                           Icon(Icons.menu_book, size: 35, color: Colors.green),
-
                           SizedBox(height: 10),
-
                           Text(
                             "120+",
                             style: TextStyle(
@@ -92,7 +82,6 @@ class HiKata extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-
                           Text("Materi"),
                         ],
                       ),

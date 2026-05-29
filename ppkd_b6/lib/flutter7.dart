@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:ppkd_b6/flutter6.dart';
+import 'package:ppkd_b6/local/database/preference_handler.dart';
 
 class Navigator7 extends StatefulWidget {
   const Navigator7({super.key});
@@ -15,8 +17,25 @@ class _Navigator7State extends State<Navigator7> {
   bool isDarkMode = false;
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
+
+  void _logOut() async {
+    await Preference.logOut();
+
+    if (!mounted) return;
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const TampilanLogin()),
+      (route) => false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic>? args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+
+    final String userEmail = args?['email'] ?? "Guest";
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -35,10 +54,10 @@ class _Navigator7State extends State<Navigator7> {
               decoration: BoxDecoration(color: Colors.green),
               child: Center(
                 child: Text(
-                  "MENU",
+                  userEmail,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 25,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -78,6 +97,11 @@ class _Navigator7State extends State<Navigator7> {
               onTap: () {
                 Navigator.pop(context);
               },
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text("Logout"),
+              onTap: _logOut,
             ),
           ],
         ),

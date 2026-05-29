@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ppkd_b6/flutter7.dart';
 
 class TampilanLogin extends StatefulWidget {
   const TampilanLogin({super.key});
@@ -8,14 +9,16 @@ class TampilanLogin extends StatefulWidget {
 }
 
 class _TampilanLoginState extends State<TampilanLogin> {
-  final fromKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Form(
-        key: fromKey,
+        key: _formKey,
         child: Container(
           padding: EdgeInsets.all(10),
           child: Column(
@@ -60,6 +63,7 @@ class _TampilanLoginState extends State<TampilanLogin> {
                   children: [
                     Text("Email"),
                     TextFormField(
+                      controller: _emailController,
                       decoration: InputDecoration(
                         hintText: "Email",
                         prefixIcon: Icon(Icons.mail),
@@ -79,6 +83,7 @@ class _TampilanLoginState extends State<TampilanLogin> {
                     SizedBox(height: 20),
                     Text("Password"),
                     TextFormField(
+                      controller: _passwordController,
                       obscureText: true,
                       obscuringCharacter: "*",
                       decoration: InputDecoration(
@@ -91,7 +96,7 @@ class _TampilanLoginState extends State<TampilanLogin> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Password Tidak Boleh Kosong";
-                        } else if (value.length < 12) {
+                        } else if (value.length < 6) {
                           return "Password terlalu singkat";
                         }
                         return null;
@@ -117,13 +122,31 @@ class _TampilanLoginState extends State<TampilanLogin> {
                       height: 55,
                       child: ElevatedButton.icon(
                         onPressed: () {
-                          if (fromKey.currentState!.validate()) {
+                          if (_formKey.currentState!.validate()) {
                             showDialog(
                               context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   title: Text("Berhasil Masuk"),
                                   content: Text("Anda Berhasil Login"),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => Navigator7(),
+                                            settings: RouteSettings(
+                                              arguments: {
+                                                "email": _emailController.text,
+                                              },
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      child: Text("Lanjut"),
+                                    ),
+                                  ],
                                 );
                               },
                             );

@@ -32,7 +32,6 @@ class _FormloginState extends State<Formlogin> {
               colors: [Color(0xFFF6F1EE), Color.fromARGB(255, 214, 236, 238)],
             ),
           ),
-
           child: Center(
             child: Container(
               width: 320,
@@ -41,7 +40,6 @@ class _FormloginState extends State<Formlogin> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(35),
               ),
-
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -58,7 +56,6 @@ class _FormloginState extends State<Formlogin> {
                       ),
                     ),
                   ),
-
                   Text(
                     "Hi Kata",
                     style: TextStyle(
@@ -67,7 +64,6 @@ class _FormloginState extends State<Formlogin> {
                       color: Color(0xFF7C9A92),
                     ),
                   ),
-
                   Text(
                     "Make Easy.",
                     style: TextStyle(fontSize: 14, color: Color(0xFF7C9A92)),
@@ -133,15 +129,11 @@ class _FormloginState extends State<Formlogin> {
                           },
                         ),
                       ),
-
                       SizedBox(height: 10),
-
                       Container(
                         margin: EdgeInsets.only(right: 22),
-
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
-
                           children: [
                             GestureDetector(
                               onTap: () {
@@ -152,7 +144,6 @@ class _FormloginState extends State<Formlogin> {
                           ],
                         ),
                       ),
-
                       Container(
                         margin: EdgeInsets.fromLTRB(20, 10, 20, 0),
                         child: SizedBox(

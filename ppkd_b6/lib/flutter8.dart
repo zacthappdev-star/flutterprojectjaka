@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ppkd_b6/navigator_widget.dart';
 import 'package:ppkd_b6/views/list.dart';
-import 'package:ppkd_b6/views/list_with_models.dart';
+import 'package:ppkd_b6/views/listwithmodel.dart';
 import 'package:ppkd_b6/views/map.dart';
 
 class Navigator8 extends StatefulWidget {
+  static String routeName = '/navigator8';
   const Navigator8({super.key});
   @override
   State<Navigator8> createState() => _Navigator8State();
