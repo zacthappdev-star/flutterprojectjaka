@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ppkd_b6/flutter6.dart';
 import 'package:ppkd_b6/local/database/preference_handler.dart';
+import 'package:ppkd_b6/loginn.dart';
 
 class Navigator7 extends StatefulWidget {
   const Navigator7({super.key});
@@ -19,8 +19,7 @@ class _Navigator7State extends State<Navigator7> {
   TimeOfDay? selectedTime;
 
   void _logOut() async {
-    await Preference.logOut();
-
+    await Preference.clearAll();
     if (!mounted) return;
     Navigator.pushAndRemoveUntil(
       context,
@@ -33,13 +32,11 @@ class _Navigator7State extends State<Navigator7> {
   Widget build(BuildContext context) {
     final Map<String, dynamic>? args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-
     final String userEmail = args?['email'] ?? "Guest";
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
+        title: const Text(
           "HI KATA",
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
@@ -51,11 +48,11 @@ class _Navigator7State extends State<Navigator7> {
           padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
-              decoration: BoxDecoration(color: Colors.green),
+              decoration: const BoxDecoration(color: Colors.green),
               child: Center(
                 child: Text(
                   userEmail,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -64,43 +61,43 @@ class _Navigator7State extends State<Navigator7> {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.language),
-              title: Text("Hiragana"),
+              leading: const Icon(Icons.language),
+              title: const Text("Hiragana"),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: Icon(Icons.translate),
-              title: Text("Katakana"),
+              leading: const Icon(Icons.translate),
+              title: const Text("Katakana"),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: Icon(Icons.quiz),
-              title: Text("Quiz"),
+              leading: const Icon(Icons.quiz),
+              title: const Text("Quiz"),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: Icon(Icons.bar_chart),
-              title: Text("Progress"),
+              leading: const Icon(Icons.bar_chart),
+              title: const Text("Progress"),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: Icon(Icons.alarm),
-              title: Text("Pengingat"),
+              leading: const Icon(Icons.alarm),
+              title: const Text("Pengingat"),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              leading: Icon(Icons.logout),
-              title: Text("Logout"),
+              leading: const Icon(Icons.logout),
+              title: const Text("Logout"),
               onTap: _logOut,
             ),
           ],
@@ -111,7 +108,7 @@ class _Navigator7State extends State<Navigator7> {
           width: double.infinity,
           color: isDarkMode ? Colors.black : Colors.white,
           child: Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Form(
               key: _formKey,
               child: Column(
@@ -127,7 +124,7 @@ class _Navigator7State extends State<Navigator7> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   TextFormField(
                     style: TextStyle(
                       color: isDarkMode ? Colors.white : Colors.black,
@@ -154,7 +151,10 @@ class _Navigator7State extends State<Navigator7> {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.green, width: 2),
+                        borderSide: const BorderSide(
+                          color: Colors.green,
+                          width: 2,
+                        ),
                       ),
                     ),
                     validator: (value) {
@@ -164,7 +164,7 @@ class _Navigator7State extends State<Navigator7> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Center(
                     child: Text(
                       "Level",
@@ -175,9 +175,10 @@ class _Navigator7State extends State<Navigator7> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   DropdownButtonFormField<String>(
-                    initialValue: selectedLevel,
+                    initialValue:
+                        selectedLevel, // Diubah dari initialValue ke value agar aman saat state berubah
                     style: TextStyle(
                       color: isDarkMode ? Colors.white : Colors.black,
                       fontSize: 16,
@@ -202,10 +203,13 @@ class _Navigator7State extends State<Navigator7> {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.green, width: 2),
+                        borderSide: const BorderSide(
+                          color: Colors.green,
+                          width: 2,
+                        ),
                       ),
                     ),
-                    items: [
+                    items: const [
                       DropdownMenuItem(value: "Pemula", child: Text("Pemula")),
                       DropdownMenuItem(
                         value: "Menengah",
@@ -254,7 +258,7 @@ class _Navigator7State extends State<Navigator7> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   SwitchListTile(
                     title: Text(
                       "Mode Gelap",
@@ -269,7 +273,7 @@ class _Navigator7State extends State<Navigator7> {
                       });
                     },
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Center(
                     child: Text(
                       "Pembelajaran",
@@ -280,7 +284,7 @@ class _Navigator7State extends State<Navigator7> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   DropdownButtonFormField<String>(
                     initialValue: selectedKategori,
                     style: TextStyle(
@@ -307,10 +311,13 @@ class _Navigator7State extends State<Navigator7> {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: Colors.green, width: 2),
+                        borderSide: const BorderSide(
+                          color: Colors.green,
+                          width: 2,
+                        ),
                       ),
                     ),
-                    items: [
+                    items: const [
                       DropdownMenuItem(
                         value: "Hiragana",
                         child: Text("Hiragana"),
@@ -327,7 +334,7 @@ class _Navigator7State extends State<Navigator7> {
                       });
                     },
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -354,9 +361,9 @@ class _Navigator7State extends State<Navigator7> {
                         });
                       }
                     },
-                    child: Text("Pilih Tanggal"),
+                    child: const Text("Pilih Tanggal"),
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Text(
                     selectedDate == null
                         ? "Tanggal belum dipilih"
@@ -369,7 +376,7 @@ class _Navigator7State extends State<Navigator7> {
                       color: isDarkMode ? Colors.white : Colors.black,
                     ),
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   ElevatedButton(
                     onPressed: () async {
                       TimeOfDay? pickedTime = await showTimePicker(
@@ -382,9 +389,9 @@ class _Navigator7State extends State<Navigator7> {
                         });
                       }
                     },
-                    child: Text("Atur Pengingat"),
+                    child: const Text("Atur Pengingat"),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     selectedTime == null
                         ? "Pengingat belum diatur"
@@ -396,23 +403,28 @@ class _Navigator7State extends State<Navigator7> {
                       color: isDarkMode ? Colors.white : Colors.black,
                     ),
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Data berhasil disimpan")),
+                            const SnackBar(
+                              content: Text("Data berhasil disimpan"),
+                            ),
                           );
                         }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green,
                         foregroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(vertical: 16),
+                        padding: const EdgeInsets.symmetric(vertical: 16),
                       ),
-                      child: Text("Simpan", style: TextStyle(fontSize: 18)),
+                      child: const Text(
+                        "Simpan",
+                        style: TextStyle(fontSize: 18),
+                      ),
                     ),
                   ),
                 ],

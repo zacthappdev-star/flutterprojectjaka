@@ -1,21 +1,30 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Preference {
-  static late SharedPreferences _prefs;
+  static SharedPreferences? _prefs;
+
   static Future<void> init() async {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  static const _keyIsLogin = "isLogin";
-  static Future<void> setLogin(bool isLogin) async {
-    await _prefs.setBool(_keyIsLogin, isLogin);
+  static Future<bool> setLoginStatus(bool value) async {
+    return await _prefs?.setBool('isLogin', value) ?? false;
   }
 
-  static bool get isLogin {
-    return _prefs.getBool(_keyIsLogin) ?? false;
+  static bool getLoginStatus() {
+    return _prefs?.getBool('isLogin') ?? false;
   }
 
-  static Future<void> logOut() async {
-    await _prefs.remove(_keyIsLogin);
+  static bool get isLogin => _prefs?.getBool('isLogin') ?? false;
+  static Future<bool> setUserEmail(String email) async {
+    return await _prefs?.setString('userEmail', email) ?? false;
+  }
+
+  static String getUserEmail() {
+    return _prefs?.getString('userEmail') ?? '';
+  }
+
+  static Future<bool> clearAll() async {
+    return await _prefs?.clear() ?? false;
   }
 }

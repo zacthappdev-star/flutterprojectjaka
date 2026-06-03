@@ -6,7 +6,6 @@ void main() {
 
 class Profil extends StatelessWidget {
   const Profil({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,7 +18,6 @@ class Profil extends StatelessWidget {
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +26,6 @@ class ProfilePage extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.red,
       ),
-
       body: Padding(
         padding: EdgeInsets.all(20.0),
         child: Column(

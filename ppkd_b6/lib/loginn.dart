@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ppkd_b6/flutter7.dart';
+import 'package:ppkd_b6/register.dart';
 
 class TampilanLogin extends StatefulWidget {
   const TampilanLogin({super.key});
@@ -158,8 +159,7 @@ class _TampilanLoginState extends State<TampilanLogin> {
                             borderRadius: BorderRadius.circular(18),
                           ),
                         ),
-
-                        icon: Icon(Icons.login),
+                        icon: Icon(Icons.login_outlined),
                         label: Text(
                           "MASUK",
                           style: TextStyle(fontSize: 18, color: Colors.black),
@@ -183,7 +183,14 @@ class _TampilanLoginState extends State<TampilanLogin> {
                       width: double.infinity,
                       height: 55,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RegisterPage(),
+                            ),
+                          );
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
@@ -194,24 +201,11 @@ class _TampilanLoginState extends State<TampilanLogin> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "MENDAFTAR DENGAN",
+                              "DAFTAR",
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 2,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: Image.asset(
-                                "assets/images/Google.png",
-                                height: 20,
                               ),
                             ),
                           ],

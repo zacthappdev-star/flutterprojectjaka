@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:ppkd_b6/flutter6.dart';
-import 'package:ppkd_b6/flutter7.dart';
 import 'package:ppkd_b6/local/database/preference_handler.dart';
+import 'package:ppkd_b6/loginn.dart';
+import 'package:ppkd_b6/register.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
-
   static String routeName = '/splashscreen';
-
   @override
   State<SplashScreen> createState() => SplashScreenState();
 }
@@ -21,18 +19,16 @@ class SplashScreenState extends State<SplashScreen> {
 
   Future<void> checkLoginStatus() async {
     await Future.delayed(Duration(seconds: 4));
-
     if (!mounted) return;
-
     if (!Preference.isLogin) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => Navigator7()),
+        MaterialPageRoute(builder: (context) => TampilanLogin()),
       );
     } else {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => TampilanLogin()),
+        MaterialPageRoute(builder: (context) => RegisterPage()),
       );
     }
   }

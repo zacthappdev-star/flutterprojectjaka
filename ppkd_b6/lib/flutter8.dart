@@ -7,6 +7,7 @@ import 'package:ppkd_b6/views/map.dart';
 class Navigator8 extends StatefulWidget {
   static String routeName = '/navigator8';
   const Navigator8({super.key});
+
   @override
   State<Navigator8> createState() => _Navigator8State();
 }
@@ -18,33 +19,43 @@ class _Navigator8State extends State<Navigator8> {
   bool isDarkMode = false;
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
+
+  // Index halaman yang aktif (bisa diubah-ubah nilainya)
   int _currentIndex = 0;
+
+  // List Judul AppBar sesuai dengan tab yang dipilih
   final List<String> titles = ["HI KATA", 'List', "List Map", 'List Model'];
+
+  // List Halaman yang dipanggil saat tab di-klik
   final List<Widget> _pages = [
     const NavigatorWidget(),
-    // const HiTentang(),
     const HiKataPage(),
     const ListWithMap(),
     const ListWithModels(),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Hi Kata",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          titles[_currentIndex], // Judul dinamis mengikuti tab aktif
+          style: const TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         backgroundColor: Colors.green,
         foregroundColor: Colors.white,
       ),
+      // Drawer hanya muncul di halaman Home (index 0)
       drawer: _currentIndex == 0
           ? Drawer(
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: [
-                  DrawerHeader(
+                  const DrawerHeader(
                     decoration: BoxDecoration(color: Colors.green),
                     child: Center(
                       child: Text(
@@ -58,36 +69,36 @@ class _Navigator8State extends State<Navigator8> {
                     ),
                   ),
                   ListTile(
-                    leading: Icon(Icons.language),
-                    title: Text("Hiragana"),
+                    leading: const Icon(Icons.language),
+                    title: const Text("Hiragana"),
                     onTap: () {
                       Navigator.pop(context);
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.translate),
-                    title: Text("Katakana"),
+                    leading: const Icon(Icons.translate),
+                    title: const Text("Katakana"),
                     onTap: () {
                       Navigator.pop(context);
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.quiz),
-                    title: Text("Quiz"),
+                    leading: const Icon(Icons.quiz),
+                    title: const Text("Quiz"),
                     onTap: () {
                       Navigator.pop(context);
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.bar_chart),
-                    title: Text("Progress"),
+                    leading: const Icon(Icons.bar_chart),
+                    title: const Text("Progress"),
                     onTap: () {
                       Navigator.pop(context);
                     },
                   ),
                   ListTile(
-                    leading: Icon(Icons.alarm),
-                    title: Text("Pengingat"),
+                    leading: const Icon(Icons.alarm),
+                    title: const Text("Pengingat"),
                     onTap: () {
                       Navigator.pop(context);
                     },
@@ -96,21 +107,22 @@ class _Navigator8State extends State<Navigator8> {
               ),
             )
           : null,
+
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.white70,
+        type: BottomNavigationBarType
+            .fixed, // Biar background hijau ga hilang karena ada 4 item
+        backgroundColor: Colors.green,
         onTap: (index) {
           setState(() {
-            _currentIndex = index;
+            _currentIndex = index; // Pindah tab/halaman saat di-klik
           });
         },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            backgroundColor: Colors.green,
-            label: "Home",
-          ),
-          // BottomNavigationBarItem(icon: Icon(Icons.person), label: "Tentang"),
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.list), label: "List"),
           BottomNavigationBarItem(
             icon: Icon(Icons.grid_view),

@@ -1,7 +1,6 @@
 import 'package:ppkd_b6/models/hiragana_model.dart';
 
 List<HiraganaModel> hiraganaListWithModel = const [
-  // Baris A
   HiraganaModel(character: "あ", romaji: "a", pronunciation: "a seperti 'apel'"),
   HiraganaModel(character: "い", romaji: "i", pronunciation: "i seperti 'ikan'"),
   HiraganaModel(
@@ -12,7 +11,6 @@ List<HiraganaModel> hiraganaListWithModel = const [
   HiraganaModel(character: "え", romaji: "e", pronunciation: "e seperti 'enak'"),
   HiraganaModel(character: "お", romaji: "o", pronunciation: "o seperti 'obor'"),
 
-  // Baris K
   HiraganaModel(
     character: "か",
     romaji: "ka",
@@ -39,7 +37,6 @@ List<HiraganaModel> hiraganaListWithModel = const [
     pronunciation: "ko seperti 'kopi'",
   ),
 
-  // Baris S
   HiraganaModel(
     character: "さ",
     romaji: "sa",
@@ -66,7 +63,6 @@ List<HiraganaModel> hiraganaListWithModel = const [
     pronunciation: "so seperti 'soto'",
   ),
 
-  // Baris T
   HiraganaModel(
     character: "た",
     romaji: "ta",
@@ -93,7 +89,6 @@ List<HiraganaModel> hiraganaListWithModel = const [
     pronunciation: "to seperti 'toko'",
   ),
 
-  // Baris N
   HiraganaModel(
     character: "な",
     romaji: "na",
@@ -120,7 +115,6 @@ List<HiraganaModel> hiraganaListWithModel = const [
     pronunciation: "no seperti 'nomor'",
   ),
 
-  // Baris H
   HiraganaModel(
     character: "は",
     romaji: "ha",
@@ -147,7 +141,6 @@ List<HiraganaModel> hiraganaListWithModel = const [
     pronunciation: "ho seperti 'hotel'",
   ),
 
-  // Baris M
   HiraganaModel(
     character: "ま",
     romaji: "ma",
@@ -174,7 +167,6 @@ List<HiraganaModel> hiraganaListWithModel = const [
     pronunciation: "mo seperti 'mobil'",
   ),
 
-  // Baris Y
   HiraganaModel(
     character: "や",
     romaji: "ya",
@@ -191,7 +183,6 @@ List<HiraganaModel> hiraganaListWithModel = const [
     pronunciation: "yo seperti 'yoyo'",
   ),
 
-  // Baris R
   HiraganaModel(
     character: "ら",
     romaji: "ra",
@@ -217,8 +208,6 @@ List<HiraganaModel> hiraganaListWithModel = const [
     romaji: "ro",
     pronunciation: "ro seperti 'roda'",
   ),
-
-  // Baris W & N
   HiraganaModel(
     character: "わ",
     romaji: "wa",

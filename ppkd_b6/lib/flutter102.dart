@@ -68,9 +68,7 @@ class _FormloginState extends State<Formlogin> {
                     "Make Easy.",
                     style: TextStyle(fontSize: 14, color: Color(0xFF7C9A92)),
                   ),
-
                   SizedBox(height: 10),
-
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     spacing: 5,
