@@ -1,0 +1,213 @@
+# Buku Panduan & Alur Kerja Aplikasi "HI KATA"
+
+Buku panduan ini dirancang khusus untuk mempermudah Anda dalam **mempelajari, memahami, dan mempresentasikan** cara kerja aplikasi belajar bahasa Jepang **HI KATA** dari awal hingga akhir. Seluruh fungsi dan alur data dibahas secara mendalam dengan bahasa yang lugas dan mudah dicerna.
+
+---
+
+## 1. Analogi Sederhana: Bagaimana HI KATA Bekerja?
+
+Untuk memudahkan penjelasan kepada audiens saat presentasi, bayangkan arsitektur aplikasi HI KATA seperti sebuah **Restoran Jepang**:
+
+*   **Tampilan Layar (UI/Presentation Layer)** adalah **Piring Saji & Meja Makan**. Ini adalah apa yang dilihat, disentuh, dan dinikmati langsung oleh pelanggan (pengguna).
+*   **Layanan Aplikasi (Service Layer - `ProgressService`)** adalah **Pramusaji (Waiter)**. Dia mengambil pesanan pelanggan, membawanya ke dapur, lalu menyajikan makanan yang sudah matang kembali ke meja.
+*   **Database (`DatabaseHelper` & SQLite)** adalah **Gudang Bahan Makanan & Buku Resep**. Semua catatan stok bahan, profil pelanggan setia, dan riwayat pesanan disimpan rapi di sini agar tidak hilang saat restoran tutup.
+
+---
+
+## 2. Arsitektur Kode dan Lapisan Data (Architecture Layers)
+
+Aplikasi HI KATA dibangun menggunakan struktur berlapis yang rapi untuk memastikan kode mudah dirawat, diperbaiki, dan dikembangkan:
+
+```
+┌────────────────────────────────────────────────────────┐
+│             Presentation Layer (UI & Widgets)          │
+│  - LayarProfil, LayarBelajar, LoginScreen, dll.         │
+└──────────────────────────┬─────────────────────────────┘
+                           ▼
+┌────────────────────────────────────────────────────────┐
+│             Service Layer (Logika Bisnis)              │
+│  - ProgressService (Mengolah statistik, level, streak)  │
+└──────────────────────────┬─────────────────────────────┘
+                           ▼
+┌────────────────────────────────────────────────────────┐
+│             Data Layer (Penyimpanan Lokal)             │
+│  - DatabaseHelper (SQLite): Data permanen user & skor   │
+│  - SharedPreferences: Sesi login & preferensi tema      │
+└────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 3. Skema Lengkap Database (SQLite)
+
+Penyimpanan data lokal diatur melalui kelas [DatabaseHelper](file:///d:/flutterprojectjaka/hikata/lib/database/database_helper.dart). Database ini bernama `hikata_database.db` dan terdiri dari 5 tabel relasional:
+
+### A. Tabel `users` (Data Pengguna)
+Menyimpan informasi utama akun pengguna.
+*   `id` (INTEGER, Primary Key): ID unik untuk tiap pengguna.
+*   `nama` (TEXT): Nama lengkap/nama panggilan pengguna.
+*   `email` (TEXT, Unique): Alamat email (digunakan untuk login).
+*   `password` (TEXT): Kata sandi akun.
+*   `avatar` (TEXT): Emoji ikon profil (default: `🐼`).
+*   `created_at` (TEXT): Waktu pembuatan akun.
+
+### B. Tabel `progress` (Progres Belajar)
+Melacak kemajuan belajar Hiragana dan Katakana pengguna.
+*   `user_id` (INTEGER, Foreign Key): Terhubung ke `users(id)`.
+*   `hiragana_percent` (REAL): Persentase penguasaan Hiragana (0.0 hingga 1.0).
+*   `katakana_percent` (REAL): Persentase penguasaan Katakana (0.0 hingga 1.0).
+*   `hiragana_level` (INTEGER): Tingkat/level Hiragana yang sudah dicapai (default: `1`).
+*   `katakana_level` (INTEGER): Tingkat/level Katakana yang sudah dicapai (default: `1`).
+
+### C. Tabel `study_streak` (Streak Belajar Harian)
+Mencatat konsistensi belajar harian pengguna.
+*   `user_id` (INTEGER, Foreign Key): Terhubung ke `users(id)`.
+*   `last_study_date` (TEXT): Tanggal terakhir pengguna belajar/kuis (format: `YYYY-MM-DD`).
+*   `current_streak` (INTEGER): Jumlah hari berturut-turut belajar saat ini.
+*   `best_streak` (INTEGER): Rekor streak belajar terlama yang pernah diraih.
+
+### D. Tabel `quiz_history` (Riwayat Nilai Kuis)
+Menyimpan semua skor kuis yang pernah dikerjakan oleh pengguna.
+*   `user_id` (INTEGER, Foreign Key): Terhubung ke `users(id)`.
+*   `quiz_type` (TEXT): Jenis kuis (`hiragana`, `katakana`, atau `mixed`).
+*   `score` (INTEGER): Jumlah jawaban benar (skala 0 - 10).
+*   `total` (INTEGER): Total soal kuis (biasanya 10).
+*   `created_at` (TEXT): Tanggal kuis dikerjakan.
+
+### E. Tabel `learned_characters` (Karakter yang Sudah Dihafal)
+Mencatat huruf-huruf spesifik yang berhasil dihafal pengguna saat sesi belajar.
+*   `user_id` (INTEGER, Foreign Key): Terhubung ke `users(id)`.
+*   `character` (TEXT): Karakter huruf Jepang (misal: 'あ', 'ア').
+
+---
+
+## 4. Penjelasan Detil Fungsi Utama (Core Functions)
+
+Berikut adalah daftar fungsi utama di balik layar (backend lokal) HI KATA beserta parameter masukan, keluaran, dan cara kerjanya secara mendalam:
+
+### 1. Registrasi Akun (`DatabaseHelper.registerUser`)
+*   **Fungsi**: Mendaftarkan pengguna baru ke database dan menginisialisasi progres awal mereka.
+*   **Parameter**:
+    *   `String name`: Nama pengguna.
+    *   `String email`: Alamat email unik.
+    *   `String password`: Kata sandi akun.
+*   **Tipe Kembalian (Return)**: `Future<int>` (Mengembalikan `ID` user yang baru dibuat jika sukses, atau `-1` jika gagal karena email sudah terdaftar).
+*   **Alur Kerja**:
+    1. Memasukkan baris baru ke tabel `users` dengan enkripsi string sederhana.
+    2. Membuat baris progres default (level 1, persentase 0%) di tabel `progress` untuk ID user tersebut.
+    3. Membuat baris pencatat streak default (streak = 0) di tabel `study_streak`.
+
+### 2. Masuk Akun (`DatabaseHelper.loginUser`)
+*   **Fungsi**: Memverifikasi kredensial email dan kata sandi saat pengguna mencoba masuk.
+*   **Parameter**:
+    *   `String email`: Email pengguna.
+    *   `String password`: Kata sandi pengguna.
+*   **Tipe Kembalian (Return)**: `Future<Map<String, dynamic>?>` (Mengembalikan data user lengkap jika cocok, atau `null` jika kombinasi salah).
+
+### 3. Memuat Data Progres (`ProgressService.getProgress`)
+*   **Fungsi**: Mengambil data statistik terkini untuk ditampilkan di halaman utama/profil.
+*   **Tipe Kembalian (Return)**: `Future<AppProgressModel>` (Objek data berisi persen progres, level aktif, total kuis selesai, dan streak harian).
+*   **Alur Kerja**:
+    1. Mengambil `active_user_id` dari memori cepat (`SharedPreferences`).
+    2. Mengambil data dari tabel `progress` dan `quiz_history` melalui `DatabaseHelper`.
+    3. Menghitung persentase progres secara matematis: `(Level yang Terbuka - 1) / Total Semua Level`.
+    4. Menyimpan kembali persentase hasil perhitungan ke database agar data sinkron.
+    5. Mengembalikan data tersebut dalam bentuk objek `AppProgressModel` ke antarmuka layar (UI).
+
+### 4. Pengiriman Skor & Pembukaan Level Kuis (`ProgressService.handleQuizSubmission`)
+*   **Fungsi**: Memproses hasil pengerjaan kuis, menyimpan riwayat kuis, mendeteksi kelulusan kuis, dan membuka level baru secara otomatis.
+*   **Parameter**:
+    *   `String mode`: Jenis kuis (`hiragana` atau `katakana`).
+    *   `int levelIndex`: Indeks level kuis yang sedang dikerjakan.
+    *   `int score`: Jumlah jawaban benar yang didapatkan user.
+    *   `int total`: Total soal kuis.
+*   **Tipe Kembalian (Return)**: `Future<bool>` (Mengembalikan `true` jika pengguna lulus dan berhasil membuka level baru, atau `false` jika tidak lulus).
+*   **Alur Kerja**:
+    1. Memasukkan skor ke tabel `quiz_history`.
+    2. Memicu pembaruan streak belajar harian (`forceActivity: true`).
+    3. Menghitung nilai persentase kelulusan: `score / total`.
+    4. Jika hasil ujian mencapai **80% atau lebih** (`score/total >= 0.8`), dan level yang dikerjakan adalah level tertinggi yang baru saja dicapai:
+        * Program membuka level berikutnya dengan memanggil `DatabaseHelper.unlockLevel` di database.
+        * Mengembalikan nilai `true`.
+    5. Jika nilai di bawah 80%, mengembalikan `false`.
+
+### 5. Logika Pembaruan Streak Harian (`ProgressService.getAndUpdateStreak`)
+*   **Fungsi**: Menentukan apakah pengguna berhak mendapatkan tambahan streak belajar harian, mempertahankan streak yang ada, atau mereset streak jika absen belajar.
+*   **Parameter**:
+    *   `bool forceActivity` (default: `false`): Bernilai `true` jika dipicu oleh aktivitas aktif (misal menyelesaikan kuis), bernilai `false` jika hanya membuka aplikasi biasa.
+*   **Tipe Kembalian (Return)**: `Future<int>` (Mengembalikan angka streak harian terbaru).
+*   **Alur Kerja**:
+    1. Mengambil data tanggal terakhir belajar dari database (`last_study_date`).
+    2. Jika pengguna belum pernah belajar sama sekali:
+        * Jika `forceActivity` aktif, streak diset ke `1`. Tanggal hari ini disimpan sebagai tanggal belajar terakhir.
+    3. Jika tanggal belajar terakhir sama dengan hari ini:
+        * Streak dipertahankan (tidak bertambah double dalam satu hari yang sama).
+    4. Jika tanggal belajar terakhir adalah **kemarin** (1 hari yang lalu):
+        * Jika ada aktivitas baru (`forceActivity == true`), streak bertambah `+1`. Jika streak baru melebihi `best_streak`, perbarui rekor terbaik tersebut.
+    5. Jika tanggal belajar terakhir adalah **sebelum kemarin** (absen lebih dari 24 jam):
+        * Streak terputus! Jika ada aktivitas baru hari ini, streak di-reset kembali mulai dari `1`. Jika tidak ada aktivitas baru, streak di-reset ke `0`.
+
+---
+
+## 5. Alur Data Langkah demi Langkah (Step-by-Step Data Flow)
+
+Berikut adalah urutan perpindahan data dari layar HP ke dalam database pada 3 aktivitas utama pengguna:
+
+### A. Alur Registrasi & Login Pengguna
+```
+[Halaman Masuk/Daftar]
+       │
+       ▼ (Input Nama, Email, Password)
+[DatabaseHelper.registerUser()] ───► Simpan ke Tabel `users`
+       │
+       ├───► Buat baris default di Tabel `progress`
+       └───► Buat baris default di Tabel `study_streak`
+       │
+       ▼ (Setelah sukses registrasi)
+[Simpan ke SharedPreferences] ───► Simpan 'active_user_id'
+       │
+       ▼
+[Masuk ke Halaman Utama]
+```
+
+### B. Alur Belajar Huruf & Kuis (Membuka Level Baru)
+```
+[Pengguna memilih materi Hiragana/Katakana]
+       │
+       ▼
+[Membaca & Melafalkan huruf Jepang] ───► Memicu ProgressService.markCharacterAsLearned()
+       │
+       ▼ (Menjawab 10 Soal Kuis)
+[Menekan Tombol Selesai Kuis] ───► Mengirim nilai ke ProgressService.handleQuizSubmission()
+       │
+       ├───► Simpan riwayat nilai ke Tabel `quiz_history`
+       ├───► Validasi: Apakah jawaban benar >= 8 (80%)?
+       │        ├───► Ya: Update progress level (+1) di tabel `progress`
+       │        └───► Tidak: Jangan naikkan level
+       ▼
+[Kembali ke Layar Profil] ───► Data dimuat ulang lewat ProgressService.getProgress()
+```
+
+### C. Alur Pengaturan Tampilan & Ganti Avatar
+```
+[Pengguna mengetuk Avatar di Kartu Profil]
+       │
+       ▼ (Memilih Emoji Baru di Bottom Sheet)
+[Mengetuk Emoji Pilihan] ───► Memicu fungsi _updateAvatar() di layar profil
+       │
+       ├───► Update database di tabel `users` (kolom 'avatar')
+       ├───► Simpan preferensi avatar di SharedPreferences ('user_avatar')
+       └───► Memicu setState() untuk memperbarui wajah avatar secara instan di UI
+```
+
+---
+
+## 6. Daftar Istilah Teknis (Glossary)
+
+Agar Anda terlihat sangat kompeten dan percaya diri saat presentasi, pelajari istilah-istilah teknologi yang digunakan pada HI KATA berikut:
+
+*   **SQLite / SQFlite**: Mesin penyimpanan data relasional lokal yang ditanamkan langsung pada perangkat Android/iOS, sehingga aplikasi tidak memerlukan internet untuk menyimpan data nilai kuis.
+*   **SharedPreferences**: Tempat penyimpanan data sederhana berskala kecil berbasis kunci-nilai (key-value). Sangat cocok untuk menyimpan preferensi pengguna seperti *ID user aktif* dan *pilihan Tema (Light/Dark Mode)*.
+*   **BouncingScrollPhysics**: Efek animasi memantul (khas iOS) saat daftar halaman profil ditarik melebihi batas atas/bawah scroll, memberikan kesan UI yang luwes dan dinamis.
+*   **childAspectRatio**: Rasio perbandingan antara lebar dan tinggi elemen dalam GridView. Pada versi profil terbaru, rasio ini disesuaikan ke `2.1` guna membuat tinggi kartu kuis lebih ramping dan ringkas.
+*   **State Management (setState)**: Mekanisme bawaan Flutter untuk memberi tahu kerangka kerja (framework) bahwa ada perubahan data internal, sehingga bagian UI yang berkaitan akan digambar ulang secara instan.

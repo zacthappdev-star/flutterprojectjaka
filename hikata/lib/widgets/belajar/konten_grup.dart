@@ -1,0 +1,159 @@
+import 'package:flutter/material.dart';
+import 'package:ppkd_b6/models/model_karakter.dart';
+import 'package:ppkd_b6/screen/kuis/layar_kuis.dart';
+import 'package:ppkd_b6/services/layanan_pelafalan.dart';
+import 'package:ppkd_b6/services/layanan_progres.dart';
+import 'package:ppkd_b6/theme/tema_aplikasi.dart';
+import 'package:ppkd_b6/widgets/belajar/layout_kartu_hafalan.dart';
+import 'package:ppkd_b6/widgets/belajar/pemilih_mode_belajar.dart';
+import 'package:ppkd_b6/widgets/huruf/kartu_huruf.dart';
+
+class KontenGrup extends StatefulWidget {
+  final CharacterGroup group;
+  final bool isID;
+  final Function(JapaneseCharacter) onCharTap;
+  final int levelIndex;
+  final String mode;
+  final Color accentColor;
+  final Color activeBgColor;
+  final Color cardBgColor;
+  final Color cardBorderColor;
+
+  const KontenGrup({
+    super.key,
+    required this.group,
+    required this.isID,
+    required this.onCharTap,
+    required this.levelIndex,
+    required this.mode,
+    required this.accentColor,
+    required this.activeBgColor,
+    required this.cardBgColor,
+    required this.cardBorderColor,
+  });
+
+  @override
+  State<KontenGrup> createState() => _KontenGrupState();
+}
+
+class _KontenGrupState extends State<KontenGrup> {
+  bool _modeKartu = false;
+  Set<String> _learnedChars = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _loadLearnedChars();
+  }
+
+  Future<void> _loadLearnedChars() async {
+    final chars = await ProgressService.getLearnedCharacters();
+    if (mounted) {
+      setState(() {
+        _learnedChars = chars.toSet();
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        _buildPemilihMode(),
+        Divider(height: 1, thickness: 1, color: context.hiKata.divider),
+        Expanded(
+          child: _modeKartu
+              ? LayoutKartuHafalan(
+                  group: widget.group,
+                  isID: widget.isID,
+                  accentColor: widget.accentColor,
+                  cardBgColor: widget.cardBgColor,
+                )
+              : _buildGrid(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPemilihMode() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 10, 16, 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          PemilihModeBelajar(
+            icon: Icons.grid_view_rounded,
+            label: widget.isID ? 'Tabel' : 'Grid',
+            isActive: !_modeKartu,
+            accentColor: widget.accentColor,
+            activeBgColor: widget.activeBgColor,
+            onTap: () => setState(() => _modeKartu = false),
+          ),
+          const SizedBox(width: 10),
+          PemilihModeBelajar(
+            icon: Icons.style_rounded,
+            label: widget.isID ? 'Kartu' : 'Flashcard',
+            isActive: _modeKartu,
+            accentColor: widget.accentColor,
+            activeBgColor: widget.activeBgColor,
+            onTap: () {
+              setState(() => _modeKartu = true);
+              PronunciationService.speak(
+                widget.group.characters.first.character,
+              );
+            },
+          ),
+          const SizedBox(width: 10),
+          PemilihModeBelajar(
+            icon: Icons.quiz_rounded,
+            label: widget.isID ? 'Kuis' : 'Quiz',
+            isActive: false,
+            accentColor: widget.accentColor,
+            activeBgColor: widget.activeBgColor,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => QuizScreen(
+                    mode: widget.mode,
+                    levelIndex: widget.levelIndex,
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGrid() {
+    return GridView.builder(
+      padding: EdgeInsets.all(12),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 4,
+        childAspectRatio: 0.78,
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 8,
+      ),
+      itemCount: widget.group.characters.length,
+      itemBuilder: (ctx, i) {
+        final c = widget.group.characters[i];
+        final isLearned = _learnedChars.contains(c.character);
+        return KartuHuruf(
+          character: c,
+          accentColor: widget.accentColor,
+          backgroundColor: widget.cardBgColor,
+          borderColor: widget.cardBorderColor,
+          isLearned: isLearned,
+          onTap: () async {
+            PronunciationService.speak(c.character);
+            await ProgressService.markCharacterAsLearned(c.character);
+            _loadLearnedChars();
+            widget.onCharTap(c);
+          },
+        );
+      },
+    );
+  }
+}
