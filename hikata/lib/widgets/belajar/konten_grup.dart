@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/models/model_karakter.dart';
 import 'package:ppkd_b6/screen/kuis/layar_kuis.dart';
 import 'package:ppkd_b6/services/layanan_pelafalan.dart';
@@ -10,7 +11,6 @@ import 'package:ppkd_b6/widgets/huruf/kartu_huruf.dart';
 
 class KontenGrup extends StatefulWidget {
   final CharacterGroup group;
-  final bool isID;
   final Function(JapaneseCharacter) onCharTap;
   final int levelIndex;
   final String mode;
@@ -22,7 +22,6 @@ class KontenGrup extends StatefulWidget {
   const KontenGrup({
     super.key,
     required this.group,
-    required this.isID,
     required this.onCharTap,
     required this.levelIndex,
     required this.mode,
@@ -65,7 +64,6 @@ class _KontenGrupState extends State<KontenGrup> {
           child: _modeKartu
               ? LayoutKartuHafalan(
                   group: widget.group,
-                  isID: widget.isID,
                   accentColor: widget.accentColor,
                   cardBgColor: widget.cardBgColor,
                 )
@@ -83,7 +81,7 @@ class _KontenGrupState extends State<KontenGrup> {
         children: [
           PemilihModeBelajar(
             icon: Icons.grid_view_rounded,
-            label: widget.isID ? 'Tabel' : 'Grid',
+            label: Translations.of(context).common.grid,
             isActive: !_modeKartu,
             accentColor: widget.accentColor,
             activeBgColor: widget.activeBgColor,
@@ -92,7 +90,7 @@ class _KontenGrupState extends State<KontenGrup> {
           const SizedBox(width: 10),
           PemilihModeBelajar(
             icon: Icons.style_rounded,
-            label: widget.isID ? 'Kartu' : 'Flashcard',
+            label: Translations.of(context).common.flashcard,
             isActive: _modeKartu,
             accentColor: widget.accentColor,
             activeBgColor: widget.activeBgColor,
@@ -106,7 +104,7 @@ class _KontenGrupState extends State<KontenGrup> {
           const SizedBox(width: 10),
           PemilihModeBelajar(
             icon: Icons.quiz_rounded,
-            label: widget.isID ? 'Kuis' : 'Quiz',
+            label: Translations.of(context).common.quiz,
             isActive: false,
             accentColor: widget.accentColor,
             activeBgColor: widget.activeBgColor,

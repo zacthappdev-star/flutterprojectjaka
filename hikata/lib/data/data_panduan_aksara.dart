@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 
 class ScriptGuideItem {
   final String id;
@@ -24,6 +25,15 @@ class ScriptGuideItem {
     required this.icon,
     required this.accentColor,
   });
+
+  String get title =>
+      LocaleSettings.currentLocale == AppLocale.id ? titleID : titleEN;
+
+  String get summary =>
+      LocaleSettings.currentLocale == AppLocale.id ? summaryID : summaryEN;
+
+  String get body =>
+      LocaleSettings.currentLocale == AppLocale.id ? bodyID : bodyEN;
 }
 
 class ScriptGuideData {

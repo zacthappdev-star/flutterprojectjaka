@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ppkd_b6/data/data_katakana.dart';
 import 'package:ppkd_b6/models/model_karakter.dart';
 import 'package:ppkd_b6/screen/kuis/layar_kuis.dart';
-import 'package:ppkd_b6/screen/pengenalan/pilih_bahasa.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/services/layanan_progres.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 import 'package:ppkd_b6/widgets/belajar/konten_grup.dart';
@@ -21,21 +21,29 @@ class LayarKatakana extends StatefulWidget {
 class _LayarKatakanaState extends State<LayarKatakana>
     with TickerProviderStateMixin {
   Color get _accentColor => Theme.of(context).brightness == Brightness.dark
-      ? Color(0xFF9FA8DA)
-      : AppColors.katakanaBlue;
+      ? const Color(0xFFFFD54F)
+      : const Color(0xFFFF8F00);
 
   LinearGradient get _backgroundGradient =>
       Theme.of(context).brightness == Brightness.dark
       ? LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF080D21), Color(0xFF10173D), Color(0xFF1B235A)],
+          colors: [
+            const Color(0xFF211D0A),
+            const Color(0xFF332A0F),
+            const Color(0xFF453915),
+          ],
           stops: [0.0, 0.5, 1.0],
         )
       : LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF1A237E), Color(0xFF283593), Color(0xFF3949AB)],
+          colors: [
+            const Color(0xFFFFB300),
+            const Color(0xFFFFC107),
+            const Color(0xFFFFD54F),
+          ],
           stops: [0.0, 0.5, 1.0],
         );
 
@@ -43,8 +51,6 @@ class _LayarKatakanaState extends State<LayarKatakana>
   late TabController _tabController;
   final _groups = KatakanaData.groups;
   int _unlockedLevels = 1;
-
-  bool get _isID => AppLanguage.current == 'id';
 
   @override
   void initState() {
@@ -88,7 +94,8 @@ class _LayarKatakanaState extends State<LayarKatakana>
                   children: List.generate(_groups.length, (index) {
                     if (index >= _unlockedLevels) {
                       return TampilanLevelTerkunci(
-                        isID: _isID,
+                        title: context.t.katakana.locked,
+                        desc: context.t.katakana.lockedDesc,
                         titleColor: _accentColor,
                       );
                     }
@@ -97,13 +104,12 @@ class _LayarKatakanaState extends State<LayarKatakana>
                 ),
               ),
               TombolKuisLevel(
-                isID: _isID,
                 isUnlocked: _tabController.index < _unlockedLevels,
                 unlockedDecoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: Theme.of(context).brightness == Brightness.dark
-                        ? [Color(0xFF283593), Color(0xFF3F51B5)]
-                        : [Color(0xFF1A237E), Color(0xFF3949AB)],
+                        ? [const Color(0xFFE65100), const Color(0xFFF57C00)]
+                        : [const Color(0xFFE65100), const Color(0xFFFF9800)],
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                   ),
@@ -165,7 +171,7 @@ class _LayarKatakanaState extends State<LayarKatakana>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  _isID ? 'Pengenalan Katakana' : 'Katakana Introduction',
+                  context.t.katakana.title,
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 18,
@@ -256,7 +262,6 @@ class _LayarKatakanaState extends State<LayarKatakana>
           Expanded(
             child: KontenGrup(
               group: group,
-              isID: _isID,
               onCharTap: (c) => _showCharDetail(c),
               levelIndex: levelIndex,
               mode: 'Katakana',
@@ -281,7 +286,6 @@ class _LayarKatakanaState extends State<LayarKatakana>
       backgroundColor: colors.cardBackground,
       builder: (_) => SheetDetailHuruf(
         character: c,
-        isID: _isID,
         accentColor: _accentColor,
         cardBgColor: colors.tableCardBgKatakana,
         cardBorderColor: colors.softMint,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ppkd_b6/screen/pengenalan/pilih_bahasa.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,16 +32,12 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
     super.dispose();
   }
 
-  bool get _isID => AppLanguage.current == 'id';
-
-  List<String> get _tags => _isID
-      ? [
-          'Menyenangkan',
-          'Mudah Dipahami',
-          'Sangat Membantu',
-          'Perlu Peningkatan',
-        ]
-      : ['Fun', 'Easy to Understand', 'Very Helpful', 'Needs Improvement'];
+  List<String> get _tags => [
+    context.t.feedback.tags.fun,
+    context.t.feedback.tags.easy,
+    context.t.feedback.tags.helpful,
+    context.t.feedback.tags.improve,
+  ];
 
   Future<void> _loadLastReview() async {
     final prefs = await SharedPreferences.getInstance();
@@ -49,7 +45,7 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
       _lastRating = prefs.getInt('review_rating') ?? 0;
       _lastComment = prefs.getString('review_comment') ?? '';
       _selectedTag =
-          prefs.getString('review_tag') ?? (_isID ? 'Menyenangkan' : 'Fun');
+          prefs.getString('review_tag') ?? context.t.feedback.tags.fun;
       _hasLastReview = _lastRating > 0;
     });
   }
@@ -77,16 +73,14 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
             borderRadius: BorderRadius.circular(20),
           ),
           title: Text(
-            _isID ? 'Terima Kasih! ❤️' : 'Thank You! ❤️',
+            context.t.feedback.thanks,
             style: TextStyle(
               fontFamily: 'Poppins',
               fontWeight: FontWeight.bold,
             ),
           ),
           content: Text(
-            _isID
-                ? 'Ulasanmu sangat berharga bagi pengembangan aplikasi HI KATA!'
-                : 'Your review is highly valuable for the development of HI KATA!',
+            context.t.feedback.thanksBody,
             style: TextStyle(fontFamily: 'Poppins'),
           ),
           actions: [
@@ -122,7 +116,7 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  _isID ? 'Pengalaman Belajar' : 'Learning Experience',
+                  context.t.feedback.title,
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 22,
@@ -131,7 +125,6 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                   ),
                 ),
                 SizedBox(height: 20),
-                // Beautiful intro banner
                 Container(
                   width: double.infinity,
                   padding: EdgeInsets.all(16),
@@ -149,9 +142,7 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                       SizedBox(width: 14),
                       Expanded(
                         child: Text(
-                          _isID
-                              ? 'Ulasan anda sangat membantu dalam mengembangkan fitur baru dan meningkatkan kualitas materi belajar di HI KATA.'
-                              : 'Your review highly helps our team in developing new features and improving study material quality in HI KATA.',
+                          context.t.feedback.intro,
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 11.5,
@@ -174,9 +165,7 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          _isID
-                              ? 'Bagaimana penilaianmu?'
-                              : 'How would you rate us?',
+                          context.t.feedback.rateUs,
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 14,
@@ -210,9 +199,7 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                         SizedBox(height: 18),
 
                         Text(
-                          _isID
-                              ? 'Pilih kesan pertamamu'
-                              : 'Choose your first impression',
+                          context.t.feedback.firstImpression,
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 13,
@@ -266,9 +253,7 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                         SizedBox(height: 18),
 
                         Text(
-                          _isID
-                              ? 'Tulis saran & masukan'
-                              : 'Write comments & suggestions',
+                          context.t.feedback.writeSuggestions,
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 13,
@@ -283,16 +268,12 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                           maxLength: 150,
                           style: TextStyle(fontFamily: 'Poppins', fontSize: 13),
                           decoration: AppDecorations.fieldDecoration(
-                            hint: _isID
-                                ? 'Masukkan ulasanmu di sini...'
-                                : 'Enter your feedback here...',
+                            hint: context.t.feedback.commentHint,
                             icon: Icons.edit_note_rounded,
                           ),
                           validator: (value) {
                             if (value == null || value.trim().isEmpty) {
-                              return _isID
-                                  ? 'Komentar tidak boleh kosong'
-                                  : 'Feedback cannot be empty';
+                              return context.t.feedback.commentEmpty;
                             }
                             return null;
                           },
@@ -300,7 +281,7 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                         SizedBox(height: 12),
 
                         _SubmitButton(
-                          label: _isID ? 'KIRIM ULASAN' : 'SUBMIT REVIEW',
+                          label: context.t.feedback.submit,
                           onTap: _submitReview,
                         ),
                       ],
@@ -313,7 +294,7 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
                 // Last review history card
                 if (_hasLastReview) ...[
                   Text(
-                    _isID ? 'Ulasan Terakhirmu' : 'Your Last Review',
+                    context.t.feedback.lastReview,
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 15,

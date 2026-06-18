@@ -4,8 +4,7 @@ import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 
 class KartuPanduanAksara extends StatefulWidget {
   final ScriptGuideItem item;
-  final bool isID;
-  const KartuPanduanAksara({super.key, required this.item, required this.isID});
+  const KartuPanduanAksara({super.key, required this.item});
 
   @override
   State<KartuPanduanAksara> createState() => _KartuPanduanAksaraState();
@@ -18,7 +17,6 @@ class _KartuPanduanAksaraState extends State<KartuPanduanAksara> {
   Widget build(BuildContext context) {
     final colors = context.hiKata;
     final item = widget.item;
-    final isID = widget.isID;
 
     return GestureDetector(
       onTap: () => setState(() => _expanded = !_expanded),
@@ -46,7 +44,7 @@ class _KartuPanduanAksaraState extends State<KartuPanduanAksara> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        isID ? item.titleID : item.titleEN,
+                        item.title,
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 14,
@@ -56,7 +54,7 @@ class _KartuPanduanAksaraState extends State<KartuPanduanAksara> {
                       ),
                       SizedBox(height: 4),
                       Text(
-                        isID ? item.summaryID : item.summaryEN,
+                        item.summary,
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 11,
@@ -104,7 +102,7 @@ class _KartuPanduanAksaraState extends State<KartuPanduanAksara> {
               ),
               SizedBox(height: 12),
               Text(
-                isID ? item.bodyID : item.bodyEN,
+                item.body,
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 12,

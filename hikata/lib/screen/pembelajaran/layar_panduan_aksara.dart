@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:ppkd_b6/data/data_panduan_aksara.dart';
-import 'package:ppkd_b6/screen/pengenalan/pilih_bahasa.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 import 'package:ppkd_b6/widgets/belajar/kartu_panduan_aksara.dart';
 
 class LayarPanduanAksara extends StatelessWidget {
   const LayarPanduanAksara({super.key});
 
-  bool get _isID => AppLanguage.current == 'id';
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +30,6 @@ class LayarPanduanAksara extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return KartuPanduanAksara(
                       item: ScriptGuideData.items[index],
-                      isID: _isID,
                     );
                   },
                 ),
@@ -63,7 +61,7 @@ class LayarPanduanAksara extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    _isID ? 'Pengertian Huruf Jepang' : 'Japanese Script Guide',
+                    Translations.of(context).common.japaneseScriptGuide,
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 18,

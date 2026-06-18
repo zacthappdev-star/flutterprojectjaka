@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ppkd_b6/screen/kuis/layar_kuis.dart';
-import 'package:ppkd_b6/screen/pengenalan/pilih_bahasa.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/services/layanan_progres.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -100,7 +100,7 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
                 ),
               ),
               title: Text(
-                '🎉 Selamat!',
+                context.t.quiz.levelUnlockedTitle,
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w900,
@@ -113,7 +113,7 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Level berikutnya berhasil dibuka.',
+                    context.t.quiz.levelUnlockedDesc,
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.bold,
@@ -123,7 +123,7 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
                   ),
                   SizedBox(height: 12),
                   Text(
-                    'Teruskan belajar untuk membuka level lainnya dan meningkatkan kemampuan membaca huruf Jepang.',
+                    context.t.quiz.levelUnlockedSub,
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 13,
@@ -161,7 +161,7 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
                     ),
                     child: Center(
                       child: Text(
-                        'Lanjut Belajar',
+                        context.t.quiz.continueLearning,
                         style: AppTextStyles.buttonText.copyWith(fontSize: 14),
                       ),
                     ),
@@ -175,367 +175,253 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
     );
   }
 
-  bool get _isID => AppLanguage.current == 'id';
 
   double get _percentage => (widget.score / widget.total) * 100;
 
-  int get _stars {
-    if (_percentage >= 90) return 3;
-    if (_percentage >= 60) return 2;
-    if (_percentage >= 30) return 1;
-    return 0;
-  }
 
-  String _getFeedbackTitle() {
-    if (_percentage >= 90) {
-      return _isID ? '🌟 Luar Biasa!' : '🌟 Outstanding!';
-    } else if (_percentage >= 80) {
-      return _isID ? '🎉 Hebat!' : '🎉 Great!';
-    } else if (_percentage >= 60) {
-      return _isID ? '👍 Lumayan!' : '👍 Not Bad!';
+
+  String _getFeedbackDesc(BuildContext context) {
+    if (_percentage >= 80) {
+      return "Luar Biasa! よくできました！";
+    } else if (_percentage >= 50) {
+      return "Bagus! いいね！";
     } else {
-      return _isID ? '📖 Ayo Belajar Lagi!' : '📖 Let\'s Study Again!';
+      return "Coba Lagi! がんばって！";
     }
   }
 
-  String _getFeedbackDesc() {
-    if (_percentage >= 90) {
-      return _isID
-          ? 'Kamu menguasai materi ini dengan sempurna! Pertahankan prestasimu.'
-          : 'You mastered this material perfectly! Keep up the great work.';
-    } else if (_percentage >= 70) {
-      return _isID
-          ? 'Pemahamanmu sudah sangat baik. Sedikit latihan lagi untuk nilai sempurna!'
-          : 'Your understanding is very good. Just a little more practice for a perfect score!';
-    } else if (_percentage >= 40) {
-      return _isID
-          ? 'Kamu sudah mulai paham. Mari belajar lagi agar lebih lancar.'
-          : 'You are starting to understand. Let\'s study more to improve fluency.';
-    } else {
-      return _isID
-          ? 'Jangan menyerah! Coba ulangi pengenalan huruf dan kuis untuk hasil lebih baik.'
-          : 'Don\'t give up! Try reviewing the characters and quiz again for a better score.';
-    }
+  String _getFeedbackEmoji() {
+    if (_percentage >= 80) return "🏆";
+    if (_percentage >= 50) return "👍";
+    return "😅";
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final isKatakana = widget.mode.toLowerCase() == 'katakana';
-
-    final primaryColor = isKatakana
-        ? (isDark ? Color(0xFFFFD54F) : Color(0xFFFFB300))
-        : (isDark ? Color(0xFF81C784) : AppColors.primaryGreen);
-    final secondaryColor = isKatakana
-        ? (isDark ? Color(0xFFFFE082) : Color(0xFFFFC107))
-        : (isDark ? Color(0xFFA5D6A7) : AppColors.secondaryGreen);
-
-    final gradientColors = isKatakana
-        ? (isDark
-              ? [
-                  const Color(0xFF080D21),
-                  const Color(0xFF10173D),
-                  const Color(0xFF1B235A),
-                ]
-              : [
-                  const Color(0xFF1A237E),
-                  const Color(0xFF283593),
-                  const Color(0xFF3949AB),
-                ])
-        : (isDark
-              ? [
-                  const Color(0xFF0D1510),
-                  const Color(0xFF162820),
-                  const Color(0xFF1F3528),
-                ]
-              : [
-                  const Color(0xFF1B5E20),
-                  const Color(0xFF2E7D32),
-                  const Color(0xFF43A047),
-                ]);
-
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: gradientColors,
-          ),
-        ),
-        child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-            child: Column(
-              children: [
-                Spacer(flex: 2),
-
-                // Stars rating widget
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(3, (index) {
-                    final isFilled = index < _stars;
-                    return Icon(
-                      isFilled ? Icons.star_rounded : Icons.star_border_rounded,
-                      color: isFilled ? Colors.amberAccent : Colors.white30,
-                      size: 56,
-                    );
-                  }),
-                ),
-                SizedBox(height: 20),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-                  decoration: AppDecorations.cardDecoration,
-                  child: Column(
-                    children: [
-                      Text(
-                        _getFeedbackTitle(),
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 22,
-                          fontWeight: FontWeight.w800,
-                          color: primaryColor,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        _getFeedbackDesc(),
+      backgroundColor: const Color(0xFFF5F7F5),
+      body: Column(
+        children: [
+          _buildHeroHasil(context),
+          Expanded(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _buildStatistikCard(context),
+                  const SizedBox(height: 32),
+                  _buildTombolAksi(context),
+                  const SizedBox(height: 20),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).popUntil((route) => route.isFirst);
+                    },
+                    child: Center(
+                      child: Text(
+                        "Kembali ke Beranda",
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 13,
+                          fontWeight: FontWeight.w600,
                           color: Colors.grey.shade600,
-                          height: 1.5,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(height: 20),
-                      TweenAnimationBuilder<double>(
-                        tween: Tween<double>(
-                          begin: 0.0,
-                          end: _percentage / 100,
-                        ),
-                        duration: Duration(milliseconds: 800),
-                        curve: Curves.easeOutCubic,
-                        builder: (context, value, child) {
-                          return Column(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: LinearProgressIndicator(
-                                  value: value,
-                                  backgroundColor: Colors.grey.shade100,
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    primaryColor,
-                                  ),
-                                  minHeight: 10,
-                                ),
-                              ),
-                              SizedBox(height: 6),
-                              Text(
-                                '${(value * 100).toInt()}% ${_isID ? "Akurasi" : "Accuracy"}',
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                  color: primaryColor,
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                      SizedBox(height: 18),
-                      Divider(color: Colors.grey.shade200, thickness: 1.2),
-                      SizedBox(height: 16),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _buildStatItem(
-                            label: _isID ? 'Benar' : 'Correct',
-                            value: '${widget.score}',
-                            primaryColor: Colors.green,
-                            icon: Icons.check_circle_outline_rounded,
-                          ),
-                          _buildStatItem(
-                            label: _isID ? 'Salah' : 'Wrong',
-                            value: '${widget.total - widget.score}',
-                            primaryColor: Colors.red,
-                            icon: Icons.highlight_off_rounded,
-                          ),
-                          _buildStatItem(
-                            label: _isID ? 'Total Soal' : 'Total',
-                            value: '${widget.total}',
-                            primaryColor: primaryColor,
-                            icon: Icons.quiz_outlined,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Spacer(flex: 3),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => QuizScreen(
-                          mode: widget.mode,
-                          levelIndex: widget.levelIndex,
-                          isListening: widget.isListening,
-                        ),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 52,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [primaryColor, secondaryColor],
-                        begin: Alignment.centerLeft,
-                        end: Alignment.centerRight,
-                      ),
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: primaryColor.withValues(alpha: 0.4),
-                          blurRadius: 15,
-                          offset: Offset(0, 6),
-                        ),
-                      ],
-                    ),
-                    child: Center(
-                      child: Text(
-                        _isID ? 'COBA LAGI' : 'TRY AGAIN',
-                        style: AppTextStyles.buttonText.copyWith(fontSize: 15),
-                      ),
-                    ),
-                  ),
-                ),
-                if (!widget.isListening && widget.levelIndex != null) ...[
-                  SizedBox(height: 12),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => QuizScreen(
-                            mode: widget.mode,
-                            levelIndex: widget.levelIndex,
-                            isListening: true,
-                          ),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      height: 52,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Colors.amber.shade700,
-                            Colors.orange.shade800,
-                          ],
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                        ),
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.orange.withValues(alpha: 0.4),
-                            blurRadius: 15,
-                            offset: Offset(0, 6),
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Text(
-                          _isID
-                              ? 'MULAI KUIS PENDENGARAN'
-                              : 'START LISTENING QUIZ',
-                          style: AppTextStyles.buttonText.copyWith(
-                            fontSize: 15,
-                            color: Colors.white,
-                          ),
                         ),
                       ),
                     ),
                   ),
                 ],
-                SizedBox(height: 12),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).popUntil((route) => route.isFirst);
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 52,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.25),
-                        width: 1.5,
-                      ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        _isID ? 'KEMBALI KE BERANDA' : 'BACK TO HOME',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Spacer(flex: 1),
-              ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
 
-  Widget _buildStatItem({
-    required String label,
-    required String value,
-    required Color primaryColor,
-    IconData? icon,
-  }) {
-    return Column(
-      children: [
-        if (icon != null) ...[
-          Icon(icon, color: primaryColor, size: 22),
-          SizedBox(height: 4),
+  Widget _buildHeroHasil(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).padding.top + 32,
+        bottom: 40,
+      ),
+      decoration: const BoxDecoration(
+        color: Color(0xFF2E9E5B),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(28),
+          bottomRight: Radius.circular(28),
+        ),
+      ),
+      child: Column(
+        children: [
+          Text(
+            _getFeedbackEmoji(),
+            style: const TextStyle(fontSize: 80),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            '${widget.score}/${widget.total}',
+            style: const TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 48,
+              fontWeight: FontWeight.w900,
+              color: Colors.white,
+              height: 1.1,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            _getFeedbackDesc(context),
+            style: const TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              "✨ +${widget.score * 10} XP didapat!",
+              style: const TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
+            ),
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildStatistikCard(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.04),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          _buildStatRow("✅ Jawaban Benar", '${widget.score}', const Color(0xFF2E9E5B)),
+          Divider(color: Colors.grey.shade200, height: 24, thickness: 1),
+          _buildStatRow("❌ Jawaban Salah", '${widget.total - widget.score}', Colors.red),
+          Divider(color: Colors.grey.shade200, height: 24, thickness: 1),
+          _buildStatRow("⏱ Waktu Selesai", "1m 15s", const Color(0xFF1A1A1A), isBoldValue: false),
+          Divider(color: Colors.grey.shade200, height: 24, thickness: 1),
+          _buildStatRow("🎯 Akurasi", '${_percentage.toInt()}%', const Color(0xFF1A1A1A)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatRow(String label, String value, Color valueColor, {bool isBoldValue = true}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: 'Poppins',
-            fontSize: 11,
-            fontWeight: FontWeight.w500,
-            color: Colors.grey,
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF1A1A1A),
           ),
         ),
-        SizedBox(height: 2),
         Text(
           value,
           style: TextStyle(
             fontFamily: 'Poppins',
-            fontSize: 18,
-            fontWeight: FontWeight.w800,
-            color: primaryColor,
+            fontSize: 16,
+            fontWeight: isBoldValue ? FontWeight.w800 : FontWeight.w600,
+            color: valueColor,
           ),
         ),
       ],
     );
   }
+
+  Widget _buildTombolAksi(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: GestureDetector(
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => QuizScreen(
+                    mode: widget.mode,
+                    levelIndex: widget.levelIndex,
+                    isListening: widget.isListening,
+                  ),
+                ),
+              );
+            },
+            child: Container(
+              height: 52,
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: const Color(0xFF2E9E5B), width: 2),
+              ),
+              child: const Center(
+                child: Text(
+                  "Coba Lagi",
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF2E9E5B),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: Container(
+              height: 52,
+              decoration: BoxDecoration(
+                color: const Color(0xFF2E9E5B),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: const Center(
+                child: Text(
+                  "Quiz Lain",
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+
 }

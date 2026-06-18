@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/models/model_karakter.dart';
 import 'package:ppkd_b6/services/layanan_audio.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 
 class SheetDetailHuruf extends StatelessWidget {
   final JapaneseCharacter character;
-  final bool isID;
   final Color accentColor;
   final Color cardBgColor;
   final Color cardBorderColor;
@@ -13,7 +13,6 @@ class SheetDetailHuruf extends StatelessWidget {
   const SheetDetailHuruf({
     super.key,
     required this.character,
-    required this.isID,
     required this.accentColor,
     required this.cardBgColor,
     required this.cardBorderColor,
@@ -21,7 +20,7 @@ class SheetDetailHuruf extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mnemonic = isID ? character.mnemonicID : character.mnemonicEN;
+    final mnemonic = character.mnemonic;
     final colors = context.hiKata;
 
     return Padding(
@@ -97,7 +96,7 @@ class SheetDetailHuruf extends StatelessWidget {
           ),
           SizedBox(height: 4),
           Text(
-            isID ? 'Cara baca' : 'Reading',
+            Translations.of(context).common.reading,
             style: TextStyle(
               fontFamily: 'Poppins',
               fontSize: 12,
@@ -121,7 +120,7 @@ class SheetDetailHuruf extends StatelessWidget {
                       Text('💡', style: TextStyle(fontSize: 18)),
                       SizedBox(width: 8),
                       Text(
-                        isID ? 'Tips Hafalan' : 'Memory Tip',
+                        Translations.of(context).common.memoryTip,
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 13,

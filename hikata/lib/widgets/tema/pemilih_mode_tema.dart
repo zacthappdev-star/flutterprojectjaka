@@ -4,9 +4,7 @@ import 'package:ppkd_b6/services/layanan_tema.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 
 class PemilihModeTema extends StatelessWidget {
-  final bool isID;
-
-  const PemilihModeTema({super.key, required this.isID});
+  const PemilihModeTema({super.key});
 
   Future<void> _onSelect(AppThemeMode mode) async {
     await ThemeService.setMode(mode);
@@ -55,7 +53,7 @@ class PemilihModeTema extends StatelessWidget {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          mode.label(isID),
+                          mode.label(context),
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 10,

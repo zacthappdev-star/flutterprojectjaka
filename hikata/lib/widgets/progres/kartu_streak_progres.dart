@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 
 class KartuStreakProgres extends StatelessWidget {
-  final bool isID;
   final int dailyStreak;
 
   const KartuStreakProgres({
     super.key,
-    required this.isID,
     required this.dailyStreak,
   });
 
@@ -16,9 +15,20 @@ class KartuStreakProgres extends StatelessWidget {
     final colors = context.hiKata;
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.all(20),
-      margin: EdgeInsets.only(bottom: 20),
-      decoration: AppDecorations.cardDecorationOf(context),
+      padding: const EdgeInsets.all(20),
+      margin: const EdgeInsets.only(bottom: 20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: const Border(left: BorderSide(color: Color(0xFFFF8F00), width: 6)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
       child: Row(
         children: [
           Container(
@@ -35,7 +45,7 @@ class KartuStreakProgres extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  isID ? 'Streak Belajar' : 'Study Streak',
+                  Translations.of(context).progress.studyStreak,
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 13,
@@ -45,14 +55,21 @@ class KartuStreakProgres extends StatelessWidget {
                 ),
                 SizedBox(height: 2),
                 Text(
-                  isID
-                      ? '$dailyStreak Hari Berturut-turut!'
-                      : '$dailyStreak Days in a Row!',
-                  style: TextStyle(
+                  Translations.of(context).progress.daysInARow(days: dailyStreak.toString()),
+                  style: const TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
                     color: Color(0xFFE65100),
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  "Pertahankan terus semangat belajarmu!",
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 12,
+                    color: Colors.grey.shade600,
                   ),
                 ),
               ],

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 
 class KartuPengingatBelajar extends StatelessWidget {
-  final bool isID;
   final bool reminderEnabled;
   final int reminderHour;
   final int reminderMinute;
@@ -13,7 +13,6 @@ class KartuPengingatBelajar extends StatelessWidget {
 
   const KartuPengingatBelajar({
     super.key,
-    required this.isID,
     required this.reminderEnabled,
     required this.reminderHour,
     required this.reminderMinute,
@@ -51,7 +50,7 @@ class KartuPengingatBelajar extends StatelessWidget {
                   ),
                   SizedBox(width: 12),
                   Text(
-                    isID ? 'Aktifkan Pengingat' : 'Enable Alarm',
+                    Translations.of(context).progress.enableAlarm,
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 13,
@@ -89,7 +88,7 @@ class KartuPengingatBelajar extends StatelessWidget {
                     ),
                     SizedBox(width: 12),
                     Text(
-                      isID ? 'Waktu Belajar' : 'Study Time',
+                      Translations.of(context).progress.studyTime,
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 13,
@@ -121,7 +120,7 @@ class KartuPengingatBelajar extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      isID ? 'Notifikasi Berikutnya' : 'Next Reminder',
+                      Translations.of(context).progress.nextReminder,
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 12,

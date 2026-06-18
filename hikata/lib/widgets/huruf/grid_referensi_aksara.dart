@@ -6,7 +6,6 @@ import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 class GridReferensiAksara extends StatelessWidget {
   final List<JapaneseCharacter> characters;
   final bool isHiragana;
-  final bool isID;
   final int crossAxisCount;
   final EdgeInsets padding;
 
@@ -14,7 +13,6 @@ class GridReferensiAksara extends StatelessWidget {
     super.key,
     required this.characters,
     required this.isHiragana,
-    required this.isID,
     this.crossAxisCount = 5,
     this.padding = const EdgeInsets.all(14),
   });

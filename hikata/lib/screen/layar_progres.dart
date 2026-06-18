@@ -5,6 +5,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/models/model_progres.dart';
 import 'package:ppkd_b6/services/layanan_notifikasi.dart';
 import 'package:ppkd_b6/services/layanan_progres.dart';
@@ -14,8 +15,6 @@ import 'package:ppkd_b6/widgets/progres/kartu_pengingat_belajar.dart';
 import 'package:ppkd_b6/widgets/progres/kartu_progres_persen.dart';
 import 'package:ppkd_b6/widgets/progres/kartu_streak_progres.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import 'pengenalan/pilih_bahasa.dart';
 
 class LayarProgres extends StatefulWidget {
   const LayarProgres({super.key});
@@ -33,8 +32,6 @@ class _LayarProgresState extends State<LayarProgres> {
   int _reminderMinute = 0;
   String _nextReminderText = '';
   Timer? _countdownTimer;
-
-  bool get _isID => AppLanguage.current == 'id';
 
   @override
   void initState() {
@@ -75,21 +72,19 @@ class _LayarProgresState extends State<LayarProgres> {
       );
       _refreshCountdown();
       _startCountdownTimer();
+      if (!mounted) return;
       _showSnackbar(
-        _isID
-            ? 'Pengingat belajar aktif harian pada ${_formatTime(_reminderHour, _reminderMinute)} 🔔'
-            : 'Daily study reminder scheduled at ${_formatTime(_reminderHour, _reminderMinute)} 🔔',
+        context.t.progress.reminderActive(
+          time: _formatTime(_reminderHour, _reminderMinute),
+        ),
       );
     } else {
       await NotificationService.cancelAll();
       _countdownTimer?.cancel();
       _countdownTimer = null;
       setState(() => _nextReminderText = '');
-      _showSnackbar(
-        _isID
-            ? 'Pengingat belajar dinonaktifkan 🔕'
-            : 'Study reminder disabled 🔕',
-      );
+      if (!mounted) return;
+      _showSnackbar(context.t.progress.reminderDisabled);
     }
   }
 
@@ -115,10 +110,11 @@ class _LayarProgresState extends State<LayarProgres> {
         );
         _refreshCountdown();
         _startCountdownTimer();
+        if (!context.mounted) return;
         _showSnackbar(
-          _isID
-              ? 'Jam pengingat diubah ke ${_formatTime(picked.hour, picked.minute)} ⏰'
-              : 'Reminder time updated to ${_formatTime(picked.hour, picked.minute)} ⏰',
+          context.t.progress.reminderUpdated(
+            time: _formatTime(picked.hour, picked.minute),
+          ),
         );
       }
     }
@@ -151,9 +147,10 @@ class _LayarProgresState extends State<LayarProgres> {
     final totalMinutes = difference.inMinutes;
     final hours = totalMinutes ~/ 60;
     final minutes = totalMinutes % 60;
-    final nextText = _isID
-        ? '⏰ $hours jam $minutes menit lagi'
-        : '⏰ $hours hours $minutes minutes left';
+    final nextText = context.t.progress.reminderLeft(
+      hours: hours.toString(),
+      minutes: minutes.toString(),
+    );
 
     if (mounted) {
       setState(() => _nextReminderText = nextText);
@@ -177,7 +174,7 @@ class _LayarProgresState extends State<LayarProgres> {
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(msg, style: const TextStyle(fontFamily: 'Poppins')),
+        content: Text(msg, style: TextStyle(fontFamily: 'Poppins')),
         backgroundColor: AppColors.primaryGreen,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -201,88 +198,98 @@ class _LayarProgresState extends State<LayarProgres> {
     final colors = context.hiKata;
 
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(gradient: colors.backgroundGradient),
-        child: SafeArea(
-          child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildHeader(),
-                SizedBox(height: 20),
-                KartuStreakProgres(
-                  isID: _isID,
-                  dailyStreak: _progress.dailyStreak,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: KartuProgresPersen(
-                        title: 'Hiragana',
-                        progress: _progress.progressHiragana,
-                        accentColor: AppColors.primaryGreen,
-                        badgeBg: colors.lightBackground,
-                        icon: 'あ',
+      backgroundColor: Colors.white,
+      body: Column(
+        children: [
+          _buildHeader(),
+          Expanded(
+            child: SingleChildScrollView(
+              physics: BouncingScrollPhysics(),
+              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 20),
+                  KartuStreakProgres(dailyStreak: _progress.dailyStreak),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: KartuProgresPersen(
+                          title: 'Hiragana',
+                          progress: _progress.progressHiragana,
+                          accentColor: const Color(0xFF2E9E5B),
+                          badgeBg: colors.lightBackground,
+                          icon: 'あ',
+                        ),
                       ),
-                    ),
-                    SizedBox(width: 14),
-                    Expanded(
-                      child: KartuProgresPersen(
-                        title: 'Katakana',
-                        progress: _progress.progressKatakana,
-                        accentColor: const Color.fromARGB(255, 235, 140, 16),
-                        badgeBg: colors.tableCardBgKatakana,
-                        icon: 'ア',
+                      SizedBox(width: 14),
+                      Expanded(
+                        child: KartuProgresPersen(
+                          title: 'Katakana',
+                          progress: _progress.progressKatakana,
+                          accentColor: const Color(0xFFE9A825),
+                          badgeBg: colors.tableCardBgKatakana,
+                          icon: 'ア',
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20),
-                _buildKartuStatistik(totalUnlocked),
-                SizedBox(height: 20),
-                Text(
-                  _isID ? 'Pengingat Belajar' : 'Study Reminders',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 15,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.white,
+                    ],
                   ),
-                ),
-                SizedBox(height: 10),
-                KartuPengingatBelajar(
-                  isID: _isID,
-                  reminderEnabled: _reminderEnabled,
-                  reminderHour: _reminderHour,
-                  reminderMinute: _reminderMinute,
-                  nextReminderText: _nextReminderText,
-                  onToggle: _toggleReminder,
-                  onPilihWaktu: () => _selectTime(context),
-                  formatWaktu: _formatTime,
-                ),
-                SizedBox(height: 20),
-              ],
+                  SizedBox(height: 20),
+                  _buildKartuStatistik(totalUnlocked),
+                  SizedBox(height: 20),
+                  Text(
+                    context.t.progress.studyReminders,
+                    style: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                      color: Color(0xFF1A1A1A),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  KartuPengingatBelajar(
+                    reminderEnabled: _reminderEnabled,
+                    reminderHour: _reminderHour,
+                    reminderMinute: _reminderMinute,
+                    nextReminderText: _nextReminderText,
+                    onToggle: _toggleReminder,
+                    onPilihWaktu: () => _selectTime(context),
+                    formatWaktu: _formatTime,
+                  ),
+                  SizedBox(height: 20),
+                ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
 
   // ─── Komponen Layar ────────────────────────────────────────────────────────
   Widget _buildHeader() {
-    return Center(
-      child: Text(
-        _isID ? 'Progres Belajar' : 'Learning Progress',
-        style: TextStyle(
-          fontFamily: 'Poppins',
-          fontSize: 22,
-          fontWeight: FontWeight.w800,
-          color: Colors.white,
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).padding.top + 20,
+        bottom: 20,
+      ),
+      decoration: BoxDecoration(
+        color: Color(0xFF2E9E5B),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(30),
+          bottomRight: Radius.circular(30),
+        ),
+      ),
+      child: Center(
+        child: Text(
+          context.t.progress.learningProgress,
+          style: const TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 22,
+            fontWeight: FontWeight.w800,
+            color: Colors.white,
+          ),
         ),
       ),
     );
@@ -298,15 +305,22 @@ class _LayarProgresState extends State<LayarProgres> {
           BarisStatistikProgres(
             icon: Icons.lock_open_rounded,
             iconColor: AppColors.primaryGreen,
-            label: _isID ? 'Total Level Terbuka' : 'Total Unlocked Levels',
+            label: context.t.progress.totalUnlockedLevels,
             value: '$totalUnlocked',
           ),
           const Divider(height: 24, thickness: 1.2),
           BarisStatistikProgres(
             icon: Icons.quiz_outlined,
             iconColor: const Color(0xFFE65100),
-            label: _isID ? 'Total Quiz Selesai' : 'Total Quizzes Completed',
+            label: context.t.progress.totalQuizzesCompleted,
             value: '${_progress.totalQuizCompleted}',
+          ),
+          const Divider(height: 24, thickness: 1.2),
+          const BarisStatistikProgres(
+            icon: Icons.emoji_events_rounded,
+            iconColor: Color(0xFFFFB300),
+            label: 'Total XP',
+            value: '1250',
           ),
         ],
       ),

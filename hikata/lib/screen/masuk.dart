@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ppkd_b6/database/database_helper.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/screen/pengenalan/pilih_bahasa.dart';
 import 'package:ppkd_b6/screen/reset_sandi.dart';
 import 'package:ppkd_b6/theme/aset_aplikasi.dart';
@@ -61,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen>
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'Email atau kata sandi salah!',
+              Translations.of(context).auth.messages.loginFailed,
               style: TextStyle(fontFamily: 'Poppins'),
             ),
             backgroundColor: Colors.red,
@@ -86,6 +87,7 @@ class _LoginScreenState extends State<LoginScreen>
 
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -189,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen>
                                   ),
                                   SizedBox(width: 10),
                                   Text(
-                                    'Masuk',
+                                    t.auth.login,
                                     style: AppTextStyles.cardTitle.copyWith(
                                       fontSize: 22,
                                     ),
@@ -211,15 +213,15 @@ class _LoginScreenState extends State<LoginScreen>
                                       ),
                                       decoration:
                                           AppDecorations.fieldDecoration(
-                                            hint: 'Alamat Email',
+                                            hint: t.auth.emailHint,
                                             icon: Icons.email_outlined,
                                           ),
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'Email tidak boleh kosong';
+                                          return t.auth.validation.emailEmpty;
                                         }
                                         if (!value.contains('@')) {
-                                          return 'Format email tidak valid';
+                                          return t.auth.validation.emailInvalid;
                                         }
                                         return null;
                                       },
@@ -234,7 +236,7 @@ class _LoginScreenState extends State<LoginScreen>
                                         color: Color(0xFF263238),
                                       ),
                                       decoration: AppDecorations.fieldDecoration(
-                                        hint: 'Kata Sandi',
+                                        hint: t.auth.passwordHint,
                                         icon: Icons.lock_outline,
                                         suffix: IconButton(
                                           padding: EdgeInsets.zero,
@@ -256,10 +258,16 @@ class _LoginScreenState extends State<LoginScreen>
                                       ),
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'Password tidak boleh kosong';
+                                          return t
+                                              .auth
+                                              .validation
+                                              .passwordEmpty;
                                         }
                                         if (value.length < 6) {
-                                          return 'Password minimal 6 karakter';
+                                          return t
+                                              .auth
+                                              .validation
+                                              .passwordTooShort;
                                         }
                                         return null;
                                       },
@@ -281,14 +289,14 @@ class _LoginScreenState extends State<LoginScreen>
                                             bottom: 12,
                                           ),
                                           child: Text(
-                                            'Lupa password?',
+                                            t.auth.forgotPassword,
                                             style: AppTextStyles.linkText,
                                           ),
                                         ),
                                       ),
                                     ),
                                     _GradientButton(
-                                      label: 'MASUK',
+                                      label: t.auth.login.toUpperCase(),
                                       onPressed: login,
                                     ),
                                   ],
@@ -310,7 +318,7 @@ class _LoginScreenState extends State<LoginScreen>
                                       horizontal: 10,
                                     ),
                                     child: Text(
-                                      'atau',
+                                      t.common.or,
                                       style: AppTextStyles.mutedText.copyWith(
                                         fontSize: 12,
                                       ),
@@ -358,7 +366,7 @@ class _LoginScreenState extends State<LoginScreen>
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Belum punya akun? ',
+                            t.auth.dontHaveAccount,
                             style: TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 14,
@@ -375,7 +383,7 @@ class _LoginScreenState extends State<LoginScreen>
                               );
                             },
                             child: Text(
-                              'Daftar',
+                              t.auth.register,
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 14,

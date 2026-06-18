@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ppkd_b6/data/data_kuis.dart';
 import 'package:ppkd_b6/screen/kuis/layar_hasil_kuis.dart';
-import 'package:ppkd_b6/screen/pengenalan/pilih_bahasa.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/services/layanan_audio.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 
@@ -100,7 +100,6 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  bool get _isID => AppLanguage.current == 'id';
   QuizQuestion get _current => _questions[_currentIndex];
 
   void _selectOption(int index) {
@@ -159,138 +158,79 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final progress = (_currentIndex + 1) / _questions.length;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    final isKatakana = widget.mode.toLowerCase() == 'katakana';
-    final gradientColors = isKatakana
-        ? (isDark
-              ? [
-                  const Color(0xFF211D0A),
-                  const Color(0xFF332A0F),
-                  const Color(0xFF453915),
-                ]
-              : [
-                  const Color(0xFFFFB300),
-                  const Color(0xFFFFC107),
-                  const Color(0xFFFFD54F),
-                ])
-        : (isDark
-              ? [
-                  const Color(0xFF0D1510),
-                  const Color(0xFF162820),
-                  const Color(0xFF1F3528),
-                ]
-              : [
-                  const Color(0xFF1B5E20),
-                  const Color(0xFF2E7D32),
-                  const Color(0xFF43A047),
-                ]);
 
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: gradientColors,
-          ),
-        ),
-        child: SafeArea(
-          child: Column(
-            children: [
-              _buildHeader(context, progress),
-              Expanded(
-                child: SlideTransition(
-                  position: _cardSlide,
-                  child: FadeTransition(
-                    opacity: _cardFade,
-                    child: _buildQuizBody(),
-                  ),
+      backgroundColor: const Color(0xFFF5F7F5),
+      body: SafeArea(
+        child: Column(
+          children: [
+            _buildHeader(context, progress),
+            Expanded(
+              child: SlideTransition(
+                position: _cardSlide,
+                child: FadeTransition(
+                  opacity: _cardFade,
+                  child: _buildQuizBody(),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
   Widget _buildHeader(BuildContext context, double progress) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(20, 16, 20, 8),
+    String quizTitle = 'Quiz ';
+    if (widget.mode.toLowerCase() == 'hiragana') {
+      quizTitle += 'Hiragana';
+    } else if (widget.mode.toLowerCase() == 'katakana') {
+      quizTitle += 'Katakana';
+    } else {
+      quizTitle += 'Campuran';
+    }
+
+    return Container(
+      color: const Color(0xFF2E9E5B),
+      padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
       child: Column(
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               GestureDetector(
                 onTap: () => _showQuitDialog(context),
-                child: Container(
-                  width: 38,
-                  height: 38,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white.withValues(alpha: 0.15),
-                  ),
-                  child: Icon(
-                    Icons.close_rounded,
-                    color: Colors.white,
-                    size: 20,
-                  ),
+                child: const Icon(Icons.arrow_back_rounded, color: Colors.white, size: 24),
+              ),
+              Text(
+                quizTitle,
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
                 ),
               ),
-              SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: LinearProgressIndicator(
-                        value: progress,
-                        backgroundColor: Colors.white24,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                        minHeight: 8,
-                      ),
-                    ),
-                    SizedBox(height: 4),
-                    Text(
-                      _isID
-                          ? '${_currentIndex + 1} dari ${_questions.length} soal'
-                          : '${_currentIndex + 1} of ${_questions.length} questions',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 11,
-                        color: Colors.white70,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  children: [
-                    Text('⭐', style: TextStyle(fontSize: 14)),
-                    SizedBox(width: 4),
-                    Text(
-                      '$_score',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
+              Text(
+                '${_currentIndex + 1}/${_questions.length}',
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
                 ),
               ),
             ],
+          ),
+          const SizedBox(height: 16),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: LinearProgressIndicator(
+              value: progress,
+              backgroundColor: Colors.white.withValues(alpha: 0.3),
+              valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+              minHeight: 8,
+            ),
           ),
         ],
       ),
@@ -298,7 +238,6 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
   }
 
   Widget _buildQuizBody() {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
@@ -307,114 +246,89 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
             SizedBox(height: 12),
 
             // Question prompt
-            Text(
-              widget.isListening
-                  ? (_isID
-                        ? 'Dengarkan pelafalan huruf berikut:'
-                        : 'Listen to the following pronunciation:')
-                  : _current.question,
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 14,
-                color: Colors.white70,
-                fontWeight: FontWeight.w500,
+            if (widget.isListening)
+              Text(
+                context.t.quiz.listenPrompt,
+                style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 14,
+                  color: Color(0xFF1A1A1A),
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 20),
+            const SizedBox(height: 16),
 
-            // Character display with Voice button and tap support
+            // Character display card
             ScaleTransition(
-              scale: _answered ? _pulse : AlwaysStoppedAnimation(1.0),
+              scale: _answered ? _pulse : const AlwaysStoppedAnimation(1.0),
               child: Stack(
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      if (widget.isListening) {
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(vertical: 40),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.05),
+                          blurRadius: 10,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Center(
+                      child: widget.isListening
+                          ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.volume_up_rounded,
+                                  color: Color(0xFF2E9E5B),
+                                  size: 80,
+                                ),
+                                const SizedBox(height: 16),
+                                Text(
+                                  context.t.quiz.listenAudio,
+                                  style: const TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 14,
+                                    color: Color(0xFF2E9E5B),
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : Text(
+                              _current.questionChar,
+                              style: const TextStyle(
+                                fontSize: 90,
+                                color: Color(0xFF2E9E5B),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 12,
+                    right: 12,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.volume_up_rounded,
+                        color: Color(0xFF2E9E5B),
+                        size: 28,
+                      ),
+                      onPressed: () {
                         AudioService.playAudioWithFeedback(
                           context,
                           AudioService.getAudioPathForChar(
                             _current.questionChar,
                           ),
                         );
-                      }
-                    },
-                    child: Container(
-                      width: 160,
-                      height: 160,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.15),
-                        borderRadius: BorderRadius.circular(32),
-                        border: Border.all(
-                          color: _answered
-                              ? (_selectedOption == _current.correctIndex
-                                    ? Colors.greenAccent
-                                    : Colors.redAccent)
-                              : Colors.white30,
-                          width: _answered ? 3 : 1.5,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.1),
-                            blurRadius: 20,
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                        child: widget.isListening
-                            ? Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.volume_up_rounded,
-                                    color: Colors.white,
-                                    size: 64,
-                                  ),
-                                  SizedBox(height: 8),
-                                  Text(
-                                    _isID
-                                        ? 'Dengarkan Audio'
-                                        : 'Listen to Audio',
-                                    style: TextStyle(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 12,
-                                      color: Colors.white70,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : Text(
-                                _current.questionChar,
-                                style: TextStyle(
-                                  fontSize: 90,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                      ),
+                      },
                     ),
                   ),
-                  if (widget.isListening)
-                    Positioned(
-                      top: 8,
-                      right: 8,
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.volume_up_rounded,
-                          color: Colors.white70,
-                          size: 24,
-                        ),
-                        onPressed: () {
-                          AudioService.playAudioWithFeedback(
-                            context,
-                            AudioService.getAudioPathForChar(
-                              _current.questionChar,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
                 ],
               ),
             ),
@@ -469,80 +383,65 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
                   color: _selectedOption == _current.correctIndex
-                      ? Color(0xFFE8F5E9)
-                      : Color(0xFFFFEBEE),
+                      ? const Color(0xFFE8F5E9)
+                      : const Color(0xFFFFEBEE),
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Row(
                   children: [
                     Text(
                       _selectedOption == _current.correctIndex ? '🎉' : '😅',
-                      style: TextStyle(fontSize: 24),
+                      style: const TextStyle(fontSize: 24),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Expanded(
                       child: Text(
                         _selectedOption == _current.correctIndex
-                            ? (_isID
-                                  ? 'Benar! Jawaban: ${_current.options[_current.correctIndex]}'
-                                  : 'Correct! Answer: ${_current.options[_current.correctIndex]}')
-                            : (_isID
-                                  ? 'Salah! Jawaban yang benar: ${_current.options[_current.correctIndex]}'
-                                  : 'Wrong! Correct answer: ${_current.options[_current.correctIndex]}'),
+                            ? context.t.quiz.feedbackCorrect(answer: _current.options[_current.correctIndex])
+                            : context.t.quiz.feedbackWrong(answer: _current.options[_current.correctIndex]),
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
                           color: _selectedOption == _current.correctIndex
-                              ? Color(0xFF1B5E20)
-                              : Color(0xFFB71C1C),
+                              ? const Color(0xFF1B5E20)
+                              : const Color(0xFFB71C1C),
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
-              // Next button
-              GestureDetector(
-                onTap: _nextQuestion,
-                child: Container(
-                  width: double.infinity,
-                  height: 52,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: widget.mode.toLowerCase() == 'katakana'
-                          ? (isDark
-                                ? [const Color(0xFFFFB300), const Color(0xFFFFC107)]
-                                : [const Color(0xFFFFB300), const Color(0xFFFFC107)])
-                          : [AppColors.primaryGreen, AppColors.secondaryGreen],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    ),
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color:
-                            (widget.mode.toLowerCase() == 'katakana'
-                                    ? const Color(0xFFFFB300)
-                                    : AppColors.primaryGreen)
-                                .withValues(alpha: 0.4),
-                        blurRadius: 15,
-                        offset: Offset(0, 6),
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Text(
-                      _currentIndex + 1 >= _questions.length
-                          ? (_isID ? 'LIHAT HASIL' : 'SEE RESULT')
-                          : (_isID ? 'SOAL BERIKUTNYA' : 'NEXT QUESTION'),
-                      style: AppTextStyles.buttonText.copyWith(fontSize: 15),
+            ],
+
+            const SizedBox(height: 24),
+            // Next/Jawab button always visible
+            GestureDetector(
+              onTap: _answered ? _nextQuestion : null,
+              child: Container(
+                width: double.infinity,
+                height: 52,
+                decoration: BoxDecoration(
+                  color: _answered ? const Color(0xFF2E9E5B) : Colors.grey.shade400,
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Center(
+                  child: Text(
+                    _answered
+                        ? (_currentIndex + 1 >= _questions.length
+                            ? context.t.quiz.seeResult
+                            : context.t.quiz.nextQuestion)
+                        : 'Jawab',
+                    style: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
                 ),
               ),
-            ],
+            ),
           ],
         ),
       ),
@@ -556,20 +455,18 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
       builder: (_) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Text(
-          _isID ? 'Keluar Kuis?' : 'Quit Quiz?',
+          context.t.quiz.quitQuiz,
           style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.bold),
         ),
         content: Text(
-          _isID
-              ? 'Progresmu akan hilang jika keluar sekarang.'
-              : 'Your progress will be lost if you quit now.',
+          context.t.quiz.quitWarning,
           style: TextStyle(fontFamily: 'Poppins'),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
-              _isID ? 'Lanjut' : 'Continue',
+              context.t.quiz.continueQuiz,
               style: TextStyle(
                 fontFamily: 'Poppins',
                 color: isKatakana ? const Color(0xFFFFB300) : AppColors.primaryGreen,
@@ -582,7 +479,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
               Navigator.pop(context);
             },
             child: Text(
-              _isID ? 'Keluar' : 'Quit',
+              context.t.quiz.quit,
               style: const TextStyle(fontFamily: 'Poppins', color: Colors.red),
             ),
           ),
@@ -656,16 +553,22 @@ class _QuizOptionCardState extends State<QuizOptionCard>
   @override
   Widget build(BuildContext context) {
     Color bgColor = Colors.white;
-    Color borderColor = Colors.transparent;
+    Color borderColor = Colors.grey.shade300;
+    Color textColor = const Color(0xFF1A1A1A);
 
-    if (!widget.answered) {
-      bgColor = Colors.white;
-    } else if (widget.showCorrect) {
-      bgColor = const Color(0xFFE8F5E9);
-      borderColor = Colors.green;
-    } else if (widget.isWrong) {
-      bgColor = const Color(0xFFFFEBEE);
-      borderColor = Colors.red;
+    if (widget.answered) {
+      if (widget.showCorrect) {
+        bgColor = const Color(0xFFE8F5E9);
+        borderColor = const Color(0xFF2E9E5B);
+        textColor = const Color(0xFF2E9E5B);
+      } else if (widget.isWrong) {
+        bgColor = const Color(0xFFFDE8E8);
+        borderColor = Colors.red;
+        textColor = Colors.red;
+      }
+    } else if (widget.isSelected) {
+      bgColor = const Color(0xFFF0FAF5);
+      borderColor = const Color(0xFF2E9E5B);
     }
 
     return AnimatedBuilder(
@@ -691,65 +594,36 @@ class _QuizOptionCardState extends State<QuizOptionCard>
       child: GestureDetector(
         onTap: widget.onTap,
         child: Container(
-          margin: const EdgeInsets.only(bottom: 12),
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+          margin: const EdgeInsets.only(bottom: 10),
+          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
           decoration: BoxDecoration(
             color: bgColor,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: borderColor,
-              width: widget.answered ? 2 : 0,
+              width: 1.5,
             ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.06),
-                blurRadius: 8,
-                offset: const Offset(0, 3),
-              ),
-            ],
           ),
-          child: Row(
+          child: Stack(
+            alignment: Alignment.center,
             children: [
-              Container(
-                width: 32,
-                height: 32,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: widget.answered && widget.isCorrect
-                      ? Colors.green.withValues(alpha: 0.15)
-                      : widget.answered && widget.isWrong
-                      ? Colors.red.withValues(alpha: 0.15)
-                      : AppColors.lightBackground,
-                ),
-                child: Center(
-                  child: Text(
-                    widget.label,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
-                      color: widget.answered && widget.isCorrect
-                          ? Colors.green
-                          : widget.answered && widget.isWrong
-                          ? Colors.red
-                          : AppColors.textPrimary,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 14),
-              Expanded(
+              Align(
+                alignment: Alignment.center,
                 child: Text(
                   widget.text,
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: widget.textColor,
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
                   ),
                 ),
               ),
-              if (widget.trailingIcon != null) widget.trailingIcon!,
+              if (widget.trailingIcon != null)
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: widget.trailingIcon!,
+                ),
             ],
           ),
         ),

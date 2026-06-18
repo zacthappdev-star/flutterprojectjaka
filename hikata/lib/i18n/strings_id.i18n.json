@@ -1,0 +1,50 @@
+{
+  "profile": {
+    "title": "Profil Saya",
+    "studyStatistics": "Statistik Belajar",
+    "appearance": "Pengaturan Tampilan",
+    "more": "Lainnya",
+    "feedback": "Beri Masukan",
+    "aboutApp": "Tentang Aplikasi",
+    "deleteAccount": "Hapus Akun",
+    "deleteAccountTitle": "Hapus Akun Permanen?",
+    "deleteAccountConfirmText": "Tindakan ini tidak dapat dibatalkan. Seluruh data progres belajar, riwayat kuis, streak, dan karakter terpelajar akan dihapus secara permanen dari sistem.",
+    "cancel": "Batal",
+    "logout": "Keluar",
+    "logoutTitle": "Keluar Akun?",
+    "logoutConfirmText": "Apakah kamu yakin ingin keluar dan kembali ke halaman login?",
+    "achievements": "Pencapaian Quiz",
+    "mixedQuiz": "Quiz Campuran"
+  },
+  "navigation": {
+    "home": "Home",
+    "learn": "Belajar",
+    "quiz": "Quiz",
+    "progress": "Progres",
+    "profile": "Profil"
+  },
+  "about": {
+    "title": "Tentang Aplikasi",
+    "description": "HI KATA membantu anda mempelajari Hiragana dan Katakana melalui pembelajaran interaktif, audio pelafalan, dan kuis yang menyenangkan.",
+    "version": "Versi Aplikasi",
+    "developer": "Pembuat Aplikasi"
+  },
+  "feedback": {
+    "title": "Pengalaman Belajar",
+    "intro": "Ulasan anda sangat membantu dalam mengembangkan fitur baru dan meningkatkan kualitas materi belajar di HI KATA.",
+    "rateUs": "Bagaimana penilaianmu?",
+    "firstImpression": "Pilih kesan pertamamu",
+    "commentHint": "Masukkan ulasanmu di sini...",
+    "commentEmpty": "Komentar tidak boleh kosong",
+    "submit": "KIRIM ULASAN",
+    "lastReview": "Ulasan Terakhirmu",
+    "thanks": "Terima Kasih! ❤️",
+    "thanksBody": "Ulasanmu sangat berharga bagi pengembangan aplikasi HI KATA!",
+    "tags": {
+      "fun": "Menyenangkan",
+      "easy": "Mudah Dipahami",
+      "helpful": "Sangat Membantu",
+      "improve": "Perlu Peningkatan"
+    }
+  }
+}

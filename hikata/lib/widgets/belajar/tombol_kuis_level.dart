@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 
 class TombolKuisLevel extends StatelessWidget {
-  final bool isID;
   final bool isUnlocked;
   final BoxDecoration? unlockedDecoration;
   final VoidCallback? onTap;
 
   const TombolKuisLevel({
     super.key,
-    required this.isID,
     required this.isUnlocked,
     this.unlockedDecoration,
     this.onTap,
@@ -39,8 +38,8 @@ class TombolKuisLevel extends StatelessWidget {
             children: [
               Text(
                 isUnlocked
-                    ? (isID ? 'Mulai Quiz Level!' : 'Start Level Quiz!')
-                    : (isID ? 'Level Terkunci' : 'Level Locked'),
+                    ? Translations.of(context).common.startLevelQuiz
+                    : Translations.of(context).hiragana.locked,
                 style: AppTextStyles.buttonText.copyWith(
                   fontSize: 15,
                   color: isUnlocked ? Colors.white : colors.textMuted,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ppkd_b6/data/data_hiragana.dart';
 import 'package:ppkd_b6/models/model_karakter.dart';
 import 'package:ppkd_b6/screen/kuis/layar_kuis.dart';
-import 'package:ppkd_b6/screen/pengenalan/pilih_bahasa.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/services/layanan_progres.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 import 'package:ppkd_b6/widgets/belajar/konten_grup.dart';
@@ -24,8 +24,6 @@ class _LayarHiraganaState extends State<LayarHiragana>
   late TabController _tabController;
   final _groups = HiraganaData.groups;
   int _unlockedLevels = 1;
-
-  bool get _isID => AppLanguage.current == 'id';
 
   @override
   void initState() {
@@ -69,14 +67,16 @@ class _LayarHiraganaState extends State<LayarHiragana>
                   children: List.generate(_groups.length, (index) {
                     final isUnlocked = index < _unlockedLevels;
                     if (!isUnlocked) {
-                      return TampilanLevelTerkunci(isID: _isID);
+                      return TampilanLevelTerkunci(
+                        title: context.t.hiragana.locked,
+                        desc: context.t.hiragana.lockedDesc,
+                      );
                     }
                     return _buildKontenLevel(_groups[index], index);
                   }),
                 ),
               ),
               TombolKuisLevel(
-                isID: _isID,
                 isUnlocked: _tabController.index < _unlockedLevels,
                 onTap: () {
                   Navigator.push(
@@ -127,7 +127,7 @@ class _LayarHiraganaState extends State<LayarHiragana>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  _isID ? 'Pengenalan Hiragana' : 'Hiragana Introduction',
+                  context.t.hiragana.title,
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 18,
@@ -221,7 +221,6 @@ class _LayarHiraganaState extends State<LayarHiragana>
           Expanded(
             child: KontenGrup(
               group: group,
-              isID: _isID,
               onCharTap: (c) => _showCharDetail(c),
               levelIndex: levelIndex,
               mode: 'hiragana',
@@ -246,7 +245,6 @@ class _LayarHiraganaState extends State<LayarHiragana>
       backgroundColor: colors.cardBackground,
       builder: (_) => SheetDetailHuruf(
         character: c,
-        isID: _isID,
         accentColor: AppColors.primaryGreen,
         cardBgColor: colors.lightBackground,
         cardBorderColor: colors.softMint,

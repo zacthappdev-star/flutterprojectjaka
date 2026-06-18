@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ppkd_b6/data/data_hiragana.dart';
 import 'package:ppkd_b6/data/data_katakana.dart';
-import 'package:ppkd_b6/screen/pengenalan/pilih_bahasa.dart';
-import 'package:ppkd_b6/theme/tema_aplikasi.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/widgets/huruf/tabel_aksara_lengkap.dart';
 
 class LayarBeranda extends StatefulWidget {
@@ -40,172 +39,238 @@ class _LayarBerandaState extends State<LayarBeranda>
     super.dispose();
   }
 
-  bool get _isID => AppLanguage.current == 'id';
-
   @override
   Widget build(BuildContext context) {
-    final colors = context.hiKata;
-
     return Scaffold(
-      body: Container(
+      backgroundColor: Colors.white,
+      body: SizedBox(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(gradient: colors.backgroundGradient),
-        child: Stack(
+        child: Column(
           children: [
-            // Decorative background elements
-            Positioned(
-              top: -40,
-              right: -40,
-              child: Container(
-                width: 200,
-                height: 200,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.05),
+            // ── Header (Green) ──────────────────────────────────
+            Container(
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).padding.top,
+                bottom: 20,
+              ),
+              decoration: const BoxDecoration(
+                color: Color(0xFF2E9E5B),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
                 ),
               ),
-            ),
-            Positioned(
-              bottom: -50,
-              left: -50,
-              child: Container(
-                width: 220,
-                height: 220,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.04),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 80,
-              left: 20,
-              child: Text(
-                'あ',
-                style: TextStyle(
-                  fontSize: 60,
-                  color: Colors.white.withValues(alpha: 0.04),
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: 200,
-              right: 20,
-              child: Text(
-                'ア',
-                style: TextStyle(
-                  fontSize: 60,
-                  color: Colors.white.withValues(alpha: 0.04),
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-
-            SafeArea(
-              child: Column(
+              child: Stack(
                 children: [
-                  // ── Header: Greeting ──────────────────────────────────
-                  FadeTransition(
-                    opacity: _fadeAnim,
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(20, 16, 20, 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _isID
-                                ? 'Tabel Huruf Jepang'
-                                : 'Japanese letter table',
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 22,
-                              fontWeight: FontWeight.w800,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  // ── Tab Bar ──────────────────────────────────────────
-                  FadeTransition(
-                    opacity: _fadeAnim,
+                  // Decorative background elements
+                  Positioned(
+                    top: -40,
+                    right: -40,
                     child: Container(
-                      height: 44,
-                      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                      width: 150,
+                      height: 150,
                       decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      child: TabBar(
-                        controller: _tabController,
-                        indicator: BoxDecoration(
-                          color: colors.tabIndicator,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        labelStyle: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        unselectedLabelStyle: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                        labelColor: colors.textPrimary,
-                        unselectedLabelColor: Colors.white70,
-                        dividerColor: Colors.transparent,
-                        tabs: [
-                          Tab(text: 'Hiragana'),
-                          Tab(text: 'Katakana'),
-                        ],
+                        shape: BoxShape.circle,
+                        color: Colors.white.withValues(alpha: 0.05),
                       ),
                     ),
                   ),
-
-                  // ── Character Tables ─────────────────────────────────
-                  Expanded(
-                    child: FadeTransition(
-                      opacity: _fadeAnim,
-                      child: Container(
-                        margin: EdgeInsets.fromLTRB(20, 4, 20, 12),
-                        decoration: BoxDecoration(
-                          color: colors.cardBackground,
-                          borderRadius: BorderRadius.circular(24),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.1),
-                              blurRadius: 20,
-                              offset: Offset(0, 8),
-                            ),
-                          ],
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(24),
-                          child: TabBarView(
-                            controller: _tabController,
+                  Positioned(
+                    bottom: -20,
+                    left: -20,
+                    child: Container(
+                      width: 120,
+                      height: 120,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withValues(alpha: 0.04),
+                      ),
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      FadeTransition(
+                        opacity: _fadeAnim,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 16, 20, 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              TabelAksaraLengkap(
-                                groups: HiraganaData.tableGroups,
-                                isHiragana: true,
-                                isID: _isID,
-                              ),
-                              TabelAksaraLengkap(
-                                groups: KatakanaData.tableGroups,
-                                isHiragana: false,
-                                isID: _isID,
+                              Text(
+                                Translations.of(
+                                  context,
+                                ).common.introTablesTitle,
+                                style: const TextStyle(
+                                  fontFamily: 'Poppins',
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.white,
+                                ),
                               ),
                             ],
                           ),
                         ),
                       ),
-                    ),
+
+                      // ── Tab Bar ──────────────────────────────────────────
+                      FadeTransition(
+                        opacity: _fadeAnim,
+                        child: Container(
+                          height: 50,
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(
+                              0xFFC8E6C9,
+                            ), // hijau muda (tidak aktif)
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: TabBar(
+                            controller: _tabController,
+                            indicatorSize: TabBarIndicatorSize.tab,
+                            splashFactory: NoSplash.splashFactory,
+                            overlayColor: WidgetStateProperty.all(
+                              Colors.transparent,
+                            ),
+                            physics: const BouncingScrollPhysics(),
+                            indicator: BoxDecoration(
+                              color: Colors.white, // aktif background putih
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.05),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            labelStyle: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            unselectedLabelStyle: const TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                            ),
+                            labelColor: const Color(0xFF2E9E5B),
+                            unselectedLabelColor: const Color(
+                              0xFF2E9E5B,
+                            ).withValues(alpha: 0.6),
+                            dividerColor: Colors.transparent,
+                            tabs: const [
+                              Tab(text: 'あ Hiragana'),
+                              Tab(text: 'ア Katakana'),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
+              ),
+            ),
+
+            // ── Progress Bar & Mulai Latihan ───────────────────────
+            FadeTransition(
+              opacity: _fadeAnim,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '15 karakter · 32% selesai (15/46)',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: LinearProgressIndicator(
+                              value: 15 / 46,
+                              backgroundColor: Colors.grey.shade200,
+                              valueColor: const AlwaysStoppedAnimation<Color>(
+                                Color(0xFF2E9E5B),
+                              ),
+                              minHeight: 8,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF2E9E5B),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius: BorderRadius.circular(8),
+                          onTap: () {},
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 8,
+                            ),
+                            child: Row(
+                              children: const [
+                                Icon(
+                                  Icons.play_arrow_rounded,
+                                  color: Colors.white,
+                                  size: 16,
+                                ),
+                                SizedBox(width: 4),
+                                Text(
+                                  'Mulai Latihan',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // ── Character Tables ─────────────────────────────────
+            Expanded(
+              child: FadeTransition(
+                opacity: _fadeAnim,
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    TabelAksaraLengkap(
+                      groups: HiraganaData.tableGroups,
+                      isHiragana: true,
+                    ),
+                    TabelAksaraLengkap(
+                      groups: KatakanaData.tableGroups,
+                      isHiragana: false,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

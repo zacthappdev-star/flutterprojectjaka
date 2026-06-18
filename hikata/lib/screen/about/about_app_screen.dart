@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:ppkd_b6/screen/pengenalan/pilih_bahasa.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 
 class AboutAppScreen extends StatelessWidget {
   const AboutAppScreen({super.key});
-  bool get _isID => AppLanguage.current == 'id';
   @override
   Widget build(BuildContext context) {
     final colors = context.hiKata;
@@ -22,7 +21,7 @@ class AboutAppScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  _isID ? 'Tentang Aplikasi' : 'About App',
+                  context.t.about.title,
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 22,
@@ -75,9 +74,7 @@ class AboutAppScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 22),
                       Text(
-                        _isID
-                            ? 'HI KATA membantu anda mempelajari Hiragana dan Katakana melalui pembelajaran interaktif, audio pelafalan, dan kuis yang menyenangkan.'
-                            : 'HI KATA helps you learn Hiragana and Katakana through interactive lessons, pronunciation audio, and engaging quizzes.',
+                        context.t.about.description,
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 13,
@@ -90,13 +87,13 @@ class AboutAppScreen extends StatelessWidget {
                       Divider(color: colors.divider, height: 1.2, thickness: 1),
                       SizedBox(height: 18),
                       _buildDetailRow(
-                        label: _isID ? 'Versi Aplikasi' : 'App Version',
+                        label: context.t.about.version,
                         value: '1.0.0',
                         colors: colors,
                       ),
                       SizedBox(height: 12),
                       _buildDetailRow(
-                        label: _isID ? 'Pembuat Aplikasi' : 'Developer',
+                        label: context.t.about.developer,
                         value: 'zacth',
                         colors: colors,
                       ),

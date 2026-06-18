@@ -55,8 +55,8 @@ class KartuProgresPersen extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               SizedBox(
-                width: 70,
-                height: 70,
+                width: 80,
+                height: 80,
                 child: CircularProgressIndicator(
                   value: progress,
                   strokeWidth: 8,
@@ -68,12 +68,22 @@ class KartuProgresPersen extends StatelessWidget {
                 '${(progress * 100).toInt()}%',
                 style: TextStyle(
                   fontFamily: 'Poppins',
-                  fontSize: 12,
+                  fontSize: 14,
                   fontWeight: FontWeight.bold,
                   color: accentColor,
                 ),
               ),
             ],
+          ),
+          const SizedBox(height: 12),
+          Text(
+            '${(progress * 46).round()}/46 karakter',
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              color: Colors.grey.shade600,
+            ),
           ),
         ],
       ),

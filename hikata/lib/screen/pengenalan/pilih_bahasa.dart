@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/screen/alasan_beranda.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppLanguage {
-  static String current = 'id'; // 'id' = Indonesia, 'en' = English
+  static String get current => LocaleSettings.currentLocale.languageCode;
+  static set current(String value) => LocaleSettings.setLocaleRaw(value);
 }
 
 class LanguageSelectScreen extends StatefulWidget {
@@ -204,8 +206,6 @@ class _LanguageSelectScreenState extends State<LanguageSelectScreen>
   }
 }
 
-// ─── Language Card ──────────────────────────────────────────────────────────────
-
 class _LanguageCard extends StatelessWidget {
   final String flag;
   final String name;
@@ -302,8 +302,6 @@ class _LanguageCard extends StatelessWidget {
     );
   }
 }
-
-// ─── Continue Button ─────────────────────────────────────────────────────────
 
 class _ContinueButton extends StatefulWidget {
   final String label;

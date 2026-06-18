@@ -6,13 +6,11 @@ import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 class TabelAksaraLengkap extends StatelessWidget {
   final List<CharacterGroup> groups;
   final bool isHiragana;
-  final bool isID;
 
   const TabelAksaraLengkap({
     super.key,
     required this.groups,
     required this.isHiragana,
-    required this.isID,
   });
 
   @override
@@ -84,6 +82,12 @@ class _BagianTabel extends StatelessWidget {
             itemCount: group.characters.length,
             itemBuilder: (ctx, i) {
               final c = group.characters[i];
+              final masteredRomajis = ['a','i','u','e','o','ka','ki','ku','ke','ko','sa','shi','su','se','so'];
+              final isMastered = masteredRomajis.contains(c.romaji.toLowerCase());
+
+              final cellBgColor = isMastered ? const Color(0xFFF0FAF5) : Colors.white;
+              final cellBorderColor = isMastered ? const Color(0xFF2E9E5B) : Colors.grey.shade300;
+
               return GestureDetector(
                 onTap: () => AudioService.playAudioWithFeedback(
                   context,
@@ -91,30 +95,39 @@ class _BagianTabel extends StatelessWidget {
                 ),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: cardBgColor,
+                    color: cellBgColor,
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
-                      color: accentColor.withValues(alpha: 0.18),
+                      color: cellBorderColor,
                       width: 1,
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: accentColor.withValues(alpha: 0.06),
+                        color: Colors.black.withValues(alpha: 0.02),
                         blurRadius: 4,
-                        offset: Offset(0, 2),
+                        offset: const Offset(0, 2),
                       ),
                     ],
                   ),
                   child: Stack(
                     children: [
                       Positioned(
-                        top: 4,
-                        right: 4,
-                        child: Icon(
-                          Icons.volume_up_rounded,
-                          size: 10,
-                          color: accentColor.withValues(alpha: 0.6),
-                        ),
+                        top: 6,
+                        right: 6,
+                        child: isMastered
+                            ? Container(
+                                padding: const EdgeInsets.all(2),
+                                decoration: const BoxDecoration(
+                                  color: Color(0xFF2E9E5B),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(Icons.check, size: 10, color: Colors.white),
+                              )
+                            : Icon(
+                                Icons.volume_up_rounded,
+                                size: 14,
+                                color: Colors.grey.shade400,
+                              ),
                       ),
                       Center(
                         child: Column(
@@ -125,17 +138,17 @@ class _BagianTabel extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: accentColor,
+                                color: isMastered ? const Color(0xFF2E9E5B) : AppColors.textPrimary,
                               ),
                             ),
-                            SizedBox(height: 2),
+                            const SizedBox(height: 2),
                             Text(
                               c.romaji,
                               style: TextStyle(
                                 fontFamily: 'Poppins',
-                                fontSize: 8,
+                                fontSize: 9,
                                 fontWeight: FontWeight.w600,
-                                color: accentColor.withValues(alpha: 0.7),
+                                color: isMastered ? const Color(0xFF2E9E5B).withValues(alpha: 0.8) : Colors.grey.shade500,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,

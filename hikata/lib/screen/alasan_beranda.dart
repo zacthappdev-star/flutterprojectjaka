@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ppkd_b6/screen/pengenalan/pilih_bahasa.dart';
 import 'package:ppkd_b6/screen/tujuanbelajar.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 
 class HomeReasonScreen extends StatefulWidget {
@@ -14,40 +14,30 @@ class _HomeReasonScreenState extends State<HomeReasonScreen>
     with SingleTickerProviderStateMixin {
   String? selected;
 
-  bool get _isID => AppLanguage.current == 'id';
-
   // Structuring reasons with labels, descriptions and custom icons
-  List<Map<String, dynamic>> get reasons => [
+  List<Map<String, dynamic>> reasons(BuildContext context) => [
     {
       "id": "Sekolah",
-      "title": _isID ? "Pendidikan / Sekolah" : "Education / School",
-      "desc": _isID
-          ? "Untuk tugas sekolah atau pelajaran formal"
-          : "For school assignments or formal courses",
+      "title": context.t.goals.reasonSchoolTitle,
+      "desc": context.t.goals.reasonSchoolDesc,
       "icon": Icons.school_outlined,
     },
     {
       "id": "Hobi anime",
-      "title": "Anime & Pop Culture",
-      "desc": _isID
-          ? "Biar bisa nonton anime tanpa subtitle"
-          : "So you can watch anime without subtitles",
+      "title": context.t.goals.reasonAnimeTitle,
+      "desc": context.t.goals.reasonAnimeDesc,
       "icon": Icons.tv_rounded,
     },
     {
       "id": "Kerja / kuliah",
-      "title": _isID ? "Karir & Pekerjaan" : "Career & Work",
-      "desc": _isID
-          ? "Persiapan kerja atau beasiswa ke Jepang"
-          : "Preparing for a job or scholarship in Japan",
+      "title": context.t.goals.reasonWorkTitle,
+      "desc": context.t.goals.reasonWorkDesc,
       "icon": Icons.work_outline_rounded,
     },
     {
       "id": "Travel Jepang",
-      "title": _isID ? "Wisata / Travelling" : "Tourism / Travelling",
-      "desc": _isID
-          ? "Kemudahan berkomunikasi saat berlibur"
-          : "Ease of communication during vacations",
+      "title": context.t.goals.reasonTravelTitle,
+      "desc": context.t.goals.reasonTravelDesc,
       "icon": Icons.flight_takeoff_rounded,
     },
   ];
@@ -82,7 +72,7 @@ class _HomeReasonScreenState extends State<HomeReasonScreen>
 
   @override
   Widget build(BuildContext context) {
-    final list = reasons;
+    final list = reasons(context);
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -169,9 +159,7 @@ class _HomeReasonScreenState extends State<HomeReasonScreen>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            _isID
-                                ? "Kenapa kamu tertarik belajar Bahasa Jepang?"
-                                : "Why are you interested in learning Japanese??",
+                            context.t.goals.questionTitle,
                             style: AppTextStyles.appTitle.copyWith(
                               fontSize: 22,
                               fontWeight: FontWeight.w800,
@@ -180,9 +168,7 @@ class _HomeReasonScreenState extends State<HomeReasonScreen>
                           ),
                           SizedBox(height: 6),
                           Text(
-                            _isID
-                                ? "Pilih salah satu alasan utamamu belajar bahasa Jepang"
-                                : "Choose one of your main reasons for learning Japanese.",
+                            context.t.goals.questionSubtitle,
                             style: TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 12,
@@ -318,7 +304,7 @@ class _HomeReasonScreenState extends State<HomeReasonScreen>
                     FadeTransition(
                       opacity: _fadeAnim,
                       child: _GradientButton(
-                        label: _isID ? "LANJUTKAN" : "CONTINUE",
+                        label: context.t.goals.continueBtn,
                         enabled: selected != null,
                         onPressed: () {
                           if (selected != null) {

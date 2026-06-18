@@ -1,3 +1,5 @@
+import 'package:ppkd_b6/gen/strings.g.dart';
+
 class JapaneseCharacter {
   final String character;
   final String romaji;
@@ -20,6 +22,9 @@ class JapaneseCharacter {
     final folder = isKatakana ? 'Katakana' : 'Hiragana';
     return 'audio/$folder/${romaji.toLowerCase()}.mp3';
   }
+
+  String? get mnemonic =>
+      LocaleSettings.currentLocale == AppLocale.id ? mnemonicID : mnemonicEN;
 }
 
 class CharacterGroup {

@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 
 class TampilanLevelTerkunci extends StatelessWidget {
-  final bool isID;
+  final String title;
+  final String desc;
   final Color? titleColor;
 
-  const TampilanLevelTerkunci({super.key, required this.isID, this.titleColor});
+  const TampilanLevelTerkunci({
+    super.key,
+    required this.title,
+    required this.desc,
+    this.titleColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +42,7 @@ class TampilanLevelTerkunci extends StatelessWidget {
           ),
           SizedBox(height: 20),
           Text(
-            isID ? 'Level Terkunci' : 'Level Locked',
+            title,
             style: TextStyle(
               fontFamily: 'Poppins',
               fontSize: 18,
@@ -48,9 +54,7 @@ class TampilanLevelTerkunci extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 32),
             child: Text(
-              isID
-                  ? 'Selesaikan kuis level sebelumnya dengan akurasi minimal 80% untuk membuka level ini.'
-                  : 'Complete the previous level quiz with at least 80% accuracy to unlock this level.',
+              desc,
               style: TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 12,

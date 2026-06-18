@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ppkd_b6/database/database_helper.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 
 import 'masuk.dart';
@@ -73,7 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen>
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'Email sudah terdaftar! Gunakan email lain.',
+              Translations.of(context).auth.messages.emailAlreadyExists,
               style: TextStyle(fontFamily: 'Poppins'),
             ),
             backgroundColor: Colors.red,
@@ -87,7 +88,7 @@ class _RegisterScreenState extends State<RegisterScreen>
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'Akun berhasil dibuat! Selamat bergabung 🥳',
+              Translations.of(context).auth.messages.registerSuccess,
               style: TextStyle(fontFamily: 'Poppins'),
             ),
             backgroundColor: AppColors.primaryGreen,
@@ -107,6 +108,7 @@ class _RegisterScreenState extends State<RegisterScreen>
 
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -215,7 +217,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                   ),
                                   SizedBox(width: 8),
                                   Text(
-                                    'Daftar Akun',
+                                    t.auth.register,
                                     style: AppTextStyles.cardTitle.copyWith(
                                       fontSize: 20,
                                     ),
@@ -241,13 +243,13 @@ class _RegisterScreenState extends State<RegisterScreen>
                                       ),
                                       decoration:
                                           AppDecorations.fieldDecoration(
-                                            hint: 'Nama Lengkap',
+                                            hint: t.auth.usernameHint,
                                             icon: Icons.person_outline,
                                           ),
                                       validator: (value) {
                                         if (value == null ||
                                             value.trim().isEmpty) {
-                                          return 'Nama tidak boleh kosong';
+                                          return t.auth.validation.usernameEmpty;
                                         }
                                         return null;
                                       },
@@ -265,15 +267,15 @@ class _RegisterScreenState extends State<RegisterScreen>
                                       ),
                                       decoration:
                                           AppDecorations.fieldDecoration(
-                                            hint: 'Alamat Email',
+                                            hint: t.auth.emailHint,
                                             icon: Icons.email_outlined,
                                           ),
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'Email tidak boleh kosong';
+                                          return t.auth.validation.emailEmpty;
                                         }
                                         if (!value.contains('@')) {
-                                          return 'Format email tidak valid';
+                                          return t.auth.validation.emailInvalid;
                                         }
                                         return null;
                                       },
@@ -290,7 +292,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                         color: Color(0xFF263238),
                                       ),
                                       decoration: AppDecorations.fieldDecoration(
-                                        hint: 'Kata Sandi',
+                                        hint: t.auth.passwordHint,
                                         icon: Icons.lock_outline,
                                         suffix: IconButton(
                                           padding: EdgeInsets.zero,
@@ -312,10 +314,10 @@ class _RegisterScreenState extends State<RegisterScreen>
                                       ),
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'Password tidak boleh kosong';
+                                          return t.auth.validation.passwordEmpty;
                                         }
                                         if (value.length < 6) {
-                                          return 'Password minimal 6 karakter';
+                                          return t.auth.validation.passwordTooShort;
                                         }
                                         return null;
                                       },
@@ -332,7 +334,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                         color: Color(0xFF263238),
                                       ),
                                       decoration: AppDecorations.fieldDecoration(
-                                        hint: 'Ulangi Kata Sandi',
+                                        hint: t.auth.confirmPasswordHint,
                                         icon: Icons.lock_outline,
                                         suffix: IconButton(
                                           padding: EdgeInsets.zero,
@@ -354,10 +356,10 @@ class _RegisterScreenState extends State<RegisterScreen>
                                       ),
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'Konfirmasi password tidak boleh kosong';
+                                          return t.auth.validation.passwordEmpty;
                                         }
                                         if (value != passwordController.text) {
-                                          return 'Password tidak cocok';
+                                          return t.auth.validation.passwordMismatch;
                                         }
                                         return null;
                                       },
@@ -366,7 +368,7 @@ class _RegisterScreenState extends State<RegisterScreen>
 
                                     // Submit Button
                                     _GradientButton(
-                                      label: 'DAFTAR SEKARANG',
+                                      label: t.auth.register.toUpperCase(),
                                       onPressed: register,
                                     ),
                                   ],
@@ -387,7 +389,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Sudah punya akun? ',
+                            t.auth.alreadyHaveAccount,
                             style: TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 14,
@@ -404,7 +406,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                               );
                             },
                             child: Text(
-                              'Masuk',
+                              t.auth.login,
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 14,

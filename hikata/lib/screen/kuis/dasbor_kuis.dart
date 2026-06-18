@@ -3,7 +3,7 @@ import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 import 'package:ppkd_b6/widgets/kuis/kartu_opsi_kuis.dart';
 
 import '../kuis/layar_kuis.dart';
-import '../pengenalan/pilih_bahasa.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 
 class DasborKuis extends StatefulWidget {
   const DasborKuis({super.key});
@@ -13,156 +13,173 @@ class DasborKuis extends StatefulWidget {
 }
 
 class _DasborKuisState extends State<DasborKuis> {
-  bool get _isID => AppLanguage.current == 'id';
 
   @override
   Widget build(BuildContext context) {
     final colors = context.hiKata;
 
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(gradient: colors.backgroundGradient),
-        child: SafeArea(
-          child: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildHeader(),
-                SizedBox(height: 24),
-                KartuOpsiKuis(
-                  title: 'Quiz Hiragana',
-                  subtitle: _isID
-                      ? 'Quiz campuran dari 46 karakter dasar Hiragana'
-                      : 'Mixed quiz covering basic 46 Hiragana characters',
-                  badge: 'あ',
-                  accentColor: AppColors.primaryGreen,
-                  badgeBg: colors.lightBackground,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => QuizScreen(mode: 'hiragana'),
+      backgroundColor: Colors.white,
+      body: Column(
+        children: [
+          _buildHeader(),
+          Expanded(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  KartuOpsiKuis(
+                    title: context.t.quiz.quizHiragana,
+                    subtitle: context.t.quiz.descQuizHiragana,
+                    badge: 'あ',
+                    accentColor: AppColors.primaryGreen,
+                    badgeBg: colors.lightBackground,
+                    questionCount: '10 soal',
+                    estimatedTime: '±5 menit',
+                    difficulty: 'Sedang',
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => QuizScreen(mode: 'hiragana'),
+                      ),
                     ),
                   ),
-                ),
-                KartuOpsiKuis(
-                  title: 'Quiz Katakana',
-                  subtitle: _isID
-                      ? 'Quiz campuran dari 46 karakter dasar Katakana'
-                      : 'Mixed quiz covering basic 46 Katakana characters',
-                  badge: 'ア',
-                  accentColor: const Color(0xFFFFB300),
-                  badgeBg: colors.tableCardBgKatakana,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => QuizScreen(mode: 'Katakana'),
+                  KartuOpsiKuis(
+                    title: context.t.quiz.quizKatakana,
+                    subtitle: context.t.quiz.descQuizKatakana,
+                    badge: 'ア',
+                    accentColor: const Color(0xFFFFB300),
+                    badgeBg: colors.tableCardBgKatakana,
+                    questionCount: '10 soal',
+                    estimatedTime: '±5 menit',
+                    difficulty: 'Sedang',
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => QuizScreen(mode: 'Katakana'),
+                      ),
                     ),
                   ),
-                ),
-                KartuOpsiKuis(
-                  title: _isID ? 'Quiz Campuran' : 'Mixed Quiz',
-                  subtitle: _isID
-                      ? 'Tantangan quiz kombinasi Hiragana & Katakana'
-                      : 'Combination challenge of Hiragana & Katakana',
-                  badge: '🌐',
-                  accentColor: Color(0xFFE65100),
-                  badgeBg: Color(0xFFFFF3E0),
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => QuizScreen(mode: 'mixed'),
+                  KartuOpsiKuis(
+                    title: 'Boss Level 🔥',
+                    subtitle: context.t.quiz.descQuizMixed,
+                    badge: '🌐',
+                    accentColor: Colors.purple,
+                    badgeBg: Colors.purple.shade50,
+                    difficulty: 'Boss Level 🔥',
+                    questionCount: '20 soal',
+                    estimatedTime: '±10 menit',
+                    isLocked: true,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => QuizScreen(mode: 'mixed'),
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(height: 16),
-                Divider(color: Colors.white24, thickness: 1.5),
-                SizedBox(height: 16),
-                Text(
-                  _isID ? 'Quiz Pendengaran' : 'Listening Quizzes',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(height: 12),
-                KartuOpsiKuis(
-                  title: _isID
-                      ? 'Quiz Pendengaran Hiragana'
-                      : 'Hiragana Listening Quiz',
-                  subtitle: _isID
-                      ? 'Quiz pendengaran dari 46 karakter dasar Hiragana'
-                      : 'Listening quiz covering basic 46 Hiragana characters',
-                  badge: '🔊',
-                  accentColor: AppColors.primaryGreen,
-                  badgeBg: colors.lightBackground,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) =>
-                          QuizScreen(mode: 'hiragana', isListening: true),
+                  const SizedBox(height: 16),
+                  const Divider(color: Colors.black12, thickness: 1.5),
+                  const SizedBox(height: 16),
+                  Text(
+                    context.t.quiz.listeningQuizzes,
+                    style: const TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF1A1A1A),
                     ),
                   ),
-                ),
-                KartuOpsiKuis(
-                  title: _isID
-                      ? 'Quiz Pendengaran Katakana'
-                      : 'Katakana Listening Quiz',
-                  subtitle: _isID
-                      ? 'Quiz pendengaran dari 46 karakter dasar Katakana'
-                      : 'Listening quiz covering basic 46 Katakana characters',
-                  badge: '🔊',
-                  accentColor: const Color(0xFFFFB300),
-                  badgeBg: colors.tableCardBgKatakana,
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) =>
-                          QuizScreen(mode: 'katakana', isListening: true),
+                  const SizedBox(height: 12),
+                  KartuOpsiKuis(
+                    title: context.t.quiz.listeningQuizHiragana,
+                    subtitle: context.t.quiz.descListeningHiragana,
+                    badge: '🔊',
+                    accentColor: AppColors.primaryGreen,
+                    badgeBg: colors.lightBackground,
+                    questionCount: '10 soal',
+                    estimatedTime: '±5 menit',
+                    difficulty: 'Sulit',
+                    isAudio: true,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            QuizScreen(mode: 'hiragana', isListening: true),
+                      ),
                     ),
                   ),
-                ),
-                KartuOpsiKuis(
-                  title: _isID
-                      ? 'Quiz Pendengaran Campuran'
-                      : 'Mixed Listening Quiz',
-                  subtitle: _isID
-                      ? 'Tantangan Quiz pendengaran Hiragana & Katakana'
-                      : 'Listening challenge of Hiragana & Katakana',
-                  badge: '🔊',
-                  accentColor: Color(0xFFE65100),
-                  badgeBg: Color(0xFFFFF3E0),
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) =>
-                          QuizScreen(mode: 'mixed', isListening: true),
+                  KartuOpsiKuis(
+                    title: context.t.quiz.listeningQuizKatakana,
+                    subtitle: context.t.quiz.descListeningKatakana,
+                    badge: '🔊',
+                    accentColor: const Color(0xFFFFB300),
+                    badgeBg: colors.tableCardBgKatakana,
+                    questionCount: '10 soal',
+                    estimatedTime: '±5 menit',
+                    difficulty: 'Sulit',
+                    isAudio: true,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            QuizScreen(mode: 'katakana', isListening: true),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  KartuOpsiKuis(
+                    title: 'Boss Level 🔥',
+                    subtitle: context.t.quiz.descListeningMixed,
+                    badge: '🔊',
+                    accentColor: Colors.purple,
+                    badgeBg: Colors.purple.shade50,
+                    questionCount: '20 soal',
+                    estimatedTime: '±10 menit',
+                    difficulty: 'Boss Level 🔥',
+                    isAudio: true,
+                    isLocked: true,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            QuizScreen(mode: 'mixed', isListening: true),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
 
   // ─── Header Layar ──────────────────────────────────────────────────────────
   Widget _buildHeader() {
-    return Center(
-      child: Text(
-        _isID ? 'Quiz Evaluasi' : 'Evaluation Quiz',
-        style: TextStyle(
-          fontFamily: 'Poppins',
-          fontSize: 22,
-          fontWeight: FontWeight.w800,
-          color: Colors.white,
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.only(
+        top: MediaQuery.of(context).padding.top + 20,
+        bottom: 20,
+      ),
+      decoration: const BoxDecoration(
+        color: Color(0xFF2E9E5B),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(30),
+          bottomRight: Radius.circular(30),
+        ),
+      ),
+      child: Center(
+        child: Text(
+          context.t.quiz.evaluationQuiz,
+          style: const TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 22,
+            fontWeight: FontWeight.w800,
+            color: Colors.white,
+          ),
         ),
       ),
     );

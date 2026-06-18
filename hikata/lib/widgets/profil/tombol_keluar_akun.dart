@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 
 class TombolKeluarAkun extends StatelessWidget {
-  final bool isID;
   final VoidCallback onTap;
-  const TombolKeluarAkun({super.key, required this.isID, required this.onTap});
+  const TombolKeluarAkun({super.key, required this.onTap});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -26,7 +26,7 @@ class TombolKeluarAkun extends StatelessWidget {
               Icon(Icons.logout_rounded, color: Colors.white, size: 20),
               SizedBox(width: 8),
               Text(
-                isID ? 'KELUAR AKUN' : 'LOG OUT',
+                Translations.of(context).profile.logout.toUpperCase(),
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 14,

@@ -4,8 +4,8 @@ import 'package:ppkd_b6/screen/layar_beranda.dart';
 import 'package:ppkd_b6/screen/layar_profil.dart';
 import 'package:ppkd_b6/screen/layar_progres.dart';
 import 'package:ppkd_b6/screen/pembelajaran/dasbor_belajar.dart';
-import 'package:ppkd_b6/screen/pengenalan/pilih_bahasa.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 
 class TataUtama extends StatefulWidget {
   const TataUtama({super.key});
@@ -24,7 +24,6 @@ class StateTataUtama extends State<TataUtama> {
     });
   }
 
-  bool get _isID => AppLanguage.current == 'id';
   late final List<Widget> _screens;
   @override
   void initState() {
@@ -86,7 +85,7 @@ class StateTataUtama extends State<TataUtama> {
                   color: AppColors.primaryGreen,
                 ),
               ),
-              label: 'Home',
+              label: Translations.of(context).common.navHome,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.menu_book_outlined, size: 20),
@@ -102,7 +101,7 @@ class StateTataUtama extends State<TataUtama> {
                   color: AppColors.primaryGreen,
                 ),
               ),
-              label: _isID ? 'Belajar' : 'Learn',
+              label: Translations.of(context).common.navLearn,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.quiz_outlined, size: 20),
@@ -118,7 +117,7 @@ class StateTataUtama extends State<TataUtama> {
                   color: Color(0xFFE65100),
                 ),
               ),
-              label: 'Quiz',
+              label: Translations.of(context).common.navQuiz,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.bar_chart_outlined, size: 20),
@@ -134,7 +133,7 @@ class StateTataUtama extends State<TataUtama> {
                   color: Color(0xFF1A237E),
                 ),
               ),
-              label: _isID ? 'Progres' : 'Progress',
+              label: Translations.of(context).common.navProgress,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person_outline_rounded, size: 20),
@@ -150,7 +149,7 @@ class StateTataUtama extends State<TataUtama> {
                   color: AppColors.primaryGreen,
                 ),
               ),
-              label: _isID ? 'Profil' : 'Profile',
+              label: Translations.of(context).common.navProfile,
             ),
           ],
         ),

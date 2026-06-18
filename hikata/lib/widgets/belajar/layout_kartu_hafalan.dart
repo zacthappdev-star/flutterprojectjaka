@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/models/model_karakter.dart';
 import 'package:ppkd_b6/services/layanan_audio.dart';
 import 'package:ppkd_b6/services/layanan_progres.dart';
@@ -6,13 +7,11 @@ import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 
 class LayoutKartuHafalan extends StatefulWidget {
   final CharacterGroup group;
-  final bool isID;
   final Color accentColor;
   final Color cardBgColor;
   const LayoutKartuHafalan({
     super.key,
     required this.group,
-    required this.isID,
     required this.accentColor,
     required this.cardBgColor,
   });
@@ -39,7 +38,7 @@ class _LayoutKartuHafalanState extends State<LayoutKartuHafalan> {
   @override
   Widget build(BuildContext context) {
     final c = widget.group.characters[_cardIndex];
-    final mnemonic = widget.isID ? c.mnemonicID : c.mnemonicEN;
+    final mnemonic = c.mnemonic;
     final colors = context.hiKata;
 
     return Padding(
@@ -113,7 +112,7 @@ class _LayoutKartuHafalanState extends State<LayoutKartuHafalan> {
                       ),
                       SizedBox(height: 10),
                       Text(
-                        widget.isID ? 'Ketuk untuk membalik' : 'Tap to flip',
+                        Translations.of(context).flashcard.flip,
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 12,
@@ -133,7 +132,7 @@ class _LayoutKartuHafalanState extends State<LayoutKartuHafalan> {
                       SizedBox(height: 10),
                       if (mnemonic != null) ...[
                         Text(
-                          widget.isID ? 'Pengingat:' : 'Tip:',
+                          Translations.of(context).common.tip,
                           style: TextStyle(
                             fontFamily: 'Poppins',
                             fontSize: 11,

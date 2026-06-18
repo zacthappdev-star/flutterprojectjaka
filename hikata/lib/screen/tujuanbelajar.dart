@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ppkd_b6/screen/pengenalan/pilih_bahasa.dart';
 import 'package:ppkd_b6/screen/tata_utama.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ReasonResultScreen extends StatefulWidget {
@@ -17,33 +17,29 @@ class _ReasonResultScreenState extends State<ReasonResultScreen>
     with SingleTickerProviderStateMixin {
   int _selectedGoalIndex = 1; // Default to "Biasa (10 menit/hari)"
 
-  bool get _isID => AppLanguage.current == 'id';
-
-  List<Map<String, String>> get dailyGoals => [
+  List<Map<String, String>> dailyGoals(BuildContext context) => [
     {
-      "name": _isID ? "Santai" : "Relaxed",
-      "time": _isID ? "5 menit / hari" : "5 mins / day",
-      "desc": _isID ? "Bagus untuk perkenalan awal" : "Good for initial intro",
+      "name": context.t.goals.goalRelaxed,
+      "time": context.t.goals.time5m,
+      "desc": context.t.goals.descRelaxed,
       "badge": "🌟",
     },
     {
-      "name": _isID ? "Biasa" : "Regular",
-      "time": _isID ? "10 menit / hari" : "10 mins / day",
-      "desc": _isID ? "Rekomendasi untuk pemula" : "Recommended for beginners",
+      "name": context.t.goals.goalRegular,
+      "time": context.t.goals.time10m,
+      "desc": context.t.goals.descRegular,
       "badge": "⚡",
     },
     {
-      "name": _isID ? "Serius" : "Serious",
-      "time": _isID ? "15 menit / hari" : "15 mins / day",
-      "desc": _isID ? "Progress belajar cepat" : "Fast learning progress",
+      "name": context.t.goals.goalSerious,
+      "time": context.t.goals.time15m,
+      "desc": context.t.goals.descSerious,
       "badge": "🔥",
     },
     {
-      "name": _isID ? "Intens" : "Intense",
-      "time": _isID ? "20 menit / hari" : "20 mins / day",
-      "desc": _isID
-          ? "Tantangan belajar maksimal"
-          : "Maximum learning challenge",
+      "name": context.t.goals.goalIntense,
+      "time": context.t.goals.time20m,
+      "desc": context.t.goals.descIntense,
       "badge": "👑",
     },
   ];
@@ -77,39 +73,24 @@ class _ReasonResultScreenState extends State<ReasonResultScreen>
   }
 
   // Helper method to format reasons ID into human readable label if needed
-  String _getReasonLabel(String id) {
-    if (_isID) {
-      switch (id) {
-        case "Sekolah":
-          return "Pendidikan & Sekolah 🏫";
-        case "Hobi anime":
-          return "Anime & Pop Culture 🍿";
-        case "Kerja / kuliah":
-          return "Karir & Pekerjaan 💼";
-        case "Travel Jepang":
-          return "Wisata & Travelling ✈️";
-        default:
-          return "$id 🎉";
-      }
-    } else {
-      switch (id) {
-        case "Sekolah":
-          return "Education & School 🏫";
-        case "Hobi anime":
-          return "Anime & Pop Culture 🍿";
-        case "Kerja / kuliah":
-          return "Career & Work 💼";
-        case "Travel Jepang":
-          return "Tourism & Travelling ✈️";
-        default:
-          return "$id 🎉";
-      }
+  String _getReasonLabel(BuildContext context, String id) {
+    switch (id) {
+      case "Sekolah":
+        return context.t.goals.reasonSchool;
+      case "Hobi anime":
+        return context.t.goals.reasonAnime;
+      case "Kerja / kuliah":
+        return context.t.goals.reasonWork;
+      case "Travel Jepang":
+        return context.t.goals.reasonTravel;
+      default:
+        return "$id 🎉";
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final goals = dailyGoals;
+    final goals = dailyGoals(context);
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -208,7 +189,7 @@ class _ReasonResultScreenState extends State<ReasonResultScreen>
                           ),
                           SizedBox(height: 10),
                           Text(
-                            _isID ? "Tujuan Belajarmu" : "Your Learning Goal",
+                            context.t.goals.title,
                             style: AppTextStyles.appTitle.copyWith(
                               fontSize: 24,
                               letterSpacing: 1,
@@ -216,9 +197,7 @@ class _ReasonResultScreenState extends State<ReasonResultScreen>
                           ),
                           SizedBox(height: 4),
                           Text(
-                            _isID
-                                ? "Mari tentukan target harian belajarmu!"
-                                : "Let's set your daily learning target!",
+                            context.t.goals.subtitle,
                             style: AppTextStyles.appSubtitle.copyWith(
                               fontSize: 12,
                             ),
@@ -274,12 +253,11 @@ class _ReasonResultScreenState extends State<ReasonResultScreen>
                                           ),
                                           children: [
                                             TextSpan(
-                                              text: _isID
-                                                  ? "Pilihan mantap! Kamu belajar untuk: "
-                                                  : "Great choice! You are learning for: ",
+                                              text: context.t.goals.greatChoice,
                                             ),
                                             TextSpan(
                                               text: _getReasonLabel(
+                                                context,
                                                 widget.reason,
                                               ),
                                               style: TextStyle(
@@ -296,9 +274,7 @@ class _ReasonResultScreenState extends State<ReasonResultScreen>
                               SizedBox(height: 18),
 
                               Text(
-                                _isID
-                                    ? "Berapa target belajar harianmu?"
-                                    : "How much is your daily target?",
+                                context.t.goals.dailyTargetQuestion,
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontSize: 13,
@@ -407,12 +383,14 @@ class _ReasonResultScreenState extends State<ReasonResultScreen>
                     FadeTransition(
                       opacity: _fadeAnim,
                       child: _GradientButton(
-                        label: _isID ? "MULAI BELAJAR" : "START LEARNING",
+                        label: context.t.goals.startLearning,
                         onPressed: () async {
-                          final scaffoldMessenger = ScaffoldMessenger.of(
-                            context,
-                          );
+                          final scaffoldMessenger = ScaffoldMessenger.of(context);
                           final navigator = Navigator.of(context);
+                          final targetSetText = context.t.goals.targetSet(
+                            name: goals[_selectedGoalIndex]["name"]!,
+                            time: goals[_selectedGoalIndex]["time"]!,
+                          );
                           // Save to SharedPreferences
                           try {
                             final prefs = await SharedPreferences.getInstance();
@@ -433,12 +411,11 @@ class _ReasonResultScreenState extends State<ReasonResultScreen>
                           }
 
                           // Success snackbar
+                          if (!mounted) return;
                           scaffoldMessenger.showSnackBar(
                             SnackBar(
                               content: Text(
-                                _isID
-                                    ? 'Target harian diatur ke: ${goals[_selectedGoalIndex]["name"]} (${goals[_selectedGoalIndex]["time"]})🔥'
-                                    : 'Daily target set to: ${goals[_selectedGoalIndex]["name"]} (${goals[_selectedGoalIndex]["time"]})🔥',
+                                targetSetText,
                                 style: TextStyle(fontFamily: 'Poppins'),
                               ),
                               backgroundColor: AppColors.primaryGreen,

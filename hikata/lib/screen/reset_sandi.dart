@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 
 import 'masuk.dart';
@@ -49,7 +50,7 @@ class _ResetPasswordState extends State<ResetPassword>
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Link reset sudah dikirim ke email kamu 📧',
+            Translations.of(context).auth.messages.resetEmailSent,
             style: TextStyle(fontFamily: 'Poppins'),
           ),
           backgroundColor: AppColors.primaryGreen,
@@ -64,6 +65,7 @@ class _ResetPasswordState extends State<ResetPassword>
 
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -169,7 +171,7 @@ class _ResetPasswordState extends State<ResetPassword>
                           ),
                           SizedBox(height: 8),
                           Text(
-                            _emailSent ? 'Email Terkirim!' : 'Reset Password',
+                            _emailSent ? 'Email Terkirim!' : t.auth.resetPasswordTitle,
                             style: AppTextStyles.appTitle.copyWith(
                               fontSize: 28,
                               letterSpacing: 2,
@@ -215,7 +217,7 @@ class _ResetPasswordState extends State<ResetPassword>
                             ),
                             SizedBox(width: 4),
                             Text(
-                              'Kembali ke halaman masuk',
+                              t.common.back,
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 fontSize: 13,
@@ -257,7 +259,7 @@ class _ResetPasswordState extends State<ResetPassword>
               ),
               SizedBox(width: 8),
               Text(
-                'Lupa Password?',
+                Translations.of(context).auth.forgotPassword,
                 style: AppTextStyles.cardTitle.copyWith(fontSize: 20),
               ),
             ],
@@ -283,7 +285,7 @@ class _ResetPasswordState extends State<ResetPassword>
                 SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    'Link reset password akan dikirimkan ke email yang terdaftar.',
+                    Translations.of(context).auth.resetPasswordIntro,
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 11,
@@ -304,21 +306,21 @@ class _ResetPasswordState extends State<ResetPassword>
               color: Color(0xFF263238),
             ),
             decoration: AppDecorations.fieldDecoration(
-              hint: 'Alamat Email',
+              hint: Translations.of(context).auth.emailHint,
               icon: Icons.email_outlined,
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Email tidak boleh kosong';
+                return Translations.of(context).auth.validation.emailEmpty;
               }
               if (!value.contains('@')) {
-                return 'Format email tidak valid';
+                return Translations.of(context).auth.validation.emailInvalid;
               }
               return null;
             },
           ),
           SizedBox(height: 18),
-          _GradientButton(label: 'KIRIM LINK RESET', onPressed: sendReset),
+          _GradientButton(label: Translations.of(context).auth.sendEmail, onPressed: sendReset),
         ],
       ),
     );

@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart' show ThemeMode;
+import 'package:flutter/material.dart' show BuildContext, ThemeMode;
+import 'package:ppkd_b6/gen/strings.g.dart';
 
 enum AppThemeMode {
   light,
@@ -24,12 +25,12 @@ enum AppThemeMode {
     }
   }
 
-  String label(bool isID) {
+  String label(BuildContext context) {
     switch (this) {
       case AppThemeMode.light:
-        return isID ? 'Terang' : 'Light';
+        return Translations.of(context).settings.lightTheme;
       case AppThemeMode.dark:
-        return isID ? 'Gelap' : 'Dark';
+        return Translations.of(context).settings.darkTheme;
     }
   }
 }

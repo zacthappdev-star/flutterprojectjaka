@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 
 class SheetPemilihAvatar extends StatelessWidget {
-  final bool isID;
   final String avatarSaatIni;
   final List<String> daftarAvatar;
   final ValueChanged<String> onPilih;
   const SheetPemilihAvatar({
     super.key,
-    required this.isID,
     required this.avatarSaatIni,
     required this.daftarAvatar,
     required this.onPilih,
@@ -32,7 +31,7 @@ class SheetPemilihAvatar extends StatelessWidget {
           ),
           SizedBox(height: 20),
           Text(
-            isID ? 'Pilih Avatar Baru' : 'Choose New Avatar',
+            Translations.of(context).profile.chooseAvatar,
             style: TextStyle(
               fontFamily: 'Poppins',
               fontSize: 16,

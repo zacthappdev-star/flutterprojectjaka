@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ppkd_b6/data/data_hiragana.dart';
 import 'package:ppkd_b6/data/data_katakana.dart';
-import 'package:ppkd_b6/screen/pengenalan/pilih_bahasa.dart';
 import 'package:ppkd_b6/screen/tata_utama.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 import 'package:ppkd_b6/widgets/huruf/tabel_aksara_lengkap.dart';
 
@@ -29,7 +29,6 @@ class _TableIntroScreenState extends State<TableIntroScreen>
     super.dispose();
   }
 
-  bool get _isID => AppLanguage.current == 'id';
 
   @override
   Widget build(BuildContext context) {
@@ -64,12 +63,10 @@ class _TableIntroScreenState extends State<TableIntroScreen>
                       TabelAksaraLengkap(
                         groups: HiraganaData.tableGroups,
                         isHiragana: true,
-                        isID: _isID,
                       ),
                       TabelAksaraLengkap(
                         groups: KatakanaData.tableGroups,
                         isHiragana: false,
-                        isID: _isID,
                       ),
                     ],
                   ),
@@ -109,7 +106,7 @@ class _TableIntroScreenState extends State<TableIntroScreen>
               SizedBox(width: 12),
               Expanded(
                 child: Text(
-                  _isID ? 'Tabel Pengenalan Huruf' : 'Alphabet Intro Tables',
+                  context.t.common.introTablesTitle,
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 20,
@@ -126,9 +123,7 @@ class _TableIntroScreenState extends State<TableIntroScreen>
             child: Padding(
               padding: EdgeInsets.only(left: 50),
               child: Text(
-                _isID
-                    ? 'Ketuk huruf untuk mendengarkan pelafalan suaranya 🔊'
-                    : 'Tap characters to hear their voice pronunciation 🔊',
+                context.t.common.introTablesDesc,
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 11,
@@ -199,7 +194,7 @@ class _TableIntroScreenState extends State<TableIntroScreen>
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                _isID ? 'MULAI MODUL BELAJAR' : 'START STUDY MODULES',
+                context.t.common.startStudyModules,
                 style: AppTextStyles.buttonText.copyWith(fontSize: 14),
               ),
               SizedBox(width: 8),
