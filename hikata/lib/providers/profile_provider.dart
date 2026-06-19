@@ -18,8 +18,36 @@ class ProfileProvider with ChangeNotifier {
   
   double progressHiragana = 0.0;
   double progressKatakana = 0.0;
+  
+  int scriptGuideLevel = 1;
 
   bool isLoading = true;
+
+  int get totalXP {
+    final progressScore = ((progressHiragana + progressKatakana) * 1000).toInt();
+    final quizScore = totalQuizzes * 50;
+    final streakScore = bestStreak * 10;
+    final scriptGuideScore = (scriptGuideLevel - 1) * 20;
+    return progressScore + quizScore + streakScore + scriptGuideScore;
+  }
+
+  String get rankName {
+    final xp = totalXP;
+    if (xp < 500) {
+      return 'Pemula';
+    } else if (xp < 1500) {
+      return 'Menengah';
+    } else {
+      return 'Mahir';
+    }
+  }
+
+  String get rankIcon {
+    final xp = totalXP;
+    if (xp < 500) return '🌱';
+    if (xp < 1500) return '🌿';
+    return '🌳';
+  }
 
   Future<void> loadProfileData() async {
     isLoading = true;
@@ -69,6 +97,7 @@ class ProfileProvider with ChangeNotifier {
     
     progressHiragana = progress?['hiragana_percent'] ?? 0.0;
     progressKatakana = progress?['katakana_percent'] ?? 0.0;
+    scriptGuideLevel = progress?['script_guide_level'] ?? 1;
 
     isLoading = false;
     notifyListeners();
@@ -85,5 +114,16 @@ class ProfileProvider with ChangeNotifier {
 
   Future<void> refresh() async {
     await loadProfileData();
+  }
+
+  Future<void> completeScriptGuide(int index) async {
+    if (index == scriptGuideLevel - 1) {
+      scriptGuideLevel++;
+      final userId = await ProgressService.getActiveUserId();
+      if (userId != null) {
+        await DatabaseHelper.instance.updateScriptGuideLevel(userId, scriptGuideLevel);
+      }
+      notifyListeners();
+    }
   }
 }

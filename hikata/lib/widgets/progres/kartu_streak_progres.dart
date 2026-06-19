@@ -5,27 +5,24 @@ import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 class KartuStreakProgres extends StatelessWidget {
   final int dailyStreak;
 
-  const KartuStreakProgres({
-    super.key,
-    required this.dailyStreak,
-  });
+  const KartuStreakProgres({super.key, required this.dailyStreak});
 
   @override
   Widget build(BuildContext context) {
     final colors = context.hiKata;
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      margin: const EdgeInsets.only(bottom: 20),
+      padding: EdgeInsets.all(20),
+      margin: EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: const Border(left: BorderSide(color: Color(0xFFFF8F00), width: 6)),
+        border: Border(left: BorderSide(color: Color(0xFFFF8F00), width: 6)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
-            offset: const Offset(0, 4),
+            offset: Offset(0, 4),
           ),
         ],
       ),
@@ -55,8 +52,10 @@ class KartuStreakProgres extends StatelessWidget {
                 ),
                 SizedBox(height: 2),
                 Text(
-                  Translations.of(context).progress.daysInARow(days: dailyStreak.toString()),
-                  style: const TextStyle(
+                  Translations.of(
+                    context,
+                  ).progress.daysInARow(days: dailyStreak.toString()),
+                  style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
@@ -65,7 +64,7 @@ class KartuStreakProgres extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  "Pertahankan terus semangat belajarmu!",
+                  context.t.progress.keepItUpMsg,
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 12,

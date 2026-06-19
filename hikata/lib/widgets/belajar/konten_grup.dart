@@ -60,6 +60,7 @@ class _KontenGrupState extends State<KontenGrup> {
       children: [
         _buildPemilihMode(),
         Divider(height: 1, thickness: 1, color: context.hiKata.divider),
+        _buildStreakBanner(),
         Expanded(
           child: _modeKartu
               ? LayoutKartuHafalan(
@@ -70,6 +71,66 @@ class _KontenGrupState extends State<KontenGrup> {
               : _buildGrid(),
         ),
       ],
+    );
+  }
+
+  Widget _buildStreakBanner() {
+    return Container(
+      margin: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: AppColors.primaryGreen.withValues(alpha: 0.3),
+        ),
+      ),
+      child: Row(
+        children: [
+          const Text('🔥', style: TextStyle(fontSize: 24)),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  context.t.scriptGuide.awesome,
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+                Text(
+                  context.t.scriptGuide.keepLearning,
+                  style: const TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 11,
+                    color: AppColors.textMuted,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            decoration: BoxDecoration(
+              color: const Color(0xFFfbbf24), // Amber
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Text(
+              '+5 XP',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF78350f), // Dark brown
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

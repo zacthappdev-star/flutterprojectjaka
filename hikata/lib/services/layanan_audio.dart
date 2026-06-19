@@ -102,7 +102,7 @@ class AudioService {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Audio tidak tersedia'),
+          content: Text('Audio not available'),
           duration: Duration(seconds: 2),
         ),
       );

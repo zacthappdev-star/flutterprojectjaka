@@ -28,7 +28,7 @@ class GridStatistikProfil extends StatelessWidget {
     if (totalQuizzes == 0) {
       return Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
+        padding: EdgeInsets.symmetric(vertical: 32, horizontal: 16),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
@@ -36,13 +36,10 @@ class GridStatistikProfil extends StatelessWidget {
         ),
         child: Column(
           children: [
-            const Text(
-              '📭',
-              style: TextStyle(fontSize: 48),
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              "Belum ada riwayat kuis",
+            Text('📭', style: TextStyle(fontSize: 48)),
+            SizedBox(height: 16),
+            Text(
+              t.profile.statistics.noQuizHistory,
               style: TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 16,
@@ -50,9 +47,9 @@ class GridStatistikProfil extends StatelessWidget {
                 color: Color(0xFF1A1A1A),
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             Text(
-              "Yuk mulai belajar dan kerjakan kuis pertamamu!",
+              t.profile.statistics.startFirstQuiz,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'Poppins',
@@ -68,7 +65,7 @@ class GridStatistikProfil extends StatelessWidget {
     return GridView.count(
       crossAxisCount: 2,
       shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
+      physics: NeverScrollableScrollPhysics(),
       childAspectRatio: 1.1,
       mainAxisSpacing: 10,
       crossAxisSpacing: 10,
@@ -157,21 +154,18 @@ class GridStatistikProfil extends StatelessWidget {
         border: Border.all(color: Colors.grey.shade200),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              icon,
-              style: const TextStyle(fontSize: 32),
-            ),
-            const SizedBox(height: 8),
+            Text(icon, style: const TextStyle(fontSize: 32)),
+            SizedBox(height: 8),
             RichText(
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               text: TextSpan(
                 text: value,
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 16,
                   fontWeight: FontWeight.w800,
@@ -190,7 +184,7 @@ class GridStatistikProfil extends StatelessWidget {
                 ],
               ),
             ),
-            const SizedBox(height: 4),
+            SizedBox(height: 4),
             Text(
               label,
               style: TextStyle(

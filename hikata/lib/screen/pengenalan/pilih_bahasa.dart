@@ -107,7 +107,7 @@ class _LanguageSelectScreenState extends State<LanguageSelectScreen>
                           ),
                           SizedBox(height: 20),
                           Text(
-                            'Pilih Bahasa',
+                            context.t.language.title,
                             style: TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 28,
@@ -117,7 +117,7 @@ class _LanguageSelectScreenState extends State<LanguageSelectScreen>
                             ),
                           ),
                           Text(
-                            'Choose Language',
+                            context.t.language.subtitle,
                             style: TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 14,
@@ -137,8 +137,8 @@ class _LanguageSelectScreenState extends State<LanguageSelectScreen>
                           children: [
                             _LanguageCard(
                               flag: '🇮🇩',
-                              name: 'Bahasa Indonesia',
-                              subtitle: 'Panduan dalam Bahasa Indonesia',
+                              name: context.t.language.indonesian,
+                              subtitle: context.t.language.indonesianDesc,
                               langCode: 'id',
                               isSelected: _selectedLang == 'id',
                               onTap: () => setState(() => _selectedLang = 'id'),
@@ -146,8 +146,8 @@ class _LanguageSelectScreenState extends State<LanguageSelectScreen>
                             SizedBox(height: 16),
                             _LanguageCard(
                               flag: '🇬🇧',
-                              name: 'English',
-                              subtitle: 'Guide in English Language',
+                              name: context.t.language.english,
+                              subtitle: context.t.language.englishDesc,
                               langCode: 'en',
                               isSelected: _selectedLang == 'en',
                               onTap: () => setState(() => _selectedLang = 'en'),
@@ -160,7 +160,7 @@ class _LanguageSelectScreenState extends State<LanguageSelectScreen>
                     FadeTransition(
                       opacity: _fade,
                       child: _ContinueButton(
-                        label: _selectedLang == 'id' ? 'LANJUTKAN' : 'CONTINUE',
+                        label: context.t.common.continueText,
                         onPressed: () async {
                           final navigator = Navigator.of(context);
                           final prefs = await SharedPreferences.getInstance();
@@ -184,8 +184,8 @@ class _LanguageSelectScreenState extends State<LanguageSelectScreen>
                       opacity: _fade,
                       child: Text(
                         _selectedLang == 'id'
-                            ? 'Kamu bisa mengubah bahasa kapan saja'
-                            : 'You can change language anytime',
+                            ? context.t.language.changeAnytimeEn
+                            : context.t.language.changeAnytime,
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 12,

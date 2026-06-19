@@ -23,6 +23,18 @@
     "progress": "Progres",
     "profile": "Profil"
   },
+  "home": {
+    "morning": "Ohayou / Selamat Pagi",
+    "afternoon": "Konnichiwa / Selamat Siang",
+    "night": "Konbanwa / Selamat Malam",
+    "dailyMission": "Misi Hari Ini",
+    "finishOneLesson": "Selesaikan 1 Pelajaran",
+    "days": "${count} Hari",
+    "xp": "${count} XP",
+    "rankBeginner": "Pemula",
+    "rankIntermediate": "Menengah",
+    "rankAdvanced": "Mahir"
+  },
   "about": {
     "title": "Tentang Aplikasi",
     "description": "HI KATA membantu anda mempelajari Hiragana dan Katakana melalui pembelajaran interaktif, audio pelafalan, dan kuis yang menyenangkan.",

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 
 class KartuProgresPersen extends StatelessWidget {
@@ -77,7 +78,7 @@ class KartuProgresPersen extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            '${(progress * 46).round()}/46 karakter',
+            context.t.progress.charactersCount(completed: (progress * 46).round(), total: 46),
             style: TextStyle(
               fontFamily: 'Poppins',
               fontSize: 11,

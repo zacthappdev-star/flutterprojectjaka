@@ -3,7 +3,7 @@ import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
   static const String _databaseName = "hikata_database.db";
-  static const int _databaseVersion = 1;
+  static const int _databaseVersion = 2;
 
   // Singleton instance
   DatabaseHelper._privateConstructor();
@@ -23,6 +23,7 @@ class DatabaseHelper {
       path,
       version: _databaseVersion,
       onCreate: _onCreate,
+      onUpgrade: _onUpgrade,
       onConfigure: _onConfigure,
     );
   }
@@ -30,6 +31,12 @@ class DatabaseHelper {
   Future<void> _onConfigure(Database db) async {
     // Enable foreign keys
     await db.execute("PRAGMA foreign_keys = ON");
+  }
+
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      await db.execute("ALTER TABLE progress ADD COLUMN script_guide_level INTEGER DEFAULT 1");
+    }
   }
 
   Future<void> _onCreate(Database db, int version) async {
@@ -54,6 +61,7 @@ class DatabaseHelper {
         katakana_percent REAL DEFAULT 0.0,
         hiragana_level INTEGER DEFAULT 1,
         katakana_level INTEGER DEFAULT 1,
+        script_guide_level INTEGER DEFAULT 1,
         updated_at TEXT NOT NULL,
         FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
       )
@@ -118,6 +126,7 @@ class DatabaseHelper {
         'katakana_percent': 0.0,
         'hiragana_level': 1,
         'katakana_level': 1,
+        'script_guide_level': 1,
         'updated_at': nowStr,
       });
 
@@ -256,6 +265,19 @@ class DatabaseHelper {
     await db.update(
       'progress',
       updates,
+      where: 'user_id = ?',
+      whereArgs: [userId],
+    );
+  }
+
+  Future<int> updateScriptGuideLevel(int userId, int newLevel) async {
+    final db = await database;
+    return await db.update(
+      'progress',
+      {
+        'script_guide_level': newLevel,
+        'updated_at': DateTime.now().toIso8601String(),
+      },
       where: 'user_id = ?',
       whereArgs: [userId],
     );

@@ -20,32 +20,6 @@ class LayarKatakana extends StatefulWidget {
 
 class _LayarKatakanaState extends State<LayarKatakana>
     with TickerProviderStateMixin {
-  Color get _accentColor => Theme.of(context).brightness == Brightness.dark
-      ? const Color(0xFFFFD54F)
-      : const Color(0xFFFF8F00);
-
-  LinearGradient get _backgroundGradient =>
-      Theme.of(context).brightness == Brightness.dark
-      ? LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            const Color(0xFF211D0A),
-            const Color(0xFF332A0F),
-            const Color(0xFF453915),
-          ],
-          stops: [0.0, 0.5, 1.0],
-        )
-      : LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            const Color(0xFFFFB300),
-            const Color(0xFFFFC107),
-            const Color(0xFFFFD54F),
-          ],
-          stops: [0.0, 0.5, 1.0],
-        );
 
   // ─── State Data ────────────────────────────────────────────────────────────
   late TabController _tabController;
@@ -82,7 +56,7 @@ class _LayarKatakanaState extends State<LayarKatakana>
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(gradient: _backgroundGradient),
+        decoration: BoxDecoration(gradient: context.hiKata.backgroundGradient),
         child: SafeArea(
           child: Column(
             children: [
@@ -96,7 +70,7 @@ class _LayarKatakanaState extends State<LayarKatakana>
                       return TampilanLevelTerkunci(
                         title: context.t.katakana.locked,
                         desc: context.t.katakana.lockedDesc,
-                        titleColor: _accentColor,
+                        titleColor: AppColors.primaryGreen,
                       );
                     }
                     return _buildKontenLevel(_groups[index], index);
@@ -105,23 +79,6 @@ class _LayarKatakanaState extends State<LayarKatakana>
               ),
               TombolKuisLevel(
                 isUnlocked: _tabController.index < _unlockedLevels,
-                unlockedDecoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: Theme.of(context).brightness == Brightness.dark
-                        ? [const Color(0xFFE65100), const Color(0xFFF57C00)]
-                        : [const Color(0xFFE65100), const Color(0xFFFF9800)],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                  ),
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: _accentColor.withValues(alpha: 0.4),
-                      blurRadius: 15,
-                      offset: Offset(0, 6),
-                    ),
-                  ],
-                ),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -143,50 +100,70 @@ class _LayarKatakanaState extends State<LayarKatakana>
 
   // ─── Komponen Layar ────────────────────────────────────────────────────────
   Widget _buildHeader() {
+    final progress = _groups.isNotEmpty ? (_unlockedLevels / _groups.length).clamp(0.0, 1.0) : 0.0;
+    
     return Padding(
-      padding: EdgeInsets.fromLTRB(20, 16, 20, 8),
-      child: Row(
+      padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
+      child: Column(
         children: [
-          if (!widget.isTab) ...[
-            GestureDetector(
-              onTap: () => Navigator.pop(context),
-              child: Container(
-                width: 38,
-                height: 38,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.15),
+          Row(
+            children: [
+              if (!widget.isTab) ...[
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: Container(
+                    width: 38,
+                    height: 38,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white.withValues(alpha: 0.15),
+                    ),
+                    child: const Icon(
+                      Icons.arrow_back_ios_new_rounded,
+                      color: Colors.white,
+                      size: 16,
+                    ),
+                  ),
                 ),
-                child: Icon(
-                  Icons.arrow_back_ios_new_rounded,
-                  color: Colors.white,
-                  size: 16,
-                ),
-              ),
-            ),
-            SizedBox(width: 12),
-          ],
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
+                const SizedBox(width: 12),
+              ],
+              Expanded(
+                child: Text(
                   context.t.katakana.title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: 'Poppins',
-                    fontSize: 18,
+                    fontSize: 20,
                     fontWeight: FontWeight.w800,
                     color: Colors.white,
                   ),
                 ),
-              ],
-            ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFfbbf24), // Amber
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Text(
+                  "+10 XP",
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w800,
+                    color: Color(0xFF78350f), // Dark brown
+                  ),
+                ),
+              ),
+            ],
           ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(20),
+          const SizedBox(height: 16),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: LinearProgressIndicator(
+              value: progress,
+              minHeight: 8,
+              backgroundColor: Colors.white.withValues(alpha: 0.3),
+              valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
             ),
           ),
         ],
@@ -250,11 +227,11 @@ class _LayarKatakanaState extends State<LayarKatakana>
             ),
             child: Text(
               group.groupName,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
-                color: _accentColor,
+                color: AppColors.primaryGreen,
               ),
               textAlign: TextAlign.center,
             ),
@@ -265,9 +242,9 @@ class _LayarKatakanaState extends State<LayarKatakana>
               onCharTap: (c) => _showCharDetail(c),
               levelIndex: levelIndex,
               mode: 'Katakana',
-              accentColor: _accentColor,
-              activeBgColor: colors.tableCardBgKatakana,
-              cardBgColor: colors.tableCardBgKatakana,
+              accentColor: AppColors.primaryGreen,
+              activeBgColor: colors.softMint,
+              cardBgColor: colors.lightBackground,
               cardBorderColor: colors.softMint,
             ),
           ),
@@ -286,8 +263,8 @@ class _LayarKatakanaState extends State<LayarKatakana>
       backgroundColor: colors.cardBackground,
       builder: (_) => SheetDetailHuruf(
         character: c,
-        accentColor: _accentColor,
-        cardBgColor: colors.tableCardBgKatakana,
+        accentColor: AppColors.primaryGreen,
+        cardBgColor: colors.lightBackground,
         cardBorderColor: colors.softMint,
       ),
     );

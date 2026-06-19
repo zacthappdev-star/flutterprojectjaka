@@ -148,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen>
                             child: Padding(
                               padding: EdgeInsets.all(10),
                               child: Image.asset(
-                                'assets/images/Hikatanotext.png',
+                                'assets/images/LogoHikata2.png',
                                 fit: BoxFit.contain,
                               ),
                             ),

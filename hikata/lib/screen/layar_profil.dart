@@ -53,7 +53,7 @@ class _LayarProfilState extends State<LayarProfil> {
                 children: [
                   _buildBagianStatistik(profileProvider),
                   SizedBox(height: 24),
-                  _buildBagianBadge(),
+                  _buildBagianBadge(profileProvider),
                   SizedBox(height: 24),
                   BagianSkor(),
                   SizedBox(height: 24),
@@ -93,19 +93,19 @@ class _LayarProfilState extends State<LayarProfil> {
     );
   }
 
-  Widget _buildBagianBadge() {
+  Widget _buildBagianBadge(ProfileProvider profile) {
     final badges = [
-      {'icon': '🌱', 'name': 'Pemula', 'unlocked': true},
-      {'icon': '🔥', 'name': '7 Hari', 'unlocked': true},
-      {'icon': 'あ', 'name': 'Hiragana', 'unlocked': true},
-      {'icon': 'ア', 'name': 'Katakana', 'unlocked': false},
-      {'icon': '👑', 'name': 'Master', 'unlocked': false},
+      {'icon': profile.rankIcon, 'name': profile.rankName, 'unlocked': true},
+      {'icon': '🔥', 'name': context.t.home.days(count: profile.bestStreak), 'unlocked': profile.bestStreak >= 7},
+      {'icon': 'あ', 'name': 'Hiragana', 'unlocked': profile.progressHiragana > 0.0},
+      {'icon': 'ア', 'name': 'Katakana', 'unlocked': profile.progressKatakana > 0.0},
+      {'icon': '👑', 'name': 'Master', 'unlocked': profile.totalXP > 1500},
     ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        JudulBagianProfil(title: "Badge Diraih"),
+        JudulBagianProfil(title: context.t.profile.badgesEarned),
         const SizedBox(height: 10),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
@@ -268,7 +268,7 @@ class _LayarProfilState extends State<LayarProfil> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        JudulBagianProfil(title: "Hapus Akun"),
+        JudulBagianProfil(title: context.t.profile.deleteAccount),
         const SizedBox(height: 10),
         InkWell(
           onTap: () => _showDeleteAccountDialog(),
@@ -303,7 +303,7 @@ class _LayarProfilState extends State<LayarProfil> {
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        "Semua data akan hilang permanen",
+                        context.t.profile.deleteDataWarning,
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 11,

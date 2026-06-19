@@ -72,7 +72,6 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    // Gunakan background gradient dari tema aplikasi (atau default jika tidak ada)
     final gradient = context.hiKata.backgroundGradient;
 
     return Scaffold(
@@ -91,13 +90,12 @@ class _SplashScreenState extends State<SplashScreen>
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        // Lingkaran soft di belakang logo
                         Container(
                           padding: EdgeInsets.all(24),
                           child: Image.asset(
-                            AppAssets.hikatalogo1,
-                            width: 120,
-                            height: 120,
+                            AppAssets.hikatalogotext,
+                            width: 200,
+                            height: 200,
                           ),
                         ),
                       ],

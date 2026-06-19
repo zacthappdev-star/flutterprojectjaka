@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ppkd_b6/data/data_hiragana.dart';
 import 'package:ppkd_b6/data/data_katakana.dart';
 import 'package:ppkd_b6/gen/strings.g.dart';
+import 'package:ppkd_b6/screen/kuis/layar_kuis.dart';
+import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 import 'package:ppkd_b6/widgets/huruf/tabel_aksara_lengkap.dart';
 
 class LayarBeranda extends StatefulWidget {
@@ -42,7 +44,7 @@ class _LayarBerandaState extends State<LayarBeranda>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: context.hiKata.cardBackground,
       body: SizedBox(
         width: double.infinity,
         height: double.infinity,
@@ -187,7 +189,11 @@ class _LayarBerandaState extends State<LayarBeranda>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '15 karakter · 32% selesai (15/46)',
+                            context.t.home.progressSummary(
+                              completed: 15,
+                              percent: 32,
+                              total: 46,
+                            ),
                             style: TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 12,
@@ -220,22 +226,27 @@ class _LayarBerandaState extends State<LayarBeranda>
                         color: Colors.transparent,
                         child: InkWell(
                           borderRadius: BorderRadius.circular(8),
-                          onTap: () {},
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const QuizScreen(mode: 'mixed'),
+                            ),
+                          ),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
                               horizontal: 12,
                               vertical: 8,
                             ),
                             child: Row(
-                              children: const [
-                                Icon(
+                              children: [
+                                const Icon(
                                   Icons.play_arrow_rounded,
                                   color: Colors.white,
                                   size: 16,
                                 ),
-                                SizedBox(width: 4),
+                                const SizedBox(width: 4),
                                 Text(
-                                  'Mulai Latihan',
+                                  context.t.home.startPractice,
                                   style: TextStyle(
                                     fontFamily: 'Poppins',
                                     fontSize: 12,

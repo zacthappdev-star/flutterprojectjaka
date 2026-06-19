@@ -55,7 +55,7 @@ dev_dependencies:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/icon/Hikatanotext.png"
+  image_path: "assets/icon/LogoHikata.png"
 
 
 # For information on the generic Dart part of this file, see the

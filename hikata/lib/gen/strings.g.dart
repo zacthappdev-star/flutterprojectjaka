@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 486 (243 per locale)
+/// Strings: 557 (278 per locale)
 ///
-/// Built on 2026-06-17 at 04:48 UTC
+/// Built on 2026-06-18 at 07:24 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -151,6 +151,7 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	late final _StringsCommonId common = _StringsCommonId._(_root);
 	late final _StringsAuthId auth = _StringsAuthId._(_root);
 	late final _StringsHomeId home = _StringsHomeId._(_root);
+	late final _StringsScriptGuideId scriptGuide = _StringsScriptGuideId._(_root);
 	late final _StringsHiraganaId hiragana = _StringsHiraganaId._(_root);
 	late final _StringsKatakanaId katakana = _StringsKatakanaId._(_root);
 	late final _StringsFlashcardId flashcard = _StringsFlashcardId._(_root);
@@ -244,6 +245,34 @@ class _StringsHomeId {
 	String get quizSubtitle => 'Uji Kemampuan';
 	String get stats => 'Statistik';
 	String get dailyGoal => 'Target Harian';
+	String get morning => 'Ohayou / Selamat Pagi';
+	String get afternoon => 'Konnichiwa / Selamat Siang';
+	String get night => 'Konbanwa / Selamat Malam';
+	String get dailyMission => 'Misi Hari Ini';
+	String get finishOneLesson => 'Selesaikan 1 Pelajaran';
+	String days({required Object count}) => '${count} Hari';
+	String xp({required Object count}) => '${count} XP';
+	String get rankBeginner => 'Pemula';
+	String get rankIntermediate => 'Menengah';
+	String get rankAdvanced => 'Mahir';
+	String get kanji => 'Kanji';
+	String get conversation => 'Percakapan';
+	String get startPractice => 'Mulai Latihan';
+	String progressSummary({required Object completed, required Object percent, required Object total}) => '${completed} karakter · ${percent}% selesai (${completed}/${total})';
+}
+
+// Path: scriptGuide
+class _StringsScriptGuideId {
+	_StringsScriptGuideId._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String completed({required Object completed, required Object total}) => '${completed} dari ${total} selesai';
+	String get keepItUp => 'Pertahankan Semangat!';
+	String get xpPerLevel => '+5 XP tiap level selesai.';
+	String get awesome => 'Luar biasa!';
+	String get keepLearning => 'Lanjutkan belajarmu hari ini.';
 }
 
 // Path: hiragana
@@ -342,7 +371,14 @@ class _StringsQuizId {
 	String get listeningQuizMixed => 'Quiz Pendengaran Campuran';
 	String get descListeningHiragana => 'Quiz pendengaran dari 46 karakter dasar Hiragana';
 	String get descListeningKatakana => 'Quiz pendengaran dari 46 karakter dasar Katakana';
-	String get descListeningMixed => 'Tantangan Quiz pendengaran Hiragana & Katakana';
+	String get descListeningMixed => 'Tantangan pendengaran kombinasi Hiragana & Katakana';
+	String get unlockPreviousQuiz => 'Selesaikan kuis sebelumnya';
+	String countQuestions({required Object count}) => '${count} soal';
+	String estTime({required Object time}) => '±${time} menit';
+	String get difficultyMedium => 'Sedang';
+	String get difficultyHard => 'Sulit';
+	String get lockedStatus => 'Terkunci';
+	String get audioType => 'Audio';
 }
 
 // Path: progress
@@ -368,7 +404,9 @@ class _StringsProgressId {
 	String daysInARow({required Object days}) => '${days} Hari Berturut-turut!';
 	String get enableAlarm => 'Aktifkan Pengingat';
 	String get studyTime => 'Waktu Belajar';
-	String get nextReminder => 'Notifikasi Berikutnya';
+	String get nextReminder => 'Pengingat Berikutnya';
+	String get keepItUpMsg => 'Pertahankan terus semangat belajarmu!';
+	String charactersCount({required Object completed, required Object total}) => '${completed}/${total} karakter';
 }
 
 // Path: profile
@@ -391,13 +429,16 @@ class _StringsProfileId {
 	String get logout => 'Keluar';
 	String get logoutTitle => 'Keluar dari Akun?';
 	String get logoutConfirmText => 'Kamu harus masuk lagi untuk menyimpan progres belajar.';
+	String get badgesEarned => 'Badge Diraih';
+	String get deleteDataWarning => 'Semua data akan hilang permanen';
 	String get hiraganaQuiz => 'Kuis Hiragana';
 	String get katakanaQuiz => 'Kuis Katakana';
 	String get defaultUserName => 'Pelajar HI KATA';
 	late final _StringsProfileStatisticsId statistics = _StringsProfileStatisticsId._(_root);
 	String get chooseAvatar => 'Pilih Avatar Baru';
-	String get achievements => 'Pencapaian Quiz';
-	String get mixedQuiz => 'Quiz Campuran';
+	String get achievements => 'Pencapaian Kuis';
+	String get mixedQuiz => 'Kuis Campuran';
+	String joinedSince({required Object date}) => 'Bergabung sejak ${date}';
 }
 
 // Path: settings
@@ -578,8 +619,10 @@ class _StringsProfileStatisticsId {
 	String get hiragana => 'Hiragana';
 	String get katakana => 'Katakana';
 	String get days => 'Hari';
-	String get completed => 'Dikerjakan';
+	String get completed => 'Selesai';
 	String get progress => 'Progres';
+	String get noQuizHistory => 'Belum ada Riwayat Kuis';
+	String get startFirstQuiz => 'Yuk mulai belajar dan kerjakan kuis pertamamu!';
 }
 
 // Path: feedback.tags
@@ -624,6 +667,7 @@ class _StringsEn extends Translations {
 	@override late final _StringsCommonEn common = _StringsCommonEn._(_root);
 	@override late final _StringsAuthEn auth = _StringsAuthEn._(_root);
 	@override late final _StringsHomeEn home = _StringsHomeEn._(_root);
+	@override late final _StringsScriptGuideEn scriptGuide = _StringsScriptGuideEn._(_root);
 	@override late final _StringsHiraganaEn hiragana = _StringsHiraganaEn._(_root);
 	@override late final _StringsKatakanaEn katakana = _StringsKatakanaEn._(_root);
 	@override late final _StringsFlashcardEn flashcard = _StringsFlashcardEn._(_root);
@@ -667,6 +711,7 @@ class _StringsCommonEn extends _StringsCommonId {
 	@override String get memoryTip => 'Memory Tip';
 	@override String get japaneseScriptGuide => 'Japanese Script Guide';
 	@override String get scriptGuideDesc => 'Hiragana, Katakana, Dakuten, Yōon & more';
+	@override String get appDescription => 'Japanese learning application';
 	@override String get navHome => 'Home';
 	@override String get navLearn => 'Learn';
 	@override String get navQuiz => 'Quiz';
@@ -717,6 +762,34 @@ class _StringsHomeEn extends _StringsHomeId {
 	@override String get quizSubtitle => 'Test Your Skills';
 	@override String get stats => 'Statistics';
 	@override String get dailyGoal => 'Daily Goal';
+	@override String get morning => 'Ohayou / Good Morning';
+	@override String get afternoon => 'Konnichiwa / Good Afternoon';
+	@override String get night => 'Konbanwa / Good Evening';
+	@override String get dailyMission => 'Today\'s Mission';
+	@override String get finishOneLesson => 'Finish 1 Lesson';
+	@override String days({required Object count}) => '${count} Days';
+	@override String xp({required Object count}) => '${count} XP';
+	@override String get rankBeginner => 'Beginner';
+	@override String get rankIntermediate => 'Intermediate';
+	@override String get rankAdvanced => 'Advanced';
+	@override String get kanji => 'Kanji';
+	@override String get conversation => 'Conversation';
+	@override String get startPractice => 'Start Practice';
+	@override String progressSummary({required Object completed, required Object percent, required Object total}) => '${completed} characters · ${percent}% completed (${completed}/${total})';
+}
+
+// Path: scriptGuide
+class _StringsScriptGuideEn extends _StringsScriptGuideId {
+	_StringsScriptGuideEn._(_StringsEn root) : this._root = root, super._(root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String completed({required Object completed, required Object total}) => '${completed} of ${total} completed';
+	@override String get keepItUp => 'Keep it up!';
+	@override String get xpPerLevel => '+5 XP each level completed.';
+	@override String get awesome => 'Awesome!';
+	@override String get keepLearning => 'Keep learning today.';
 }
 
 // Path: hiragana
@@ -816,6 +889,13 @@ class _StringsQuizEn extends _StringsQuizId {
 	@override String get descListeningHiragana => 'Listening quiz covering basic 46 Hiragana characters';
 	@override String get descListeningKatakana => 'Listening quiz covering basic 46 Katakana characters';
 	@override String get descListeningMixed => 'Listening challenge of Hiragana & Katakana';
+	@override String get unlockPreviousQuiz => 'Finish the previous quiz first';
+	@override String countQuestions({required Object count}) => '${count} questions';
+	@override String estTime({required Object time}) => '±${time} minutes';
+	@override String get difficultyMedium => 'Medium';
+	@override String get difficultyHard => 'Hard';
+	@override String get lockedStatus => 'Locked';
+	@override String get audioType => 'Audio';
 }
 
 // Path: progress
@@ -842,6 +922,8 @@ class _StringsProgressEn extends _StringsProgressId {
 	@override String get enableAlarm => 'Enable Alarm';
 	@override String get studyTime => 'Study Time';
 	@override String get nextReminder => 'Next Reminder';
+	@override String get keepItUpMsg => 'Keep up your learning spirit!';
+	@override String charactersCount({required Object completed, required Object total}) => '${completed}/${total} characters';
 }
 
 // Path: profile
@@ -863,7 +945,9 @@ class _StringsProfileEn extends _StringsProfileId {
 	@override String get cancel => 'Cancel';
 	@override String get logout => 'Log Out';
 	@override String get logoutTitle => 'Logout?';
-	@override String get logoutConfirmText => 'You need to log back in to save your learning progress.';
+	@override String get logoutConfirmText => 'You need to login again to save your learning progress.';
+	@override String get badgesEarned => 'Badges Earned';
+	@override String get deleteDataWarning => 'All data will be lost permanently';
 	@override String get hiraganaQuiz => 'Hiragana Quiz';
 	@override String get katakanaQuiz => 'Katakana Quiz';
 	@override String get defaultUserName => 'HI KATA Learner';
@@ -871,6 +955,7 @@ class _StringsProfileEn extends _StringsProfileId {
 	@override String get chooseAvatar => 'Choose New Avatar';
 	@override String get achievements => 'Quiz Achievements';
 	@override String get mixedQuiz => 'Mixed Quiz';
+	@override String joinedSince({required Object date}) => 'Joined since ${date}';
 }
 
 // Path: settings
@@ -880,6 +965,10 @@ class _StringsSettingsEn extends _StringsSettingsId {
 	@override final _StringsEn _root; // ignore: unused_field
 
 	// Translations
+	@override String get mixedQuiz => 'Mixed Quiz';
+	@override String get appearance => 'App Appearance';
+	@override String get lightMode => 'Light Mode';
+	@override String get darkMode => 'Dark Mode';
 	@override String get title => 'Settings';
 	@override String get theme => 'App Theme';
 	@override String get darkTheme => 'Dark Mode';
@@ -919,13 +1008,13 @@ class _StringsLanguageEn extends _StringsLanguageId {
 	@override final _StringsEn _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Pilih Bahasa';
+	@override String get title => 'Select Language';
 	@override String get subtitle => 'Choose Language';
-	@override String get changeAnytime => 'Kamu bisa mengubah bahasa kapan saja';
+	@override String get changeAnytime => 'You can change language anytime';
 	@override String get changeAnytimeEn => 'You can change language anytime';
 	@override String get indonesian => 'Bahasa Indonesia';
 	@override String get english => 'English';
-	@override String get indonesianDesc => 'Panduan dalam Bahasa Indonesia';
+	@override String get indonesianDesc => 'Guide in Indonesian Language';
 	@override String get englishDesc => 'Guide in English Language';
 }
 
@@ -1049,6 +1138,8 @@ class _StringsProfileStatisticsEn extends _StringsProfileStatisticsId {
 	@override String get days => 'Days';
 	@override String get completed => 'Completed';
 	@override String get progress => 'Progress';
+	@override String get noQuizHistory => 'No Quiz History';
+	@override String get startFirstQuiz => 'Let\'s start learning and take your first quiz!';
 }
 
 // Path: feedback.tags
@@ -1131,6 +1222,25 @@ extension on Translations {
 			case 'home.quizSubtitle': return 'Uji Kemampuan';
 			case 'home.stats': return 'Statistik';
 			case 'home.dailyGoal': return 'Target Harian';
+			case 'home.morning': return 'Ohayou / Selamat Pagi';
+			case 'home.afternoon': return 'Konnichiwa / Selamat Siang';
+			case 'home.night': return 'Konbanwa / Selamat Malam';
+			case 'home.dailyMission': return 'Misi Hari Ini';
+			case 'home.finishOneLesson': return 'Selesaikan 1 Pelajaran';
+			case 'home.days': return ({required Object count}) => '${count} Hari';
+			case 'home.xp': return ({required Object count}) => '${count} XP';
+			case 'home.rankBeginner': return 'Pemula';
+			case 'home.rankIntermediate': return 'Menengah';
+			case 'home.rankAdvanced': return 'Mahir';
+			case 'home.kanji': return 'Kanji';
+			case 'home.conversation': return 'Percakapan';
+			case 'home.startPractice': return 'Mulai Latihan';
+			case 'home.progressSummary': return ({required Object completed, required Object percent, required Object total}) => '${completed} karakter · ${percent}% selesai (${completed}/${total})';
+			case 'scriptGuide.completed': return ({required Object completed, required Object total}) => '${completed} dari ${total} selesai';
+			case 'scriptGuide.keepItUp': return 'Pertahankan Semangat!';
+			case 'scriptGuide.xpPerLevel': return '+5 XP tiap level selesai.';
+			case 'scriptGuide.awesome': return 'Luar biasa!';
+			case 'scriptGuide.keepLearning': return 'Lanjutkan belajarmu hari ini.';
 			case 'hiragana.title': return 'Pengenalan Hiragana';
 			case 'hiragana.subtitle': return 'Belajar huruf dasar Hiragana';
 			case 'hiragana.level': return 'Level {num}';
@@ -1193,7 +1303,14 @@ extension on Translations {
 			case 'quiz.listeningQuizMixed': return 'Quiz Pendengaran Campuran';
 			case 'quiz.descListeningHiragana': return 'Quiz pendengaran dari 46 karakter dasar Hiragana';
 			case 'quiz.descListeningKatakana': return 'Quiz pendengaran dari 46 karakter dasar Katakana';
-			case 'quiz.descListeningMixed': return 'Tantangan Quiz pendengaran Hiragana & Katakana';
+			case 'quiz.descListeningMixed': return 'Tantangan pendengaran kombinasi Hiragana & Katakana';
+			case 'quiz.unlockPreviousQuiz': return 'Selesaikan kuis sebelumnya';
+			case 'quiz.countQuestions': return ({required Object count}) => '${count} soal';
+			case 'quiz.estTime': return ({required Object time}) => '±${time} menit';
+			case 'quiz.difficultyMedium': return 'Sedang';
+			case 'quiz.difficultyHard': return 'Sulit';
+			case 'quiz.lockedStatus': return 'Terkunci';
+			case 'quiz.audioType': return 'Audio';
 			case 'progress.title': return 'Statistik Progres belajar';
 			case 'progress.streak': return '{days} Hari Beruntun';
 			case 'progress.completed': return 'Selesai';
@@ -1210,7 +1327,9 @@ extension on Translations {
 			case 'progress.daysInARow': return ({required Object days}) => '${days} Hari Berturut-turut!';
 			case 'progress.enableAlarm': return 'Aktifkan Pengingat';
 			case 'progress.studyTime': return 'Waktu Belajar';
-			case 'progress.nextReminder': return 'Notifikasi Berikutnya';
+			case 'progress.nextReminder': return 'Pengingat Berikutnya';
+			case 'progress.keepItUpMsg': return 'Pertahankan terus semangat belajarmu!';
+			case 'progress.charactersCount': return ({required Object completed, required Object total}) => '${completed}/${total} karakter';
 			case 'profile.title': return 'Profil Saya';
 			case 'profile.studyStatistics': return 'Statistik Belajar';
 			case 'profile.appearance': return 'Pengaturan Tampilan';
@@ -1224,6 +1343,8 @@ extension on Translations {
 			case 'profile.logout': return 'Keluar';
 			case 'profile.logoutTitle': return 'Keluar dari Akun?';
 			case 'profile.logoutConfirmText': return 'Kamu harus masuk lagi untuk menyimpan progres belajar.';
+			case 'profile.badgesEarned': return 'Badge Diraih';
+			case 'profile.deleteDataWarning': return 'Semua data akan hilang permanen';
 			case 'profile.hiraganaQuiz': return 'Kuis Hiragana';
 			case 'profile.katakanaQuiz': return 'Kuis Katakana';
 			case 'profile.defaultUserName': return 'Pelajar HI KATA';
@@ -1234,11 +1355,14 @@ extension on Translations {
 			case 'profile.statistics.hiragana': return 'Hiragana';
 			case 'profile.statistics.katakana': return 'Katakana';
 			case 'profile.statistics.days': return 'Hari';
-			case 'profile.statistics.completed': return 'Dikerjakan';
+			case 'profile.statistics.completed': return 'Selesai';
 			case 'profile.statistics.progress': return 'Progres';
+			case 'profile.statistics.noQuizHistory': return 'Belum ada Riwayat Kuis';
+			case 'profile.statistics.startFirstQuiz': return 'Yuk mulai belajar dan kerjakan kuis pertamamu!';
 			case 'profile.chooseAvatar': return 'Pilih Avatar Baru';
-			case 'profile.achievements': return 'Pencapaian Quiz';
-			case 'profile.mixedQuiz': return 'Quiz Campuran';
+			case 'profile.achievements': return 'Pencapaian Kuis';
+			case 'profile.mixedQuiz': return 'Kuis Campuran';
+			case 'profile.joinedSince': return ({required Object date}) => 'Bergabung sejak ${date}';
 			case 'settings.mixedQuiz': return 'Kuis Campuran';
 			case 'settings.appearance': return 'Tampilan Aplikasi';
 			case 'settings.lightMode': return 'Mode Terang';
@@ -1344,6 +1468,7 @@ extension on _StringsEn {
 			case 'common.memoryTip': return 'Memory Tip';
 			case 'common.japaneseScriptGuide': return 'Japanese Script Guide';
 			case 'common.scriptGuideDesc': return 'Hiragana, Katakana, Dakuten, Yōon & more';
+			case 'common.appDescription': return 'Japanese learning application';
 			case 'common.navHome': return 'Home';
 			case 'common.navLearn': return 'Learn';
 			case 'common.navQuiz': return 'Quiz';
@@ -1384,6 +1509,25 @@ extension on _StringsEn {
 			case 'home.quizSubtitle': return 'Test Your Skills';
 			case 'home.stats': return 'Statistics';
 			case 'home.dailyGoal': return 'Daily Goal';
+			case 'home.morning': return 'Ohayou / Good Morning';
+			case 'home.afternoon': return 'Konnichiwa / Good Afternoon';
+			case 'home.night': return 'Konbanwa / Good Evening';
+			case 'home.dailyMission': return 'Today\'s Mission';
+			case 'home.finishOneLesson': return 'Finish 1 Lesson';
+			case 'home.days': return ({required Object count}) => '${count} Days';
+			case 'home.xp': return ({required Object count}) => '${count} XP';
+			case 'home.rankBeginner': return 'Beginner';
+			case 'home.rankIntermediate': return 'Intermediate';
+			case 'home.rankAdvanced': return 'Advanced';
+			case 'home.kanji': return 'Kanji';
+			case 'home.conversation': return 'Conversation';
+			case 'home.startPractice': return 'Start Practice';
+			case 'home.progressSummary': return ({required Object completed, required Object percent, required Object total}) => '${completed} characters · ${percent}% completed (${completed}/${total})';
+			case 'scriptGuide.completed': return ({required Object completed, required Object total}) => '${completed} of ${total} completed';
+			case 'scriptGuide.keepItUp': return 'Keep it up!';
+			case 'scriptGuide.xpPerLevel': return '+5 XP each level completed.';
+			case 'scriptGuide.awesome': return 'Awesome!';
+			case 'scriptGuide.keepLearning': return 'Keep learning today.';
 			case 'hiragana.title': return 'Hiragana Introduction';
 			case 'hiragana.subtitle': return 'Learn basic Hiragana characters';
 			case 'hiragana.level': return 'Level {num}';
@@ -1447,6 +1591,13 @@ extension on _StringsEn {
 			case 'quiz.descListeningHiragana': return 'Listening quiz covering basic 46 Hiragana characters';
 			case 'quiz.descListeningKatakana': return 'Listening quiz covering basic 46 Katakana characters';
 			case 'quiz.descListeningMixed': return 'Listening challenge of Hiragana & Katakana';
+			case 'quiz.unlockPreviousQuiz': return 'Finish the previous quiz first';
+			case 'quiz.countQuestions': return ({required Object count}) => '${count} questions';
+			case 'quiz.estTime': return ({required Object time}) => '±${time} minutes';
+			case 'quiz.difficultyMedium': return 'Medium';
+			case 'quiz.difficultyHard': return 'Hard';
+			case 'quiz.lockedStatus': return 'Locked';
+			case 'quiz.audioType': return 'Audio';
 			case 'progress.title': return 'Learning Progress Statistics';
 			case 'progress.streak': return '{days} Day Streak';
 			case 'progress.completed': return 'Completed';
@@ -1464,6 +1615,8 @@ extension on _StringsEn {
 			case 'progress.enableAlarm': return 'Enable Alarm';
 			case 'progress.studyTime': return 'Study Time';
 			case 'progress.nextReminder': return 'Next Reminder';
+			case 'progress.keepItUpMsg': return 'Keep up your learning spirit!';
+			case 'progress.charactersCount': return ({required Object completed, required Object total}) => '${completed}/${total} characters';
 			case 'profile.title': return 'My Profile';
 			case 'profile.studyStatistics': return 'Study Statistics';
 			case 'profile.appearance': return 'Appearance';
@@ -1476,7 +1629,9 @@ extension on _StringsEn {
 			case 'profile.cancel': return 'Cancel';
 			case 'profile.logout': return 'Log Out';
 			case 'profile.logoutTitle': return 'Logout?';
-			case 'profile.logoutConfirmText': return 'You need to log back in to save your learning progress.';
+			case 'profile.logoutConfirmText': return 'You need to login again to save your learning progress.';
+			case 'profile.badgesEarned': return 'Badges Earned';
+			case 'profile.deleteDataWarning': return 'All data will be lost permanently';
 			case 'profile.hiraganaQuiz': return 'Hiragana Quiz';
 			case 'profile.katakanaQuiz': return 'Katakana Quiz';
 			case 'profile.defaultUserName': return 'HI KATA Learner';
@@ -1489,9 +1644,16 @@ extension on _StringsEn {
 			case 'profile.statistics.days': return 'Days';
 			case 'profile.statistics.completed': return 'Completed';
 			case 'profile.statistics.progress': return 'Progress';
+			case 'profile.statistics.noQuizHistory': return 'No Quiz History';
+			case 'profile.statistics.startFirstQuiz': return 'Let\'s start learning and take your first quiz!';
 			case 'profile.chooseAvatar': return 'Choose New Avatar';
 			case 'profile.achievements': return 'Quiz Achievements';
 			case 'profile.mixedQuiz': return 'Mixed Quiz';
+			case 'profile.joinedSince': return ({required Object date}) => 'Joined since ${date}';
+			case 'settings.mixedQuiz': return 'Mixed Quiz';
+			case 'settings.appearance': return 'App Appearance';
+			case 'settings.lightMode': return 'Light Mode';
+			case 'settings.darkMode': return 'Dark Mode';
 			case 'settings.title': return 'Settings';
 			case 'settings.theme': return 'App Theme';
 			case 'settings.darkTheme': return 'Dark Mode';
@@ -1504,13 +1666,13 @@ extension on _StringsEn {
 			case 'notification.body': return 'Let\'s spend 5 minutes today to practice your Hiragana and Katakana.';
 			case 'errors.general': return 'An error occurred. Please try again.';
 			case 'errors.network': return 'Network connection error.';
-			case 'language.title': return 'Pilih Bahasa';
+			case 'language.title': return 'Select Language';
 			case 'language.subtitle': return 'Choose Language';
-			case 'language.changeAnytime': return 'Kamu bisa mengubah bahasa kapan saja';
+			case 'language.changeAnytime': return 'You can change language anytime';
 			case 'language.changeAnytimeEn': return 'You can change language anytime';
 			case 'language.indonesian': return 'Bahasa Indonesia';
 			case 'language.english': return 'English';
-			case 'language.indonesianDesc': return 'Panduan dalam Bahasa Indonesia';
+			case 'language.indonesianDesc': return 'Guide in Indonesian Language';
 			case 'language.englishDesc': return 'Guide in English Language';
 			case 'about.title': return 'About App';
 			case 'about.description': return 'HI KATA helps you learn Hiragana and Katakana through interactive lessons, pronunciation audio, and engaging quizzes.';

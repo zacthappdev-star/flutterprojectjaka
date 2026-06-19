@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
+import 'package:ppkd_b6/providers/profile_provider.dart';
 import 'package:ppkd_b6/services/layanan_progres.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 import 'package:ppkd_b6/widgets/belajar/kartu_panduan_huruf.dart';
+import 'package:provider/provider.dart';
 
 import 'layar_hiragana.dart';
 import 'layar_katakana.dart';
@@ -40,7 +43,9 @@ class _DasborBelajarState extends State<DasborBelajar> {
   // ─── UI Utama ──────────────────────────────────────────────────────────────
   @override
   Widget build(BuildContext context) {
-    if (_isLoading) {
+    final profileProvider = context.watch<ProfileProvider>();
+    
+    if (_isLoading || profileProvider.isLoading) {
       return Scaffold(
         body: Center(
           child: CircularProgressIndicator(color: AppColors.primaryGreen),
@@ -52,7 +57,7 @@ class _DasborBelajarState extends State<DasborBelajar> {
       backgroundColor: const Color(0xFFF5F7F5),
       body: Column(
         children: [
-          _buildHeader(),
+          _buildHeader(profileProvider),
           Expanded(
             child: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
@@ -60,7 +65,7 @@ class _DasborBelajarState extends State<DasborBelajar> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildMisiHariIni(),
+                  _buildMisiHariIni(context),
                   SizedBox(height: 20),
                   KartuPanduanHuruf(
                     onTap: () => Navigator.push(
@@ -79,13 +84,14 @@ class _DasborBelajarState extends State<DasborBelajar> {
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(ProfileProvider profile) {
     final hour = DateTime.now().hour;
-    String greeting = 'Ohayou / Selamat Pagi';
+    final t = context.t.home;
+    String greeting = t.morning;
     if (hour >= 11 && hour < 15) {
-      greeting = 'Konnichiwa / Selamat Siang';
+      greeting = t.afternoon;
     } else if (hour >= 15 || hour < 4) {
-      greeting = 'Konbanwa / Selamat Malam';
+      greeting = t.night;
     }
 
     return Container(
@@ -107,7 +113,7 @@ class _DasborBelajarState extends State<DasborBelajar> {
         children: [
           Row(
             children: [
-              Text('🐱', style: TextStyle(fontSize: 44)),
+              Text(profile.avatar, style: TextStyle(fontSize: 44)),
               SizedBox(width: 16),
               Expanded(
                 child: Column(
@@ -122,7 +128,7 @@ class _DasborBelajarState extends State<DasborBelajar> {
                       ),
                     ),
                     Text(
-                      'zacth',
+                      profile.userName,
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 22,
@@ -139,9 +145,9 @@ class _DasborBelajarState extends State<DasborBelajar> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildStatPill('🔥', '2 Hari'),
-              _buildStatPill('✨', '150 XP'),
-              _buildStatPill('🏅', 'Pemula'),
+              _buildStatPill('🔥', t.days(count: profile.currentStreak)),
+              _buildStatPill('✨', t.xp(count: profile.totalXP)),
+              _buildStatPill(profile.rankIcon, profile.rankName),
             ],
           ),
         ],
@@ -175,12 +181,12 @@ class _DasborBelajarState extends State<DasborBelajar> {
   }
 
   // ─── Misi Hari Ini ─────────────────────────────────────────────────────────
-  Widget _buildMisiHariIni() {
+  Widget _buildMisiHariIni(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Misi Hari Ini',
+          context.t.home.dailyMission,
           style: TextStyle(
             fontFamily: 'Poppins',
             fontSize: 18,
@@ -212,7 +218,7 @@ class _DasborBelajarState extends State<DasborBelajar> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Selesaikan 1 Pelajaran',
+                    context.t.home.finishOneLesson,
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 14,
@@ -282,7 +288,7 @@ class _DasborBelajarState extends State<DasborBelajar> {
           title: 'Katakana',
           badgeText: 'ア',
           progressPercent: _katakanaProgress,
-          accentColor: const Color(0xFFE9A825),
+          accentColor: AppColors.primaryGreen,
           isLocked: false,
           onTap: () {
             Navigator.push(
@@ -292,7 +298,7 @@ class _DasborBelajarState extends State<DasborBelajar> {
           },
         ),
         _buildGridItem(
-          title: 'Kanji',
+          title: context.t.home.kanji,
           badgeText: '漢',
           progressPercent: 0,
           accentColor: Colors.grey,
@@ -300,7 +306,7 @@ class _DasborBelajarState extends State<DasborBelajar> {
           onTap: () {},
         ),
         _buildGridItem(
-          title: 'Percakapan',
+          title: context.t.home.conversation,
           badgeText: '話',
           progressPercent: 0,
           accentColor: Colors.grey,

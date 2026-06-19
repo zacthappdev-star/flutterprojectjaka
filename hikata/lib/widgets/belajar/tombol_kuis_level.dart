@@ -33,26 +33,40 @@ class TombolKuisLevel extends StatelessWidget {
                   color: colors.progressTrack,
                   borderRadius: BorderRadius.circular(16),
                 ),
-          child: Row(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                isUnlocked
-                    ? Translations.of(context).common.startLevelQuiz
-                    : Translations.of(context).hiragana.locked,
-                style: AppTextStyles.buttonText.copyWith(
-                  fontSize: 15,
-                  color: isUnlocked ? Colors.white : colors.textMuted,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    isUnlocked
+                        ? Translations.of(context).common.startLevelQuiz
+                        : Translations.of(context).hiragana.locked,
+                    style: AppTextStyles.buttonText.copyWith(
+                      fontSize: 15,
+                      color: isUnlocked ? Colors.white : colors.textMuted,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Icon(
+                    isUnlocked
+                        ? Icons.play_arrow_rounded
+                        : Icons.lock_outline_rounded,
+                    color: isUnlocked ? Colors.white : colors.textMuted,
+                    size: 20,
+                  ),
+                ],
+              ),
+              if (isUnlocked)
+                const Text(
+                  "Kumpulkan XP kamu",
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 10,
+                    color: Colors.white70,
+                  ),
                 ),
-              ),
-              SizedBox(width: 8),
-              Icon(
-                isUnlocked
-                    ? Icons.play_arrow_rounded
-                    : Icons.lock_outline_rounded,
-                color: isUnlocked ? Colors.white : colors.textMuted,
-                size: 20,
-              ),
             ],
           ),
         ),

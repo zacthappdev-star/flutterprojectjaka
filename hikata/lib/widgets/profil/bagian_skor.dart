@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/providers/profile_provider.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 import 'package:ppkd_b6/widgets/profil/judul_bagian_profil.dart';
+import 'package:provider/provider.dart';
 
 class BagianSkor extends StatelessWidget {
   const BagianSkor({super.key});
@@ -18,10 +18,10 @@ class BagianSkor extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         JudulBagianProfil(title: context.t.profile.achievements),
-        const SizedBox(height: 10),
+        SizedBox(height: 10),
         Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
             color: colors.cardBackground,
             borderRadius: BorderRadius.circular(18),
@@ -41,7 +41,7 @@ class BagianSkor extends StatelessWidget {
                 iconColor: AppColors.primaryGreen,
                 colors: colors,
               ),
-              const Divider(height: 8, thickness: 0.5),
+              Divider(height: 8, thickness: 0.5),
               _buildCompactScoreRow(
                 title: context.t.profile.katakanaQuiz,
                 score: profileProvider.katakanaHigh,
@@ -51,7 +51,7 @@ class BagianSkor extends StatelessWidget {
                 colors: colors,
                 isKatakana: true,
               ),
-              const Divider(height: 8, thickness: 0.5),
+              Divider(height: 8, thickness: 0.5),
               _buildCompactScoreRow(
                 title: context.t.profile.mixedQuiz,
                 score: profileProvider.mixedHigh,
@@ -103,7 +103,7 @@ class BagianSkor extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12),
           SizedBox(
             width: 40,
             child: Text(

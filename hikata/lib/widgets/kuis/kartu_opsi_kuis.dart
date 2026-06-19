@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 
 class KartuOpsiKuis extends StatelessWidget {
@@ -37,8 +38,8 @@ class KartuOpsiKuis extends StatelessWidget {
       child: Opacity(
         opacity: isLocked ? 0.5 : 1.0,
         child: Container(
-          margin: const EdgeInsets.only(bottom: 16),
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+          margin: EdgeInsets.only(bottom: 16),
+          padding: EdgeInsets.symmetric(horizontal: 18, vertical: 18),
           decoration: AppDecorations.cardDecorationOf(context),
           child: Row(
             children: [
@@ -80,7 +81,7 @@ class KartuOpsiKuis extends StatelessWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      isLocked ? "Selesaikan quiz sebelumnya dulu" : subtitle,
+                      isLocked ? context.t.quiz.unlockPreviousQuiz : subtitle,
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 11,
@@ -95,7 +96,7 @@ class KartuOpsiKuis extends StatelessWidget {
                       children: [
                         if (isLocked)
                           _buildBadge(
-                            text: "🔒 Terkunci",
+                            text: "🔒 ${context.t.quiz.lockedStatus}",
                             bgColor: Colors.grey.shade200,
                             textColor: Colors.grey.shade700,
                           ),
@@ -110,10 +111,10 @@ class KartuOpsiKuis extends StatelessWidget {
                             bgColor: Colors.grey.shade100,
                             textColor: Colors.grey.shade700,
                           ),
-                          _buildDifficultyBadge(difficulty),
+                          _buildDifficultyBadge(difficulty, context),
                           if (isAudio)
                             _buildBadge(
-                              text: "Audio",
+                              text: context.t.quiz.audioType,
                               bgColor: Colors.blue.shade50,
                               textColor: Colors.blue.shade700,
                             ),
@@ -158,15 +159,18 @@ class KartuOpsiKuis extends StatelessWidget {
     );
   }
 
-  Widget _buildDifficultyBadge(String diff) {
+  Widget _buildDifficultyBadge(String diff, BuildContext context) {
     Color bg;
     Color text;
+    String displayDiff = diff;
     if (diff == 'Sedang') {
       bg = Color(0xFFFFF9E6);
       text = Color(0xFF8D6E63);
+      displayDiff = context.t.quiz.difficultyMedium;
     } else if (diff == 'Sulit') {
       bg = Color(0xFFFFEBEE);
       text = Color(0xFFD32F2F);
+      displayDiff = context.t.quiz.difficultyHard;
     } else if (diff == 'Boss Level 🔥') {
       bg = Color(0xFFD32F2F);
       text = Colors.white;
@@ -174,6 +178,6 @@ class KartuOpsiKuis extends StatelessWidget {
       bg = Colors.grey.shade100;
       text = Colors.grey.shade700;
     }
-    return _buildBadge(text: diff, bgColor: bg, textColor: text);
+    return _buildBadge(text: displayDiff, bgColor: bg, textColor: text);
   }
 }

@@ -21,6 +21,7 @@
     "memoryTip": "Memory Tip",
     "japaneseScriptGuide": "Japanese Script Guide",
     "scriptGuideDesc": "Hiragana, Katakana, Dakuten, Yōon & more",
+    "appDescription": "Japanese learning application",
     "navHome": "Home",
     "navLearn": "Learn",
     "navQuiz": "Quiz",
@@ -68,7 +69,28 @@
     "quizTitle": "Quiz",
     "quizSubtitle": "Test Your Skills",
     "stats": "Statistics",
-    "dailyGoal": "Daily Goal"
+    "dailyGoal": "Daily Goal",
+    "morning": "Ohayou / Good Morning",
+    "afternoon": "Konnichiwa / Good Afternoon",
+    "night": "Konbanwa / Good Evening",
+    "dailyMission": "Today's Mission",
+    "finishOneLesson": "Finish 1 Lesson",
+    "days": "${count} Days",
+    "xp": "${count} XP",
+    "rankBeginner": "Beginner",
+    "rankIntermediate": "Intermediate",
+    "rankAdvanced": "Advanced",
+    "kanji": "Kanji",
+    "conversation": "Conversation",
+    "startPractice": "Start Practice",
+    "progressSummary": "${completed} characters · ${percent}% completed (${completed}/${total})"
+  },
+  "scriptGuide": {
+    "completed": "${completed} of ${total} completed",
+    "keepItUp": "Keep it up!",
+    "xpPerLevel": "+5 XP each level completed.",
+    "awesome": "Awesome!",
+    "keepLearning": "Keep learning today."
   },
   "hiragana": {
     "title": "Hiragana Introduction",
@@ -139,7 +161,14 @@
     "listeningQuizMixed": "Mixed Listening Quiz",
     "descListeningHiragana": "Listening quiz covering basic 46 Hiragana characters",
     "descListeningKatakana": "Listening quiz covering basic 46 Katakana characters",
-    "descListeningMixed": "Listening challenge of Hiragana & Katakana"
+    "descListeningMixed": "Listening challenge of Hiragana & Katakana",
+    "unlockPreviousQuiz": "Finish the previous quiz first",
+    "countQuestions": "${count} questions",
+    "estTime": "±${time} minutes",
+    "difficultyMedium": "Medium",
+    "difficultyHard": "Hard",
+    "lockedStatus": "Locked",
+    "audioType": "Audio"
   },
   "progress": {
     "title": "Learning Progress Statistics",
@@ -158,7 +187,9 @@
     "daysInARow": "${days} Days in a Row!",
     "enableAlarm": "Enable Alarm",
     "studyTime": "Study Time",
-    "nextReminder": "Next Reminder"
+    "nextReminder": "Next Reminder",
+    "keepItUpMsg": "Keep up your learning spirit!",
+    "charactersCount": "${completed}/${total} characters"
   },
   "profile": {
     "title": "My Profile",
@@ -173,7 +204,9 @@
     "cancel": "Cancel",
     "logout": "Log Out",
     "logoutTitle": "Logout?",
-    "logoutConfirmText": "You need to log back in to save your learning progress.",
+    "logoutConfirmText": "You need to login again to save your learning progress.",
+    "badgesEarned": "Badges Earned",
+    "deleteDataWarning": "All data will be lost permanently",
     "hiraganaQuiz": "Hiragana Quiz",
     "katakanaQuiz": "Katakana Quiz",
     "defaultUserName": "HI KATA Learner",
@@ -186,13 +219,20 @@
       "katakana": "Katakana",
       "days": "Days",
       "completed": "Completed",
-      "progress": "Progress"
+      "progress": "Progress",
+      "noQuizHistory": "No Quiz History",
+      "startFirstQuiz": "Let's start learning and take your first quiz!"
     },
     "chooseAvatar": "Choose New Avatar",
     "achievements": "Quiz Achievements",
-    "mixedQuiz": "Mixed Quiz"
+    "mixedQuiz": "Mixed Quiz",
+    "joinedSince": "Joined since ${date}"
   },
   "settings": {
+    "mixedQuiz": "Mixed Quiz",
+    "appearance": "App Appearance",
+    "lightMode": "Light Mode",
+    "darkMode": "Dark Mode",
     "title": "Settings",
     "theme": "App Theme",
     "darkTheme": "Dark Mode",
@@ -211,13 +251,13 @@
     "network": "Network connection error."
   },
   "language": {
-    "title": "Pilih Bahasa",
+    "title": "Select Language",
     "subtitle": "Choose Language",
-    "changeAnytime": "Kamu bisa mengubah bahasa kapan saja",
+    "changeAnytime": "You can change language anytime",
     "changeAnytimeEn": "You can change language anytime",
     "indonesian": "Bahasa Indonesia",
     "english": "English",
-    "indonesianDesc": "Panduan dalam Bahasa Indonesia",
+    "indonesianDesc": "Guide in Indonesian Language",
     "englishDesc": "Guide in English Language"
   },
   "about": {

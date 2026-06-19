@@ -23,6 +23,18 @@
     "progress": "Progress",
     "profile": "Profile"
   },
+  "home": {
+    "morning": "Ohayou / Good Morning",
+    "afternoon": "Konnichiwa / Good Afternoon",
+    "night": "Konbanwa / Good Evening",
+    "dailyMission": "Today's Mission",
+    "finishOneLesson": "Finish 1 Lesson",
+    "days": "${count} Days",
+    "xp": "${count} XP",
+    "rankBeginner": "Beginner",
+    "rankIntermediate": "Intermediate",
+    "rankAdvanced": "Advanced"
+  },
   "about": {
     "title": "About App",
     "description": "HI KATA helps you learn Hiragana and Katakana through interactive lessons, pronunciation audio, and engaging quizzes.",

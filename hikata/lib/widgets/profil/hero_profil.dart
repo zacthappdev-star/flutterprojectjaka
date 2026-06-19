@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/providers/profile_provider.dart';
 import 'package:ppkd_b6/widgets/profil/sheet_pemilih_avatar.dart';
+import 'package:provider/provider.dart';
 
 class HeroProfil extends StatelessWidget {
   final List<String> avatars;
 
-  const HeroProfil({
-    super.key,
-    required this.avatars,
-  });
+  const HeroProfil({super.key, required this.avatars});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +37,7 @@ class HeroProfil extends StatelessWidget {
             children: [
               Text(
                 context.t.profile.title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 22,
                   fontWeight: FontWeight.w800,
@@ -57,7 +54,9 @@ class HeroProfil extends StatelessWidget {
                   showModalBottomSheet(
                     context: context,
                     shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(28),
+                      ),
                     ),
                     builder: (_) => SheetPemilihAvatar(
                       avatarSaatIni: profileProvider.avatar,
@@ -74,19 +73,22 @@ class HeroProfil extends StatelessWidget {
                     Container(
                       width: 72,
                       height: 72,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
                       ),
                       child: Center(
-                        child: Text(profileProvider.avatar, style: const TextStyle(fontSize: 40)),
+                        child: Text(
+                          profileProvider.avatar,
+                          style: const TextStyle(fontSize: 40),
+                        ),
                       ),
                     ),
                     Positioned(
                       top: 0,
                       right: 0,
                       child: Container(
-                        padding: const EdgeInsets.all(4),
+                        padding: EdgeInsets.all(4),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.circle,
@@ -95,7 +97,7 @@ class HeroProfil extends StatelessWidget {
                             width: 1.5,
                           ),
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.edit,
                           color: Color(0xFF2E9E5B),
                           size: 10,
@@ -105,14 +107,14 @@ class HeroProfil extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       profileProvider.userName,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 18,
                         fontWeight: FontWeight.w800,
@@ -122,7 +124,7 @@ class HeroProfil extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                     if (profileProvider.userEmail.isNotEmpty) ...[
-                      const SizedBox(height: 2),
+                      SizedBox(height: 2),
                       Text(
                         profileProvider.userEmail,
                         style: TextStyle(
@@ -134,9 +136,11 @@ class HeroProfil extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4),
                     Text(
-                      "Bergabung sejak ${profileProvider.joinDate}",
+                      context.t.profile.joinedSince(
+                        date: profileProvider.joinDate,
+                      ),
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 11,

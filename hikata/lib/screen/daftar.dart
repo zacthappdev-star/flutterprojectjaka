@@ -171,7 +171,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                             child: Padding(
                               padding: EdgeInsets.all(10),
                               child: Image.asset(
-                                'assets/images/Hikatanotext.png',
+                                'assets/images/LogoHikata2.png',
                                 fit: BoxFit.contain,
                               ),
                             ),
@@ -249,7 +249,10 @@ class _RegisterScreenState extends State<RegisterScreen>
                                       validator: (value) {
                                         if (value == null ||
                                             value.trim().isEmpty) {
-                                          return t.auth.validation.usernameEmpty;
+                                          return t
+                                              .auth
+                                              .validation
+                                              .usernameEmpty;
                                         }
                                         return null;
                                       },
@@ -314,10 +317,16 @@ class _RegisterScreenState extends State<RegisterScreen>
                                       ),
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return t.auth.validation.passwordEmpty;
+                                          return t
+                                              .auth
+                                              .validation
+                                              .passwordEmpty;
                                         }
                                         if (value.length < 6) {
-                                          return t.auth.validation.passwordTooShort;
+                                          return t
+                                              .auth
+                                              .validation
+                                              .passwordTooShort;
                                         }
                                         return null;
                                       },
@@ -356,10 +365,16 @@ class _RegisterScreenState extends State<RegisterScreen>
                                       ),
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return t.auth.validation.passwordEmpty;
+                                          return t
+                                              .auth
+                                              .validation
+                                              .passwordEmpty;
                                         }
                                         if (value != passwordController.text) {
-                                          return t.auth.validation.passwordMismatch;
+                                          return t
+                                              .auth
+                                              .validation
+                                              .passwordMismatch;
                                         }
                                         return null;
                                       },

@@ -68,7 +68,28 @@
     "quizTitle": "Kuis",
     "quizSubtitle": "Uji Kemampuan",
     "stats": "Statistik",
-    "dailyGoal": "Target Harian"
+    "dailyGoal": "Target Harian",
+    "morning": "Ohayou / Selamat Pagi",
+    "afternoon": "Konnichiwa / Selamat Siang",
+    "night": "Konbanwa / Selamat Malam",
+    "dailyMission": "Misi Hari Ini",
+    "finishOneLesson": "Selesaikan 1 Pelajaran",
+    "days": "${count} Hari",
+    "xp": "${count} XP",
+    "rankBeginner": "Pemula",
+    "rankIntermediate": "Menengah",
+    "rankAdvanced": "Mahir",
+    "kanji": "Kanji",
+    "conversation": "Percakapan",
+    "startPractice": "Mulai Latihan",
+    "progressSummary": "${completed} karakter · ${percent}% selesai (${completed}/${total})"
+  },
+  "scriptGuide": {
+    "completed": "${completed} dari ${total} selesai",
+    "keepItUp": "Pertahankan Semangat!",
+    "xpPerLevel": "+5 XP tiap level selesai.",
+    "awesome": "Luar biasa!",
+    "keepLearning": "Lanjutkan belajarmu hari ini."
   },
   "hiragana": {
     "title": "Pengenalan Hiragana",
@@ -139,7 +160,14 @@
     "listeningQuizMixed": "Quiz Pendengaran Campuran",
     "descListeningHiragana": "Quiz pendengaran dari 46 karakter dasar Hiragana",
     "descListeningKatakana": "Quiz pendengaran dari 46 karakter dasar Katakana",
-    "descListeningMixed": "Tantangan Quiz pendengaran Hiragana & Katakana"
+    "descListeningMixed": "Tantangan pendengaran kombinasi Hiragana & Katakana",
+    "unlockPreviousQuiz": "Selesaikan kuis sebelumnya",
+    "countQuestions": "${count} soal",
+    "estTime": "±${time} menit",
+    "difficultyMedium": "Sedang",
+    "difficultyHard": "Sulit",
+    "lockedStatus": "Terkunci",
+    "audioType": "Audio"
   },
   "progress": {
     "title": "Statistik Progres belajar",
@@ -158,7 +186,9 @@
     "daysInARow": "${days} Hari Berturut-turut!",
     "enableAlarm": "Aktifkan Pengingat",
     "studyTime": "Waktu Belajar",
-    "nextReminder": "Notifikasi Berikutnya"
+    "nextReminder": "Pengingat Berikutnya",
+    "keepItUpMsg": "Pertahankan terus semangat belajarmu!",
+    "charactersCount": "${completed}/${total} karakter"
   },
   "profile": {
     "title": "Profil Saya",
@@ -174,6 +204,8 @@
     "logout": "Keluar",
     "logoutTitle": "Keluar dari Akun?",
     "logoutConfirmText": "Kamu harus masuk lagi untuk menyimpan progres belajar.",
+    "badgesEarned": "Badge Diraih",
+    "deleteDataWarning": "Semua data akan hilang permanen",
     "hiraganaQuiz": "Kuis Hiragana",
     "katakanaQuiz": "Kuis Katakana",
     "defaultUserName": "Pelajar HI KATA",
@@ -185,12 +217,15 @@
       "hiragana": "Hiragana",
       "katakana": "Katakana",
       "days": "Hari",
-      "completed": "Dikerjakan",
-      "progress": "Progres"
+      "completed": "Selesai",
+      "progress": "Progres",
+      "noQuizHistory": "Belum ada Riwayat Kuis",
+      "startFirstQuiz": "Yuk mulai belajar dan kerjakan kuis pertamamu!"
     },
     "chooseAvatar": "Pilih Avatar Baru",
-    "achievements": "Pencapaian Quiz",
-    "mixedQuiz": "Quiz Campuran"
+    "achievements": "Pencapaian Kuis",
+    "mixedQuiz": "Kuis Campuran",
+    "joinedSince": "Bergabung sejak ${date}"
   },
   "settings": {
     "mixedQuiz": "Kuis Campuran",

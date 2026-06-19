@@ -165,13 +165,15 @@ class _ResetPasswordState extends State<ResetPassword>
                               ),
                             ),
                             child: Image.asset(
-                              'assets/images/Hikatanotext.png',
+                              'assets/images/LogoHikata2.png',
                               fit: BoxFit.contain,
                             ),
                           ),
                           SizedBox(height: 8),
                           Text(
-                            _emailSent ? 'Email Terkirim!' : t.auth.resetPasswordTitle,
+                            _emailSent
+                                ? 'Email Terkirim!'
+                                : t.auth.resetPasswordTitle,
                             style: AppTextStyles.appTitle.copyWith(
                               fontSize: 28,
                               letterSpacing: 2,
@@ -320,7 +322,10 @@ class _ResetPasswordState extends State<ResetPassword>
             },
           ),
           SizedBox(height: 18),
-          _GradientButton(label: Translations.of(context).auth.sendEmail, onPressed: sendReset),
+          _GradientButton(
+            label: Translations.of(context).auth.sendEmail,
+            onPressed: sendReset,
+          ),
         ],
       ),
     );

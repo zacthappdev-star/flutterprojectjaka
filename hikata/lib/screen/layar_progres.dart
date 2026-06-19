@@ -7,10 +7,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/models/model_progres.dart';
+import 'package:ppkd_b6/providers/profile_provider.dart';
 import 'package:ppkd_b6/services/layanan_notifikasi.dart';
 import 'package:ppkd_b6/services/layanan_progres.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 import 'package:ppkd_b6/widgets/progres/baris_statistik_progres.dart';
+import 'package:provider/provider.dart';
 import 'package:ppkd_b6/widgets/progres/kartu_pengingat_belajar.dart';
 import 'package:ppkd_b6/widgets/progres/kartu_progres_persen.dart';
 import 'package:ppkd_b6/widgets/progres/kartu_streak_progres.dart';
@@ -198,7 +200,7 @@ class _LayarProgresState extends State<LayarProgres> {
     final colors = context.hiKata;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: context.hiKata.cardBackground,
       body: Column(
         children: [
           _buildHeader(),
@@ -316,11 +318,11 @@ class _LayarProgresState extends State<LayarProgres> {
             value: '${_progress.totalQuizCompleted}',
           ),
           const Divider(height: 24, thickness: 1.2),
-          const BarisStatistikProgres(
+          BarisStatistikProgres(
             icon: Icons.emoji_events_rounded,
-            iconColor: Color(0xFFFFB300),
+            iconColor: const Color(0xFFFFB300),
             label: 'Total XP',
-            value: '1250',
+            value: '${context.watch<ProfileProvider>().totalXP}',
           ),
         ],
       ),
