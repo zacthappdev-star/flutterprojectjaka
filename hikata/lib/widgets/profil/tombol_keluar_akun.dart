@@ -23,7 +23,7 @@ class TombolKeluarAkun extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.logout_rounded, color: Colors.white, size: 20),
+              Icon(Icons.logout_rounded, color: Colors.redAccent, size: 20),
               SizedBox(width: 8),
               Text(
                 Translations.of(context).profile.logout.toUpperCase(),
@@ -31,7 +31,7 @@ class TombolKeluarAkun extends StatelessWidget {
                   fontFamily: 'Poppins',
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: Colors.redAccent,
                   letterSpacing: 1,
                 ),
               ),

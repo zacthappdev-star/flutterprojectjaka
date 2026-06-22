@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ppkd_b6/data/data_katakana.dart';
 import 'package:ppkd_b6/models/model_karakter.dart';
-import 'package:ppkd_b6/screen/kuis/layar_kuis.dart';
 import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/services/layanan_progres.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 import 'package:ppkd_b6/widgets/belajar/konten_grup.dart';
 import 'package:ppkd_b6/widgets/belajar/tampilan_level_terkunci.dart';
-import 'package:ppkd_b6/widgets/belajar/tombol_kuis_level.dart';
 import 'package:ppkd_b6/widgets/huruf/sheet_detail_huruf.dart';
 
 class LayarKatakana extends StatefulWidget {
@@ -76,20 +74,6 @@ class _LayarKatakanaState extends State<LayarKatakana>
                     return _buildKontenLevel(_groups[index], index);
                   }),
                 ),
-              ),
-              TombolKuisLevel(
-                isUnlocked: _tabController.index < _unlockedLevels,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => QuizScreen(
-                        mode: 'Katakana',
-                        levelIndex: _tabController.index,
-                      ),
-                    ),
-                  ).then((_) => _loadUnlockedLevels());
-                },
               ),
             ],
           ),

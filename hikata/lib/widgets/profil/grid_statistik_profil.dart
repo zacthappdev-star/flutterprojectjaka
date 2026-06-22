@@ -23,6 +23,7 @@ class GridStatistikProfil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colors = context.hiKata;
     final t = Translations.of(context);
 
     if (totalQuizzes == 0) {
@@ -30,9 +31,11 @@ class GridStatistikProfil extends StatelessWidget {
         width: double.infinity,
         padding: EdgeInsets.symmetric(vertical: 32, horizontal: 16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: isDark ? colors.cardBackground : Colors.white,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.grey.shade200),
+          border: Border.all(
+            color: isDark ? colors.divider : Colors.grey.shade200,
+          ),
         ),
         child: Column(
           children: [
@@ -44,7 +47,7 @@ class GridStatistikProfil extends StatelessWidget {
                 fontFamily: 'Poppins',
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
-                color: Color(0xFF1A1A1A),
+                color: isDark ? colors.textPrimary : Color(0xFF1A1A1A),
               ),
             ),
             SizedBox(height: 8),
@@ -54,7 +57,7 @@ class GridStatistikProfil extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 13,
-                color: Colors.grey.shade500,
+                color: isDark ? colors.textMuted : Colors.grey.shade500,
               ),
             ),
           ],
@@ -147,18 +150,23 @@ class GridStatistikProfil extends StatelessWidget {
     required Color accentColor,
     bool isKatakana = false,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colors = context.hiKata;
+
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDark ? colors.cardBackground : Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(
+          color: isDark ? colors.divider : Colors.grey.shade200,
+        ),
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(icon, style: const TextStyle(fontSize: 32)),
+            Text(icon, style: TextStyle(fontSize: 32)),
             SizedBox(height: 8),
             RichText(
               maxLines: 1,
@@ -169,7 +177,7 @@ class GridStatistikProfil extends StatelessWidget {
                   fontFamily: 'Poppins',
                   fontSize: 16,
                   fontWeight: FontWeight.w800,
-                  color: Color(0xFF1A1A1A),
+                  color: isDark ? colors.textPrimary : Color(0xFF1A1A1A),
                 ),
                 children: [
                   TextSpan(
@@ -178,7 +186,7 @@ class GridStatistikProfil extends StatelessWidget {
                       fontFamily: 'Poppins',
                       fontSize: 10,
                       fontWeight: FontWeight.w600,
-                      color: Colors.grey.shade500,
+                      color: isDark ? colors.textMuted : Colors.grey.shade500,
                     ),
                   ),
                 ],
@@ -191,7 +199,7 @@ class GridStatistikProfil extends StatelessWidget {
                 fontFamily: 'Poppins',
                 fontSize: 11,
                 fontWeight: FontWeight.w600,
-                color: Colors.grey.shade500,
+                color: isDark ? colors.textMuted : Colors.grey.shade500,
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,

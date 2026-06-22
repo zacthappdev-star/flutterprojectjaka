@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ppkd_b6/data/data_hiragana.dart';
 import 'package:ppkd_b6/data/data_katakana.dart';
 import 'package:ppkd_b6/gen/strings.g.dart';
-import 'package:ppkd_b6/screen/kuis/layar_kuis.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 import 'package:ppkd_b6/widgets/huruf/tabel_aksara_lengkap.dart';
 
@@ -43,8 +42,11 @@ class _LayarBerandaState extends State<LayarBeranda>
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colors = context.hiKata;
+
     return Scaffold(
-      backgroundColor: context.hiKata.cardBackground,
+      backgroundColor: colors.cardBackground,
       body: SizedBox(
         width: double.infinity,
         height: double.infinity,
@@ -125,9 +127,9 @@ class _LayarBerandaState extends State<LayarBeranda>
                             vertical: 8,
                           ),
                           decoration: BoxDecoration(
-                            color: const Color(
-                              0xFFC8E6C9,
-                            ), // hijau muda (tidak aktif)
+                            color: isDark
+                                ? const Color(0xFF1B5E20).withValues(alpha: 0.3)
+                                : const Color(0xFFC8E6C9),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: TabBar(
@@ -139,11 +141,15 @@ class _LayarBerandaState extends State<LayarBeranda>
                             ),
                             physics: const BouncingScrollPhysics(),
                             indicator: BoxDecoration(
-                              color: Colors.white, // aktif background putih
+                              color: isDark
+                                  ? colors.cardBackground
+                                  : Colors.white,
                               borderRadius: BorderRadius.circular(20),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withValues(alpha: 0.05),
+                                  color: Colors.black.withValues(
+                                    alpha: isDark ? 0.2 : 0.05,
+                                  ),
                                   blurRadius: 8,
                                   offset: const Offset(0, 4),
                                 ),
@@ -159,10 +165,14 @@ class _LayarBerandaState extends State<LayarBeranda>
                               fontSize: 15,
                               fontWeight: FontWeight.w600,
                             ),
-                            labelColor: const Color(0xFF2E9E5B),
-                            unselectedLabelColor: const Color(
-                              0xFF2E9E5B,
-                            ).withValues(alpha: 0.6),
+                            labelColor: isDark
+                                ? colors.textPrimary
+                                : const Color(0xFF2E9E5B),
+                            unselectedLabelColor: isDark
+                                ? colors.textMuted
+                                : const Color(
+                                    0xFF2E9E5B,
+                                  ).withValues(alpha: 0.6),
                             dividerColor: Colors.transparent,
                             tabs: const [
                               Tab(text: 'あ Hiragana'),
@@ -198,7 +208,9 @@ class _LayarBerandaState extends State<LayarBeranda>
                               fontFamily: 'Poppins',
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
-                              color: Colors.grey.shade600,
+                              color: isDark
+                                  ? colors.textMuted
+                                  : Colors.grey.shade600,
                             ),
                           ),
                           const SizedBox(height: 6),
@@ -206,7 +218,9 @@ class _LayarBerandaState extends State<LayarBeranda>
                             borderRadius: BorderRadius.circular(10),
                             child: LinearProgressIndicator(
                               value: 15 / 46,
-                              backgroundColor: Colors.grey.shade200,
+                              backgroundColor: isDark
+                                  ? colors.progressTrack
+                                  : Colors.grey.shade200,
                               valueColor: const AlwaysStoppedAnimation<Color>(
                                 Color(0xFF2E9E5B),
                               ),
@@ -214,50 +228,6 @@ class _LayarBerandaState extends State<LayarBeranda>
                             ),
                           ),
                         ],
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF2E9E5B),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(8),
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const QuizScreen(mode: 'mixed'),
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 8,
-                            ),
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  Icons.play_arrow_rounded,
-                                  color: Colors.white,
-                                  size: 16,
-                                ),
-                                const SizedBox(width: 4),
-                                Text(
-                                  context.t.home.startPractice,
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
                       ),
                     ),
                   ],

@@ -18,8 +18,10 @@ class _DasborKuisState extends State<DasborKuis> {
   Widget build(BuildContext context) {
     final colors = context.hiKata;
 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: colors.cardBackground,
       body: Column(
         children: [
           _buildHeader(),
@@ -67,7 +69,7 @@ class _DasborKuisState extends State<DasborKuis> {
                     subtitle: context.t.quiz.descQuizMixed,
                     badge: '🌐',
                     accentColor: Colors.purple,
-                    badgeBg: Colors.purple.shade50,
+                    badgeBg: isDark ? const Color(0xFF3B1D4B) : Colors.purple.shade50,
                     difficulty: 'Boss Level 🔥',
                     questionCount: context.t.quiz.countQuestions(count: 20),
                     estimatedTime: context.t.quiz.estTime(time: 10),
@@ -80,15 +82,15 @@ class _DasborKuisState extends State<DasborKuis> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  const Divider(color: Colors.black12, thickness: 1.5),
+                  Divider(color: colors.divider, thickness: 1.5),
                   const SizedBox(height: 16),
                   Text(
                     context.t.quiz.listeningQuizzes,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFF1A1A1A),
+                      color: isDark ? colors.textPrimary : const Color(0xFF1A1A1A),
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -133,7 +135,7 @@ class _DasborKuisState extends State<DasborKuis> {
                     subtitle: context.t.quiz.descListeningMixed,
                     badge: '🔊',
                     accentColor: Colors.purple,
-                    badgeBg: Colors.purple.shade50,
+                    badgeBg: isDark ? const Color(0xFF3B1D4B) : Colors.purple.shade50,
                     questionCount: context.t.quiz.countQuestions(count: 20),
                     estimatedTime: context.t.quiz.estTime(time: 10),
                     difficulty: 'Boss Level 🔥',

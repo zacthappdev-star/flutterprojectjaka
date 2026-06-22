@@ -200,7 +200,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                             horizontal: 20,
                             vertical: 18,
                           ),
-                          decoration: AppDecorations.cardDecoration,
+                          decoration: AppDecorations.cardDecorationOf(context),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
@@ -239,7 +239,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                       style: TextStyle(
                                         fontFamily: 'Poppins',
                                         fontSize: 13,
-                                        color: Color(0xFF263238),
+                                        color: Theme.of(context).brightness == Brightness.dark ? context.hiKata.textPrimary : Color(0xFF263238),
                                       ),
                                       decoration:
                                           AppDecorations.fieldDecoration(
@@ -266,7 +266,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                       style: TextStyle(
                                         fontFamily: 'Poppins',
                                         fontSize: 13,
-                                        color: Color(0xFF263238),
+                                        color: Theme.of(context).brightness == Brightness.dark ? context.hiKata.textPrimary : Color(0xFF263238),
                                       ),
                                       decoration:
                                           AppDecorations.fieldDecoration(
@@ -292,7 +292,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                       style: TextStyle(
                                         fontFamily: 'Poppins',
                                         fontSize: 13,
-                                        color: Color(0xFF263238),
+                                        color: Theme.of(context).brightness == Brightness.dark ? context.hiKata.textPrimary : Color(0xFF263238),
                                       ),
                                       decoration: AppDecorations.fieldDecoration(
                                         hint: t.auth.passwordHint,
@@ -340,7 +340,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                       style: TextStyle(
                                         fontFamily: 'Poppins',
                                         fontSize: 13,
-                                        color: Color(0xFF263238),
+                                        color: Theme.of(context).brightness == Brightness.dark ? context.hiKata.textPrimary : Color(0xFF263238),
                                       ),
                                       decoration: AppDecorations.fieldDecoration(
                                         hint: t.auth.confirmPasswordHint,

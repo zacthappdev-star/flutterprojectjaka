@@ -40,7 +40,7 @@ class _LayarProfilState extends State<LayarProfil> {
     }
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: context.hiKata.cardBackground,
       body: Column(
         children: [
           HeroProfil(avatars: _avatars),
@@ -94,6 +94,9 @@ class _LayarProfilState extends State<LayarProfil> {
   }
 
   Widget _buildBagianBadge(ProfileProvider profile) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colors = context.hiKata;
+
     final badges = [
       {'icon': profile.rankIcon, 'name': profile.rankName, 'unlocked': true},
       {'icon': '🔥', 'name': context.t.home.days(count: profile.bestStreak), 'unlocked': profile.bestStreak >= 7},
@@ -122,9 +125,9 @@ class _LayarProfilState extends State<LayarProfil> {
                     vertical: 12,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: isDark ? colors.cardBackground : Colors.white,
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.grey.shade200),
+                    border: Border.all(color: isDark ? colors.divider : Colors.grey.shade200),
                   ),
                   child: Column(
                     children: [
@@ -135,11 +138,11 @@ class _LayarProfilState extends State<LayarProfil> {
                       const SizedBox(height: 4),
                       Text(
                         badge['name'] as String,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
-                          color: Color(0xFF1A1A1A),
+                          color: colors.textPrimary,
                         ),
                       ),
                     ],
@@ -265,6 +268,7 @@ class _LayarProfilState extends State<LayarProfil> {
   }
 
   Widget _buildHapusAkun() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -276,9 +280,9 @@ class _LayarProfilState extends State<LayarProfil> {
             width: double.infinity,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: const Color(0xFFFFF5F5),
+              color: isDark ? const Color(0xFF3B1A1A) : const Color(0xFFFFF5F5),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: Colors.red.shade200),
+              border: Border.all(color: isDark ? Colors.red.shade900 : Colors.red.shade200),
             ),
             child: Row(
               children: [
@@ -324,17 +328,19 @@ class _LayarProfilState extends State<LayarProfil> {
   // ─── Dialog & Sheet ──────────────────────────────────────────────────────────
 
   void _showLogoutDialog(BuildContext context) {
+    final colors = context.hiKata;
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
+        backgroundColor: colors.cardBackground,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Text(
           context.t.profile.logoutTitle,
-          style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.bold),
+          style: TextStyle(fontFamily: 'Poppins', fontWeight: FontWeight.bold, color: colors.textPrimary),
         ),
         content: Text(
           context.t.profile.logoutConfirmText,
-          style: TextStyle(fontFamily: 'Poppins'),
+          style: TextStyle(fontFamily: 'Poppins', color: colors.textPrimary),
         ),
         actions: [
           TextButton(
@@ -373,6 +379,7 @@ class _LayarProfilState extends State<LayarProfil> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
+        backgroundColor: colors.cardBackground,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Row(
           children: [

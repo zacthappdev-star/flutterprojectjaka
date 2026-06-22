@@ -115,6 +115,7 @@
   },
   "quiz": {
     "title": "Kuis Pilihan Ganda",
+    "answer": "Jawab",
     "question": "${current} dari ${total} soal",
     "score": "Skor Anda",
     "correct": "Benar",

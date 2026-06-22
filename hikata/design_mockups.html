@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HI KATA App Redesign Mockups</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111;
+            color: #fff;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+        }
+
+        h1.main-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .screen-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .screen-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .screen-label {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #aaa;
+        }
+
+        /* Base Device Styles */
+        .device {
+            width: 360px;
+            height: 720px;
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 0 10px #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Design System: Dark Mode --- */
+        .device.dark {
+            background-color: #0f2318;
+            color: #d8f3dc;
+        }
+
+        .dark .card {
+            background-color: #1b4332;
+            border: 1px solid transparent;
+        }
+
+        .dark .accent-border {
+            border: 1px solid #2d6a4f;
+        }
+
+        .dark .text-main {
+            color: #d8f3dc;
+        }
+
+        .dark .text-secondary {
+            color: #95d5b2;
+        }
+
+        .dark .text-muted {
+            color: #52b788;
+        }
+
+        .dark .btn-primary {
+            background-color: #2d6a4f;
+            color: #d8f3dc;
+        }
+
+        .dark .input-field {
+            background-color: #0f2318;
+            border: 1px solid #2d6a4f;
+            color: #d8f3dc;
+        }
+
+        .dark .top-section {
+            background-color: #0f2318;
+        }
+
+        .dark .circle-bg {
+            background-color: #1b4332;
+        }
+
+        .dark .active-card {
+            border: 2px solid #2d6a4f;
+            background-color: rgba(45, 106, 79, 0.2);
+        }
+
+        .dark .nav-bar {
+            background-color: #1b4332;
+            border-top: 1px solid #2d6a4f;
+        }
+
+        .dark .header-bar {
+            background-color: #1b4332;
+            border-bottom: 1px solid #2d6a4f;
+        }
+
+        .dark .chip-active {
+            background-color: #2d6a4f;
+            color: #d8f3dc;
+            border: 1px solid #2d6a4f;
+        }
+
+        .dark .chip-inactive {
+            background-color: transparent;
+            border: 1px solid #2d6a4f;
+            color: #95d5b2;
+        }
+
+        /* --- Design System: Light Mode --- */
+        .device.light {
+            background-color: #f0f4f0;
+            color: #1a1a1a;
+        }
+
+        .light .card {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+        }
+
+        .light .text-main {
+            color: #1a1a1a;
+        }
+
+        .light .text-secondary {
+            color: #388e3c;
+        }
+
+        .light .text-muted {
+            color: #888888;
+        }
+
+        .light .btn-primary {
+            background-color: #2e7d32;
+            color: #ffffff;
+        }
+
+        .light .input-field {
+            background-color: #ffffff;
+            border: 1px solid #c8e6c9;
+            color: #1a1a1a;
+        }
+
+        .light .top-section {
+            background-color: #2e7d32;
+            color: #ffffff;
+        }
+
+        .light .top-section .text-muted {
+            color: #c8e6c9;
+        }
+
+        .light .circle-bg {
+            background-color: #388e3c;
+        }
+
+        .light .active-card {
+            border: 2px solid #2e7d32;
+            background-color: #e8f5e9;
+        }
+
+        .light .nav-bar {
+            background-color: #ffffff;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .light .header-bar {
+            background-color: #2e7d32;
+            color: #fff;
+        }
+
+        .light .chip-active {
+            background-color: #2e7d32;
+            color: #fff;
+            border: 1px solid #2e7d32;
+        }
+
+        .light .chip-inactive {
+            background-color: transparent;
+            border: 1px solid #c8e6c9;
+            color: #388e3c;
+        }
+
+        /* Global Elements */
+        .card {
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            border-radius: 20px;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .btn-outline {
+            width: 100%;
+            border-radius: 20px;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            background-color: transparent;
+            border: 2px solid #2d6a4f;
+            color: #2d6a4f;
+            cursor: pointer;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .light .btn-outline {
+            border-color: #2e7d32;
+            color: #2e7d32;
+        }
+
+        .input-field {
+            width: 100%;
+            border-radius: 8px;
+            padding: 12px 12px 12px 40px;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            box-sizing: border-box;
+            position: relative;
+            outline: none;
+        }
+
+        .input-group {
+            position: relative;
+            width: 100%;
+        }
+
+        .input-icon-left {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.1rem;
+            opacity: 0.7;
+            z-index: 2;
+        }
+
+        .input-icon-right {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.1rem;
+            opacity: 0.7;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        textarea.input-field {
+            padding: 12px;
+            resize: none;
+            height: 100px;
+        }
+
+        .flex-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flex-row {
+            display: flex;
+            align-items: center;
+        }
+
+        .flex-col {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .space-between {
+            justify-content: space-between;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .p-4 {
+            padding: 20px;
+        }
+
+        .mt-auto {
+            margin-top: auto;
+        }
+
+        .mb-2 {
+            margin-bottom: 8px;
+        }
+
+        .mb-4 {
+            margin-bottom: 16px;
+        }
+
+        /* Bottom Navbar */
+        .nav-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.7rem;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: #2d6a4f;
+        }
+
+        .light .nav-item.active {
+            color: #2e7d32;
+        }
+
+        /* Specific Screen Styles */
+        .top-bar-simple {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+        }
+
+        .progress-bar-container {
+            flex-grow: 1;
+            height: 6px;
+            background-color: rgba(128, 128, 128, 0.3);
+            border-radius: 3px;
+            margin: 0 16px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background-color: currentcolor;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        /* Layout helpers */
+        .content-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            padding-bottom: 80px;
+            /* space for navbar if present */
+            scrollbar-width: none;
+        }
+
+        .content-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .radio-circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid currentcolor;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.5;
+        }
+
+        .active-card .radio-circle {
+            opacity: 1;
+        }
+
+        .active-card .radio-circle::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: currentcolor;
+        }
+
+        .left-border-accent {
+            border-left: 4px solid #2d6a4f;
+            padding-left: 12px;
+        }
+
+        .light .left-border-accent {
+            border-left-color: #2e7d32;
+        }
+
+        .chip {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-align: center;
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1 class="main-title">HI KATA App Redesign - All Screens</h1>
+
+    <!-- HALAMAN 1 -->
+    <div class="screen-container">
+        <div class="screen-wrapper">
+            <div class="screen-label">1. Pilih Bahasa (Dark)</div>
+            <div class="device dark">
+                <div class="flex-col flex-center p-4 top-section" style="height: 40%;">
+                    <div class="circle-bg flex-center mb-4"
+                        style="width: 80px; height: 80px; border-radius: 50%; font-size: 2rem;">🌍</div>
+                    <div class="bold text-main" style="font-size: 1.5rem;">Pilih Bahasa</div>
+                    <div class="text-muted mt-2">Choose Language</div>
+                </div>
+                <div class="p-4 flex-col" style="flex:1;">
+                    <div class="card active-card flex-row space-between">
+                        <div class="flex-row gap-3" style="gap: 12px;">
+                            <span style="font-size: 1.5rem;">🇮🇩</span>
+                            <div class="flex-col">
+                                <span class="bold text-main">Bahasa Indonesia</span>
+                                <span class="text-muted" style="font-size: 0.8rem;">Indonesian</span>
+                            </div>
+                        </div>
+                        <div class="radio-circle"></div>
+                    </div>
+                    <div class="card flex-row space-between">
+                        <div class="flex-row gap-3" style="gap: 12px;">
+                            <span style="font-size: 1.5rem;">🇺🇸</span>
+                            <div class="flex-col">
+                                <span class="bold text-main">English</span>
+                                <span class="text-muted" style="font-size: 0.8rem;">English</span>
+                            </div>
+                        </div>
+                        <div class="radio-circle"></div>
+                    </div>
+
+                    <div class="mt-auto flex-col">
+                        <button class="btn-primary mb-2">Lanjutkan</button>
+                        <span class="text-muted text-center" style="font-size: 0.75rem;">You can change language
+                            anytime</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="screen-wrapper">
+            <div class="screen-label">1. Pilih Bahasa (Light)</div>
+            <div class="device light">
+                <div class="flex-col flex-center p-4 top-section" style="height: 40%;">
+                    <div class="circle-bg flex-center mb-4"
+                        style="width: 80px; height: 80px; border-radius: 50%; font-size: 2rem; color: #fff;">🌍</div>
+                    <div class="bold text-main" style="font-size: 1.5rem; color: #fff;">Pilih Bahasa</div>
+                    <div class="text-muted mt-2" style="color: #c8e6c9;">Choose Language</div>
+                </div>
+                <div class="p-4 flex-col" style="flex:1;">
+                    <div class="card active-card flex-row space-between">
+                        <div class="flex-row gap-3" style="gap: 12px;">
+                            <span style="font-size: 1.5rem;">🇮🇩</span>
+                            <div class="flex-col">
+                                <span class="bold text-main">Bahasa Indonesia</span>
+                                <span class="text-muted" style="font-size: 0.8rem;">Indonesian</span>
+                            </div>
+                        </div>
+                        <div class="radio-circle"></div>
+                    </div>
+                    <div class="card flex-row space-between">
+                        <div class="flex-row gap-3" style="gap: 12px;">
+                            <span style="font-size: 1.5rem;">🇺🇸</span>
+                            <div class="flex-col">
+                                <span class="bold text-main">English</span>
+                                <span class="text-muted" style="font-size: 0.8rem;">English</span>
+                            </div>
+                        </div>
+                        <div class="radio-circle"></div>
+                    </div>
+
+                    <div class="mt-auto flex-col">
+                        <button class="btn-primary mb-2">Lanjutkan</button>
+                        <span class="text-muted text-center" style="font-size: 0.75rem;">You can change language
+                            anytime</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HALAMAN 2 -->
+    <div class="screen-container">
+        <div class="screen-wrapper">
+            <div class="screen-label">2. Alasan Belajar (Dark)</div>
+            <div class="device dark">
+                <div class="top-bar-simple top-section">
+                    <span>❮</span>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill text-secondary" style="width: 50%;"></div>
+                    </div>
+                    <span class="text-muted" style="font-size: 0.9rem;">1/2</span>
+                </div>
+                <div class="content-scroll flex-col">
+                    <h2 class="bold text-main mb-2">Kenapa kamu tertarik belajar Bahasa Jepang?</h2>
+                    <p class="text-muted mb-4" style="font-size: 0.9rem;">Pilih salah satu alasan utamamu belajar bahasa
+                        Jepang</p>
+
+                    <div class="card active-card flex-row gap-3">
+                        <div class="circle-bg flex-center"
+                            style="width: 40px; height: 40px; border-radius: 8px; margin-right: 12px;">🎓</div>
+                        <div class="flex-col">
+                            <span class="bold text-main">Pendidikan / Sekolah</span>
+                            <span class="text-muted" style="font-size: 0.75rem;">Untuk tugas sekolah atau pelajaran
+                                formal</span>
+                        </div>
+                    </div>
+                    <!-- Other options omitted for brevity, showing active state -->
+                    <div class="card flex-row gap-3">
+                        <div class="circle-bg flex-center"
+                            style="width: 40px; height: 40px; border-radius: 8px; margin-right: 12px;">📺</div>
+                        <div class="flex-col">
+                            <span class="bold text-main">Anime & Pop Culture</span>
+                            <span class="text-muted" style="font-size: 0.75rem;">Biar bisa nonton anime tanpa
+                                subtitle</span>
+                        </div>
+                    </div>
+                    <div class="mt-auto">
+                        <button class="btn-primary">Lanjutkan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="screen-wrapper">
+            <div class="screen-label">2. Alasan Belajar (Light)</div>
+            <div class="device light">
+                <div class="top-bar-simple top-section">
+                    <span>❮</span>
+                    <div class="progress-bar-container" style="background-color: rgba(255,255,255,0.3);">
+                        <div class="progress-bar-fill" style="width: 50%; background-color: #fff;"></div>
+                    </div>
+                    <span style="font-size: 0.9rem;">1/2</span>
+                </div>
+                <div class="content-scroll flex-col">
+                    <h2 class="bold text-main mb-2">Kenapa kamu tertarik belajar Bahasa Jepang?</h2>
+                    <p class="text-muted mb-4" style="font-size: 0.9rem;">Pilih salah satu alasan utamamu belajar bahasa
+                        Jepang</p>
+
+                    <div class="card active-card flex-row gap-3">
+                        <div class="circle-bg flex-center text-main"
+                            style="width: 40px; height: 40px; border-radius: 8px; margin-right: 12px; color:#fff;">🎓
+                        </div>
+                        <div class="flex-col">
+                            <span class="bold text-main">Pendidikan / Sekolah</span>
+                            <span class="text-muted" style="font-size: 0.75rem;">Untuk tugas sekolah atau pelajaran
+                                formal</span>
+                        </div>
+                    </div>
+                    <!-- Other options -->
+                    <div class="card flex-row gap-3">
+                        <div class="circle-bg flex-center text-main"
+                            style="width: 40px; height: 40px; border-radius: 8px; margin-right: 12px; color:#fff;">📺
+                        </div>
+                        <div class="flex-col">
+                            <span class="bold text-main">Anime & Pop Culture</span>
+                            <span class="text-muted" style="font-size: 0.75rem;">Biar bisa nonton anime tanpa
+                                subtitle</span>
+                        </div>
+                    </div>
+                    <div class="mt-auto">
+                        <button class="btn-primary">Lanjutkan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HALAMAN 3 -->
+    <div class="screen-container">
+        <div class="screen-wrapper">
+            <div class="screen-label">3. Tujuan Belajar (Dark)</div>
+            <div class="device dark">
+                <div class="top-bar-simple top-section">
+                    <span>❮</span>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill text-secondary" style="width: 100%;"></div>
+                    </div>
+                    <span class="text-muted" style="font-size: 0.9rem;">2/2</span>
+                </div>
+                <div class="content-scroll flex-col">
+                    <div class="flex-col flex-center mb-4">
+                        <div class="circle-bg flex-center mb-2"
+                            style="width: 60px; height: 60px; border-radius: 50%; font-size: 2rem;">🎯</div>
+                        <h2 class="bold text-main m-0">Tujuan Belajarmu</h2>
+                        <p class="text-muted mt-2 m-0" style="font-size: 0.9rem;">Mari tentukan target harian belajarmu!
+                        </p>
+                    </div>
+
+                    <div class="card flex-row gap-3 mb-4" style="background-color: #1b4332;">
+                        <span style="font-size: 1.5rem; margin-right: 12px;">💡</span>
+                        <div style="font-size: 0.85rem;" class="text-main">
+                            Pilihan mantap! Kamu belajar untuk: <span class="bold text-secondary">Pendidikan &
+                                Sekolah</span>
+                        </div>
+                    </div>
+
+                    <h4 class="text-main mb-2 mt-0">Berapa target belajar harianmu?</h4>
+
+                    <div class="card flex-row space-between">
+                        <div class="flex-row gap-3">
+                            <span style="font-size: 1.5rem; margin-right: 12px;">☀️</span>
+                            <div class="flex-col">
+                                <span class="bold text-main">Santai</span>
+                                <span class="text-muted" style="font-size: 0.75rem;">Bagus untuk perkenalan awal</span>
+                            </div>
+                        </div>
+                        <span class="text-secondary bold" style="font-size: 0.85rem;">5 menit / hari</span>
+                    </div>
+
+                    <div class="card active-card flex-row space-between">
+                        <div class="flex-row gap-3">
+                            <span style="font-size: 1.5rem; margin-right: 12px;">⚡</span>
+                            <div class="flex-col">
+                                <span class="bold text-main">Biasa</span>
+                                <span class="text-muted" style="font-size: 0.75rem;">Rekomendasi untuk pemula</span>
+                            </div>
+                        </div>
+                        <span class="text-secondary bold" style="font-size: 0.85rem;">10 menit / hari</span>
+                    </div>
+
+                    <div class="mt-auto">
+                        <button class="btn-primary">Mulai Belajar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="screen-wrapper">
+            <div class="screen-label">3. Tujuan Belajar (Light)</div>
+            <div class="device light">
+                <div class="top-bar-simple top-section">
+                    <span>❮</span>
+                    <div class="progress-bar-container" style="background-color: rgba(255,255,255,0.3);">
+                        <div class="progress-bar-fill" style="width: 100%; background-color: #fff;"></div>
+                    </div>
+                    <span style="font-size: 0.9rem;">2/2</span>
+                </div>
+                <div class="content-scroll flex-col">
+                    <div class="flex-col flex-center mb-4">
+                        <div class="circle-bg flex-center mb-2 text-main"
+                            style="width: 60px; height: 60px; border-radius: 50%; font-size: 2rem; color: #fff;">🎯
+                        </div>
+                        <h2 class="bold text-main m-0">Tujuan Belajarmu</h2>
+                        <p class="text-muted mt-2 m-0" style="font-size: 0.9rem;">Mari tentukan target harian belajarmu!
+                        </p>
+                    </div>
+
+                    <div class="card flex-row gap-3 mb-4" style="background-color: #e8f5e9; border-color: #c8e6c9;">
+                        <span style="font-size: 1.5rem; margin-right: 12px;">💡</span>
+                        <div style="font-size: 0.85rem;" class="text-main">
+                            Pilihan mantap! Kamu belajar untuk: <span class="bold text-secondary">Pendidikan &
+                                Sekolah</span>
+                        </div>
+                    </div>
+
+                    <h4 class="text-main mb-2 mt-0">Berapa target belajar harianmu?</h4>
+
+                    <div class="card flex-row space-between">
+                        <div class="flex-row gap-3">
+                            <span style="font-size: 1.5rem; margin-right: 12px;">☀️</span>
+                            <div class="flex-col">
+                                <span class="bold text-main">Santai</span>
+                                <span class="text-muted" style="font-size: 0.75rem;">Bagus untuk perkenalan awal</span>
+                            </div>
+                        </div>
+                        <span class="text-secondary bold" style="font-size: 0.85rem;">5 menit / hari</span>
+                    </div>
+
+                    <div class="card active-card flex-row space-between">
+                        <div class="flex-row gap-3">
+                            <span style="font-size: 1.5rem; margin-right: 12px;">⚡</span>
+                            <div class="flex-col">
+                                <span class="bold text-main">Biasa</span>
+                                <span class="text-muted" style="font-size: 0.75rem;">Rekomendasi untuk pemula</span>
+                            </div>
+                        </div>
+                        <span class="text-secondary bold" style="font-size: 0.85rem;">10 menit / hari</span>
+                    </div>
+
+                    <div class="mt-auto">
+                        <button class="btn-primary">Mulai Belajar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HALAMAN 4 (Login) -->
+    <div class="screen-container">
+        <div class="screen-wrapper">
+            <div class="screen-label">4. Login (Dark)</div>
+            <div class="device dark p-4">
+                <div class="flex-col flex-center mb-4 mt-4">
+                    <div class="circle-bg flex-center mb-2"
+                        style="width: 60px; height: 60px; border-radius: 50%; font-size: 1.5rem; color: #2d6a4f; background-color: #d8f3dc;">
+                        HK</div>
+                    <h2 class="bold text-main m-0">HI KATA</h2>
+                </div>
+                <div class="card flex-col">
+                    <h3 class="left-border-accent text-main m-0 mb-4">Masuk</h3>
+                    <div class="input-group">
+                        <span class="input-icon-left">✉️</span>
+                        <input type="text" class="input-field" placeholder="Alamat Email">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-icon-left">🔒</span>
+                        <input type="password" class="input-field" placeholder="Kata Sandi">
+                        <span class="input-icon-right">👁️</span>
+                    </div>
+                    <div style="text-align: right; margin-bottom: 20px;">
+                        <span class="text-secondary" style="font-size: 0.8rem; cursor: pointer;">Lupa password?</span>
+                    </div>
+                    <button class="btn-primary mb-4">Masuk</button>
+                    <div class="flex-row flex-center mb-4" style="gap: 10px;">
+                        <div style="flex:1; height: 1px; background-color: #2d6a4f;"></div>
+                        <span class="text-muted" style="font-size: 0.8rem;">atau</span>
+                        <div style="flex:1; height: 1px; background-color: #2d6a4f;"></div>
+                    </div>
+                    <div class="flex-row gap-3" style="gap:12px;">
+                        <div class="card flex-center m-0" style="flex:1; padding: 10px; margin:0; cursor:pointer;">
+                            <span>🇬 Google</span>
+                        </div>
+                        <div class="card flex-center m-0" style="flex:1; padding: 10px; margin:0; cursor:pointer;">
+                            <span>🍎 Apple</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-auto text-center">
+                    <span class="text-muted" style="font-size: 0.9rem;">Belum punya akun? <span
+                            class="bold text-secondary" style="cursor:pointer;">Daftar</span></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="screen-wrapper">
+            <div class="screen-label">4. Login (Light)</div>
+            <div class="device light p-4">
+                <div class="flex-col flex-center mb-4 mt-4">
+                    <div class="circle-bg flex-center mb-2"
+                        style="width: 60px; height: 60px; border-radius: 50%; font-size: 1.5rem; color: #fff;">HK</div>
+                    <h2 class="bold text-main m-0">HI KATA</h2>
+                </div>
+                <div class="card flex-col" style="box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                    <h3 class="left-border-accent text-main m-0 mb-4">Masuk</h3>
+                    <div class="input-group">
+                        <span class="input-icon-left">✉️</span>
+                        <input type="text" class="input-field" placeholder="Alamat Email">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-icon-left">🔒</span>
+                        <input type="password" class="input-field" placeholder="Kata Sandi">
+                        <span class="input-icon-right">👁️</span>
+                    </div>
+                    <div style="text-align: right; margin-bottom: 20px;">
+                        <span class="text-secondary" style="font-size: 0.8rem; cursor: pointer;">Lupa password?</span>
+                    </div>
+                    <button class="btn-primary mb-4">Masuk</button>
+                    <div class="flex-row flex-center mb-4" style="gap: 10px;">
+                        <div style="flex:1; height: 1px; background-color: #e0e0e0;"></div>
+                        <span class="text-muted" style="font-size: 0.8rem;">atau</span>
+                        <div style="flex:1; height: 1px; background-color: #e0e0e0;"></div>
+                    </div>
+                    <div class="flex-row gap-3" style="gap:12px;">
+                        <div class="card flex-center m-0" style="flex:1; padding: 10px; margin:0; cursor:pointer;">
+                            <span>🇬 Google</span>
+                        </div>
+                        <div class="card flex-center m-0" style="flex:1; padding: 10px; margin:0; cursor:pointer;">
+                            <span>🍎 Apple</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-auto text-center">
+                    <span class="text-muted" style="font-size: 0.9rem;">Belum punya akun? <span
+                            class="bold text-secondary" style="cursor:pointer;">Daftar</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HALAMAN 5 (Daftar) -->
+    <div class="screen-container">
+        <div class="screen-wrapper">
+            <div class="screen-label">5. Daftar (Dark)</div>
+            <div class="device dark p-4">
+                <div class="flex-col flex-center mb-4 mt-4">
+                    <div class="circle-bg flex-center mb-2"
+                        style="width: 60px; height: 60px; border-radius: 50%; font-size: 1.5rem; color: #2d6a4f; background-color: #d8f3dc;">
+                        HK</div>
+                    <h2 class="bold text-main m-0">HI KATA</h2>
+                </div>
+                <div class="card flex-col">
+                    <h3 class="left-border-accent text-main m-0 mb-4">Daftar</h3>
+                    <div class="input-group">
+                        <span class="input-icon-left">👤</span>
+                        <input type="text" class="input-field" placeholder="Nama Pengguna">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-icon-left">✉️</span>
+                        <input type="text" class="input-field" placeholder="Alamat Email">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-icon-left">🔒</span>
+                        <input type="password" class="input-field" placeholder="Kata Sandi">
+                        <span class="input-icon-right">👁️</span>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-icon-left">🔒</span>
+                        <input type="password" class="input-field" placeholder="Konfirmasi Kata Sandi">
+                        <span class="input-icon-right">👁️</span>
+                    </div>
+                    <button class="btn-primary mt-2">Daftar</button>
+                </div>
+                <div class="mt-auto text-center">
+                    <span class="text-muted" style="font-size: 0.9rem;">Sudah punya akun? <span
+                            class="bold text-secondary" style="cursor:pointer;">Masuk</span></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="screen-wrapper">
+            <div class="screen-label">5. Daftar (Light)</div>
+            <div class="device light p-4">
+                <div class="flex-col flex-center mb-4 mt-4">
+                    <div class="circle-bg flex-center mb-2"
+                        style="width: 60px; height: 60px; border-radius: 50%; font-size: 1.5rem; color: #fff;">HK</div>
+                    <h2 class="bold text-main m-0">HI KATA</h2>
+                </div>
+                <div class="card flex-col" style="box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                    <h3 class="left-border-accent text-main m-0 mb-4">Daftar</h3>
+                    <div class="input-group">
+                        <span class="input-icon-left">👤</span>
+                        <input type="text" class="input-field" placeholder="Nama Pengguna">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-icon-left">✉️</span>
+                        <input type="text" class="input-field" placeholder="Alamat Email">
+                    </div>
+                    <div class="input-group">
+                        <span class="input-icon-left">🔒</span>
+                        <input type="password" class="input-field" placeholder="Kata Sandi">
+                        <span class="input-icon-right">👁️</span>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-icon-left">🔒</span>
+                        <input type="password" class="input-field" placeholder="Konfirmasi Kata Sandi">
+                        <span class="input-icon-right">👁️</span>
+                    </div>
+                    <button class="btn-primary mt-2">Daftar</button>
+                </div>
+                <div class="mt-auto text-center">
+                    <span class="text-muted" style="font-size: 0.9rem;">Sudah punya akun? <span
+                            class="bold text-secondary" style="cursor:pointer;">Masuk</span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HALAMAN 6 (Atur Ulang Sandi) -->
+    <div class="screen-container">
+        <div class="screen-wrapper">
+            <div class="screen-label">6. Atur Ulang Sandi (Dark)</div>
+            <div class="device dark">
+                <div class="header-bar p-4 flex-row"
+                    style="align-items: center; justify-content: flex-start; padding-bottom: 12px;">
+                    <span style="font-size: 1.2rem; margin-right: 8px; cursor: pointer;">❮</span>
+                    <span style="font-size: 1rem; cursor: pointer;">Kembali</span>
+                </div>
+                <div class="flex-col flex-center mb-4 mt-4">
+                    <div class="circle-bg flex-center mb-2"
+                        style="width: 60px; height: 60px; border-radius: 50%; font-size: 1.5rem; color: #2d6a4f; background-color: #d8f3dc;">
+                        HK</div>
+                    <h2 class="bold text-main m-0 text-center">Atur Ulang Sandi</h2>
+                </div>
+                <div class="content-scroll flex-col p-4 pt-0">
+                    <div class="card flex-col">
+                        <h3 class="left-border-accent text-main m-0 mb-4">Lupa password?</h3>
+                        <div class="flex-row gap-3 mb-4 p-3" style="background-color: #0f2318; border-radius: 8px;">
+                            <span style="font-size: 1.2rem; margin-right: 12px;">ℹ️</span>
+                            <span class="text-main" style="font-size: 0.85rem; line-height: 1.4;">Masukkan email Anda
+                                untuk menerima instruksi pengaturan ulang kata sandi.</span>
+                        </div>
+                        <div class="input-group mb-2">
+                            <span class="input-icon-left">✉️</span>
+                            <input type="text" class="input-field m-0" placeholder="Alamat Email">
+                        </div>
+                        <button class="btn-primary mt-4">Kirim Email</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="screen-wrapper">
+            <div class="screen-label">6. Atur Ulang Sandi (Light)</div>
+            <div class="device light">
+                <div class="header-bar p-4 flex-row"
+                    style="align-items: center; justify-content: flex-start; padding-bottom: 12px;">
+                    <span style="font-size: 1.2rem; margin-right: 8px; cursor: pointer;">❮</span>
+                    <span style="font-size: 1rem; cursor: pointer;">Kembali</span>
+                </div>
+                <div class="flex-col flex-center mb-4 mt-4">
+                    <div class="circle-bg flex-center mb-2"
+                        style="width: 60px; height: 60px; border-radius: 50%; font-size: 1.5rem; color: #fff;">HK</div>
+                    <h2 class="bold text-main m-0 text-center">Atur Ulang Sandi</h2>
+                </div>
+                <div class="content-scroll flex-col p-4 pt-0">
+                    <div class="card flex-col" style="box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                        <h3 class="left-border-accent text-main m-0 mb-4">Lupa password?</h3>
+                        <div class="flex-row gap-3 mb-4 p-3" style="background-color: #e8f5e9; border-radius: 8px;">
+                            <span style="font-size: 1.2rem; margin-right: 12px;">ℹ️</span>
+                            <span class="text-main" style="font-size: 0.85rem; line-height: 1.4;">Masukkan email Anda
+                                untuk menerima instruksi pengaturan ulang kata sandi.</span>
+                        </div>
+                        <div class="input-group mb-2">
+                            <span class="input-icon-left">✉️</span>
+                            <input type="text" class="input-field m-0" placeholder="Alamat Email">
+                        </div>
+                        <button class="btn-primary mt-4">Kirim Email</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HALAMAN 7 (Email Terkirim) -->
+    <div class="screen-container">
+        <div class="screen-wrapper">
+            <div class="screen-label">7. Email Terkirim (Dark)</div>
+            <div class="device dark">
+                <div class="header-bar p-4 flex-row"
+                    style="align-items: center; justify-content: flex-start; padding-bottom: 12px;">
+                    <span style="font-size: 1.2rem; margin-right: 8px; cursor: pointer;">❮</span>
+                </div>
+                <div class="flex-col flex-center mb-4 mt-4">
+                    <div class="circle-bg flex-center mb-2"
+                        style="width: 60px; height: 60px; border-radius: 50%; font-size: 1.5rem; color: #2d6a4f; background-color: #d8f3dc;">
+                        HK</div>
+                    <h2 class="bold text-main m-0 text-center">Email Terkirim!</h2>
+                </div>
+                <div class="content-scroll flex-col p-4 pt-0">
+                    <div class="card flex-col flex-center text-center">
+                        <div class="flex-center mb-4"
+                            style="width: 80px; height: 80px; border-radius: 50%; background-color: #2d6a4f; font-size: 2.5rem;">
+                            ✅
+                        </div>
+                        <h2 class="bold text-main m-0 mb-2">Berhasil!</h2>
+                        <p class="text-muted m-0 mb-4" style="font-size: 0.9rem; line-height: 1.5;">
+                            Email reset password telah dikirim ke: <br><span
+                                class="text-secondary">zacthappdev@gmail.com</span>
+                        </p>
+
+                        <div class="flex-col w-100"
+                            style="align-items: flex-start; width: 100%; gap: 16px; margin-bottom: 24px;">
+                            <div class="flex-row">
+                                <div class="flex-center"
+                                    style="width: 24px; height: 24px; border-radius: 50%; background-color: #2d6a4f; color: #d8f3dc; font-size: 0.7rem; margin-right: 12px; font-weight: bold;">
+                                    1</div>
+                                <span style="margin-right: 8px;">✉️</span>
+                                <span class="text-main" style="font-size: 0.9rem;">Buka email kamu</span>
+                            </div>
+                            <div class="flex-row">
+                                <div class="flex-center"
+                                    style="width: 24px; height: 24px; border-radius: 50%; background-color: #2d6a4f; color: #d8f3dc; font-size: 0.7rem; margin-right: 12px; font-weight: bold;">
+                                    2</div>
+                                <span style="margin-right: 8px;">🔗</span>
+                                <span class="text-main" style="font-size: 0.9rem;">Klik link reset password</span>
+                            </div>
+                            <div class="flex-row">
+                                <div class="flex-center"
+                                    style="width: 24px; height: 24px; border-radius: 50%; background-color: #2d6a4f; color: #d8f3dc; font-size: 0.7rem; margin-right: 12px; font-weight: bold;">
+                                    3</div>
+                                <span style="margin-right: 8px;">🔒</span>
+                                <span class="text-main" style="font-size: 0.9rem;">Buat password baru</span>
+                            </div>
+                        </div>
+
+                        <button class="btn-outline w-100" style="width: 100%;">Kirim ulang email</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="screen-wrapper">
+            <div class="screen-label">7. Email Terkirim (Light)</div>
+            <div class="device light">
+                <div class="header-bar p-4 flex-row"
+                    style="align-items: center; justify-content: flex-start; padding-bottom: 12px;">
+                    <span style="font-size: 1.2rem; margin-right: 8px; cursor: pointer;">❮</span>
+                </div>
+                <div class="flex-col flex-center mb-4 mt-4">
+                    <div class="circle-bg flex-center mb-2"
+                        style="width: 60px; height: 60px; border-radius: 50%; font-size: 1.5rem; color: #fff;">HK</div>
+                    <h2 class="bold text-main m-0 text-center">Email Terkirim!</h2>
+                </div>
+                <div class="content-scroll flex-col p-4 pt-0">
+                    <div class="card flex-col flex-center text-center" style="box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                        <div class="flex-center mb-4"
+                            style="width: 80px; height: 80px; border-radius: 50%; background-color: #e8f5e9; border: 2px solid #2e7d32; font-size: 2.5rem;">
+                            ✅
+                        </div>
+                        <h2 class="bold text-main m-0 mb-2">Berhasil!</h2>
+                        <p class="text-muted m-0 mb-4" style="font-size: 0.9rem; line-height: 1.5;">
+                            Email reset password telah dikirim ke: <br><span
+                                class="text-secondary">zacthappdev@gmail.com</span>
+                        </p>
+
+                        <div class="flex-col w-100"
+                            style="align-items: flex-start; width: 100%; gap: 16px; margin-bottom: 24px;">
+                            <div class="flex-row">
+                                <div class="flex-center"
+                                    style="width: 24px; height: 24px; border-radius: 50%; background-color: #2e7d32; color: #fff; font-size: 0.7rem; margin-right: 12px; font-weight: bold;">
+                                    1</div>
+                                <span style="margin-right: 8px;">✉️</span>
+                                <span class="text-main" style="font-size: 0.9rem;">Buka email kamu</span>
+                            </div>
+                            <div class="flex-row">
+                                <div class="flex-center"
+                                    style="width: 24px; height: 24px; border-radius: 50%; background-color: #2e7d32; color: #fff; font-size: 0.7rem; margin-right: 12px; font-weight: bold;">
+                                    2</div>
+                                <span style="margin-right: 8px;">🔗</span>
+                                <span class="text-main" style="font-size: 0.9rem;">Klik link reset password</span>
+                            </div>
+                            <div class="flex-row">
+                                <div class="flex-center"
+                                    style="width: 24px; height: 24px; border-radius: 50%; background-color: #2e7d32; color: #fff; font-size: 0.7rem; margin-right: 12px; font-weight: bold;">
+                                    3</div>
+                                <span style="margin-right: 8px;">🔒</span>
+                                <span class="text-main" style="font-size: 0.9rem;">Buat password baru</span>
+                            </div>
+                        </div>
+
+                        <button class="btn-outline w-100" style="width: 100%;">Kirim ulang email</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HALAMAN 8 (Pengalaman Belajar) -->
+    <div class="screen-container">
+        <div class="screen-wrapper">
+            <div class="screen-label">8. Pengalaman Belajar (Dark)</div>
+            <div class="device dark">
+                <div class="header-bar p-4 pb-2" style="padding-bottom: 12px;">
+                    <h3 class="m-0 text-main text-center">Pengalaman Belajar</h3>
+                    <div class="flex-center mt-2 text-secondary" style="font-size: 0.8rem;">
+                        <span style="margin-right: 6px;">💬</span> Ulasan kamu membantu kami berkembang
+                    </div>
+                </div>
+
+                <div class="content-scroll flex-col">
+                    <div class="card flex-col">
+                        <h4 class="m-0 mb-2 text-main">Bagaimana penilaianmu?</h4>
+                        <div class="flex-row flex-center mb-4"
+                            style="font-size: 2rem; color: #FFD700; letter-spacing: 4px;">
+                            ★★★★★
+                        </div>
+
+                        <h4 class="m-0 mb-2 text-main">Pilih kesan pertamamu</h4>
+                        <div class="flex-row mb-2" style="gap: 8px;">
+                            <div class="chip chip-active">Menyenangkan</div>
+                            <div class="chip chip-inactive">Mudah Dipahami</div>
+                        </div>
+                        <div class="flex-row mb-4" style="gap: 8px;">
+                            <div class="chip chip-inactive">Sangat Membantu</div>
+                            <div class="chip chip-inactive">Perlu Peningkatan</div>
+                        </div>
+
+                        <h4 class="m-0 mb-2 text-main">Tulis saran & masukan</h4>
+                        <div style="position: relative;">
+                            <textarea class="input-field mb-0"
+                                placeholder="Tuliskan pengalamanmu di sini..."></textarea>
+                            <span class="text-muted"
+                                style="position: absolute; bottom: 12px; right: 12px; font-size: 0.7rem;">0 / 150</span>
+                        </div>
+
+                        <button class="btn-primary mt-4">Kirim Ulasan</button>
+                    </div>
+                </div>
+
+                <div class="nav-bar">
+                    <div class="nav-item"><span>🏠</span>Beranda</div>
+                    <div class="nav-item"><span>📚</span>Belajar</div>
+                    <div class="nav-item"><span>📝</span>Kuis</div>
+                    <div class="nav-item"><span>📈</span>Progres</div>
+                    <div class="nav-item active"><span>👤</span>Profil</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="screen-wrapper">
+            <div class="screen-label">8. Pengalaman Belajar (Light)</div>
+            <div class="device light">
+                <div class="header-bar p-4 pb-2" style="padding-bottom: 12px;">
+                    <h3 class="m-0 text-main text-center" style="color:#fff;">Pengalaman Belajar</h3>
+                    <div class="flex-center mt-2 text-muted" style="font-size: 0.8rem; color:#c8e6c9;">
+                        <span style="margin-right: 6px;">💬</span> Ulasan kamu membantu kami berkembang
+                    </div>
+                </div>
+
+                <div class="content-scroll flex-col">
+                    <div class="card flex-col" style="box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                        <h4 class="m-0 mb-2 text-main">Bagaimana penilaianmu?</h4>
+                        <div class="flex-row flex-center mb-4"
+                            style="font-size: 2rem; color: #FFD700; letter-spacing: 4px;">
+                            ★★★★★
+                        </div>
+
+                        <h4 class="m-0 mb-2 text-main">Pilih kesan pertamamu</h4>
+                        <div class="flex-row mb-2" style="gap: 8px;">
+                            <div class="chip chip-active">Menyenangkan</div>
+                            <div class="chip chip-inactive">Mudah Dipahami</div>
+                        </div>
+                        <div class="flex-row mb-4" style="gap: 8px;">
+                            <div class="chip chip-inactive">Sangat Membantu</div>
+                            <div class="chip chip-inactive">Perlu Peningkatan</div>
+                        </div>
+
+                        <h4 class="m-0 mb-2 text-main">Tulis saran & masukan</h4>
+                        <div style="position: relative;">
+                            <textarea class="input-field mb-0"
+                                placeholder="Tuliskan pengalamanmu di sini..."></textarea>
+                            <span class="text-muted"
+                                style="position: absolute; bottom: 12px; right: 12px; font-size: 0.7rem;">0 / 150</span>
+                        </div>
+
+                        <button class="btn-primary mt-4">Kirim Ulasan</button>
+                    </div>
+                </div>
+
+                <div class="nav-bar">
+                    <div class="nav-item"><span>🏠</span>Beranda</div>
+                    <div class="nav-item"><span>📚</span>Belajar</div>
+                    <div class="nav-item"><span>📝</span>Kuis</div>
+                    <div class="nav-item"><span>📈</span>Progres</div>
+                    <div class="nav-item active"><span>👤</span>Profil</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HALAMAN 9 (Tentang Aplikasi) -->
+    <div class="screen-container">
+        <div class="screen-wrapper">
+            <div class="screen-label">9. Tentang Aplikasi (Dark)</div>
+            <div class="device dark">
+                <div class="header-bar p-4">
+                    <h3 class="m-0 text-main text-center">Tentang Aplikasi</h3>
+                </div>
+
+                <div class="content-scroll flex-col">
+                    <div class="card flex-col">
+                        <div class="flex-row flex-center mb-4">
+                            <div class="circle-bg flex-center"
+                                style="width: 40px; height: 40px; border-radius: 8px; font-weight: bold; color: #2d6a4f; background-color: #d8f3dc; margin-right: 12px;">
+                                HK</div>
+                            <h3 class="m-0 text-main">HI KATA</h3>
+                        </div>
+                        <div style="height: 1px; background-color: #2d6a4f; margin-bottom: 16px;"></div>
+                        <p class="text-muted m-0 mb-4" style="font-size: 0.9rem; line-height: 1.5;">
+                            HI KATA membantu anda mempelajari Hiragana dan Katakana melalui pembelajaran interaktif,
+                            audio pelafalan, dan kuis yang menyenangkan.
+                        </p>
+                        <div class="flex-row gap-3" style="gap: 12px;">
+                            <div class="chip chip-inactive flex-center"
+                                style="border:none; background-color: #1b4332; color: #2d6a4f;">あ Hiragana</div>
+                            <div class="chip chip-inactive flex-center"
+                                style="border:none; background-color: #1b4332; color: #2d6a4f;">ア Katakana</div>
+                        </div>
+                    </div>
+
+                    <div class="card flex-col">
+                        <div class="flex-row space-between mb-3">
+                            <span class="text-muted" style="font-size: 0.9rem;">Versi Aplikasi</span>
+                            <span class="text-secondary bold">1.0.0</span>
+                        </div>
+                        <div class="flex-row space-between">
+                            <span class="text-muted" style="font-size: 0.9rem;">Pembuat Aplikasi</span>
+                            <span class="text-secondary bold">zachth</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-bar">
+                    <div class="nav-item"><span>🏠</span>Beranda</div>
+                    <div class="nav-item"><span>📚</span>Belajar</div>
+                    <div class="nav-item"><span>📝</span>Kuis</div>
+                    <div class="nav-item"><span>📈</span>Progres</div>
+                    <div class="nav-item active"><span>👤</span>Profil</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="screen-wrapper">
+            <div class="screen-label">9. Tentang Aplikasi (Light)</div>
+            <div class="device light">
+                <div class="header-bar p-4">
+                    <h3 class="m-0 text-main text-center" style="color: #fff;">Tentang Aplikasi</h3>
+                </div>
+
+                <div class="content-scroll flex-col">
+                    <div class="card flex-col" style="box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                        <div class="flex-row flex-center mb-4">
+                            <div class="circle-bg flex-center"
+                                style="width: 40px; height: 40px; border-radius: 8px; font-weight: bold; color: #fff; margin-right: 12px;">
+                                HK</div>
+                            <h3 class="m-0 text-main">HI KATA</h3>
+                        </div>
+                        <div style="height: 1px; background-color: #e0e0e0; margin-bottom: 16px;"></div>
+                        <p class="text-muted m-0 mb-4" style="font-size: 0.9rem; line-height: 1.5;">
+                            HI KATA membantu anda mempelajari Hiragana dan Katakana melalui pembelajaran interaktif,
+                            audio pelafalan, dan kuis yang menyenangkan.
+                        </p>
+                        <div class="flex-row gap-3" style="gap: 12px;">
+                            <div class="chip chip-inactive flex-center"
+                                style="border:none; background-color: #e8f5e9; color: #2e7d32;">あ Hiragana</div>
+                            <div class="chip chip-inactive flex-center"
+                                style="border:none; background-color: #e8f5e9; color: #2e7d32;">ア Katakana</div>
+                        </div>
+                    </div>
+
+                    <div class="card flex-col" style="box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                        <div class="flex-row space-between mb-3">
+                            <span class="text-muted" style="font-size: 0.9rem;">Versi Aplikasi</span>
+                            <span class="text-secondary bold">1.0.0</span>
+                        </div>
+                        <div class="flex-row space-between">
+                            <span class="text-muted" style="font-size: 0.9rem;">Pembuat Aplikasi</span>
+                            <span class="text-secondary bold">zachth</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nav-bar">
+                    <div class="nav-item"><span>🏠</span>Beranda</div>
+                    <div class="nav-item"><span>📚</span>Belajar</div>
+                    <div class="nav-item"><span>📝</span>Kuis</div>
+                    <div class="nav-item"><span>📈</span>Progres</div>
+                    <div class="nav-item active"><span>👤</span>Profil</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

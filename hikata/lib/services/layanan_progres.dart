@@ -70,9 +70,38 @@ class ProgressService {
     }
   }
 
+  static Future<bool> isModuleUnlocked(String module) async {
+    final userId = await getActiveUserId();
+    if (userId == null) return false;
+    final progressMap = await DatabaseHelper.instance.getProgress(userId);
+    final double hPct = progressMap?['hiragana_percent'] ?? 0.0;
+    final double kPct = progressMap?['katakana_percent'] ?? 0.0;
+    
+    // Asumsikan Gojuon adalah gabungan dasar.
+    // Jika module spesifik ada nilai persentase di table, kita bisa pakai.
+    // Sementara kita gunakan persentase hiragana & katakana dasar sebagai patokan.
+    
+    switch (module.toLowerCase()) {
+      case 'hiragana':
+        return true; // Hiragana selalu terbuka
+      case 'katakana':
+        return hPct >= 0.50; // Minimal 50% Hiragana
+      case 'gojuon':
+        return hPct >= 1.0; // Hiragana selesai 100%
+      case 'dakuten':
+        return hPct >= 1.0 && kPct >= 0.50; // Hiragana 100% + Katakana 50%
+      case 'handakuten':
+        return hPct >= 1.0 && kPct >= 1.0; // Hiragana + Katakana selesai
+      case 'yoon':
+        return hPct >= 1.0 && kPct >= 1.0; // Sama dengan Handakuten untuk saat ini
+      default:
+        return true;
+    }
+  }
+
   static Future<bool> handleQuizSubmission({
     required String mode,
-    required int levelIndex,
+    int? levelIndex,
     required int score,
     required int total,
   }) async {
@@ -84,7 +113,13 @@ class ProgressService {
     final double pct = total > 0 ? (score / total) : 0.0;
     final bool passed = pct >= 0.80;
 
+    int xpToAdd = 20;
     if (passed) {
+      xpToAdd += 10;
+    }
+    await DatabaseHelper.instance.addXp(userId, xpToAdd);
+
+    if (passed && levelIndex != null) {
       final progressMap = await dbHelper.getProgress(userId);
       final int currentUnlocked = mode == 'hiragana'
           ? (progressMap?['hiragana_level'] ?? 1)
@@ -166,7 +201,28 @@ class ProgressService {
   static Future<void> markCharacterAsLearned(String character) async {
     final userId = await getActiveUserId();
     if (userId != null) {
-      await DatabaseHelper.instance.markCharacterAsLearned(userId, character);
+      final result = await DatabaseHelper.instance.markCharacterAsLearned(userId, character);
+      if (result > 0) {
+        // Recalculate percent and update
+        final learnedChars = await DatabaseHelper.instance.getLearnedCharacters(userId);
+        
+        // Count hiragana
+        final allHiragana = HiraganaData.allTableChars.map((e) => e.character).toSet();
+        int hCount = learnedChars.where((c) => allHiragana.contains(c)).length;
+        double hPct = (hCount / allHiragana.length).clamp(0.0, 1.0);
+        
+        // Count katakana
+        final allKatakana = KatakanaData.allTableChars.map((e) => e.character).toSet();
+        int kCount = learnedChars.where((c) => allKatakana.contains(c)).length;
+        double kPct = (kCount / allKatakana.length).clamp(0.0, 1.0);
+        
+        final progress = await DatabaseHelper.instance.getProgress(userId);
+        final hLevel = progress?['hiragana_level'] ?? 1;
+        final kLevel = progress?['katakana_level'] ?? 1;
+        
+        await DatabaseHelper.instance.updateProgress(userId, hPct, kPct, hLevel, kLevel);
+        await DatabaseHelper.instance.addXp(userId, 5); // +5 per char? Flashcard complete is handled elsewhere
+      }
     }
   }
 

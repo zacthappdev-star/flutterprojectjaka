@@ -10,17 +10,19 @@ class KartuStreakProgres extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.hiKata;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(20),
       margin: EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDark ? colors.cardBackground : Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border(left: BorderSide(color: Color(0xFFFF8F00), width: 6)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.05),
             blurRadius: 10,
             offset: Offset(0, 4),
           ),
@@ -31,7 +33,7 @@ class KartuStreakProgres extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Color(0xFFFFF3E0),
+              color: isDark ? Color(0xFF4E2A00) : const Color(0xFFFFF3E0),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Text('🔥', style: TextStyle(fontSize: 32)),
@@ -62,13 +64,13 @@ class KartuStreakProgres extends StatelessWidget {
                     color: Color(0xFFE65100),
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4),
                 Text(
                   context.t.progress.keepItUpMsg,
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 12,
-                    color: Colors.grey.shade600,
+                    color: isDark ? colors.textMuted : Colors.grey.shade600,
                   ),
                 ),
               ],

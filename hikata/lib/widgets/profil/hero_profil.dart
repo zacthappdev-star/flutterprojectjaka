@@ -22,7 +22,7 @@ class HeroProfil extends StatelessWidget {
         left: 24,
         right: 24,
       ),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: Color(0xFF2E9E5B),
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(30),
@@ -46,14 +46,14 @@ class HeroProfil extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           Row(
             children: [
               GestureDetector(
                 onTap: () {
                   showModalBottomSheet(
                     context: context,
-                    shape: const RoundedRectangleBorder(
+                    shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(28),
                       ),
@@ -80,7 +80,7 @@ class HeroProfil extends StatelessWidget {
                       child: Center(
                         child: Text(
                           profileProvider.avatar,
-                          style: const TextStyle(fontSize: 40),
+                          style: TextStyle(fontSize: 40),
                         ),
                       ),
                     ),
@@ -93,7 +93,7 @@ class HeroProfil extends StatelessWidget {
                           color: Colors.white,
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: const Color(0xFF2E9E5B),
+                            color: Color(0xFF2E9E5B),
                             width: 1.5,
                           ),
                         ),

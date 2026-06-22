@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ppkd_b6/data/data_hiragana.dart';
-import 'package:ppkd_b6/models/model_karakter.dart';
-import 'package:ppkd_b6/screen/kuis/layar_kuis.dart';
 import 'package:ppkd_b6/gen/strings.g.dart';
+import 'package:ppkd_b6/models/model_karakter.dart';
 import 'package:ppkd_b6/services/layanan_progres.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 import 'package:ppkd_b6/widgets/belajar/konten_grup.dart';
 import 'package:ppkd_b6/widgets/belajar/tampilan_level_terkunci.dart';
-import 'package:ppkd_b6/widgets/belajar/tombol_kuis_level.dart';
 import 'package:ppkd_b6/widgets/huruf/sheet_detail_huruf.dart';
 
 class LayarHiragana extends StatefulWidget {
@@ -76,20 +74,6 @@ class _LayarHiraganaState extends State<LayarHiragana>
                   }),
                 ),
               ),
-              TombolKuisLevel(
-                isUnlocked: _tabController.index < _unlockedLevels,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => QuizScreen(
-                        mode: 'hiragana',
-                        levelIndex: _tabController.index,
-                      ),
-                    ),
-                  ).then((_) => _loadUnlockedLevels());
-                },
-              ),
             ],
           ),
         ),
@@ -99,8 +83,10 @@ class _LayarHiraganaState extends State<LayarHiragana>
 
   // ─── Komponen Layar ────────────────────────────────────────────────────────
   Widget _buildHeader() {
-    final progress = _groups.isNotEmpty ? (_unlockedLevels / _groups.length).clamp(0.0, 1.0) : 0.0;
-    
+    final progress = _groups.isNotEmpty
+        ? (_unlockedLevels / _groups.length).clamp(0.0, 1.0)
+        : 0.0;
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
       child: Column(
@@ -138,7 +124,10 @@ class _LayarHiraganaState extends State<LayarHiragana>
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: const Color(0xFFfbbf24), // Amber
                   borderRadius: BorderRadius.circular(20),

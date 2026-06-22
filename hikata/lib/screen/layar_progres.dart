@@ -241,11 +241,11 @@ class _LayarProgresState extends State<LayarProgres> {
                   SizedBox(height: 20),
                   Text(
                     context.t.progress.studyReminders,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 15,
                       fontWeight: FontWeight.w800,
-                      color: Color(0xFF1A1A1A),
+                      color: Theme.of(context).brightness == Brightness.dark ? colors.textPrimary : const Color(0xFF1A1A1A),
                     ),
                   ),
                   SizedBox(height: 10),

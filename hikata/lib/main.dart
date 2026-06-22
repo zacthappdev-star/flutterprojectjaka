@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ppkd_b6/gen/strings.g.dart';
+import 'package:ppkd_b6/providers/mission_provider.dart';
+import 'package:ppkd_b6/providers/profile_provider.dart';
 import 'package:ppkd_b6/screen/layar_splash.dart';
 import 'package:ppkd_b6/screen/pengenalan/pilih_bahasa.dart';
 import 'package:ppkd_b6/services/layanan_notifikasi.dart';
 import 'package:ppkd_b6/services/layanan_pelafalan.dart';
 import 'package:ppkd_b6/services/layanan_tema.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
-import 'package:ppkd_b6/providers/profile_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +26,12 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ProfileProvider()..loadProfileData()),
+        ChangeNotifierProvider(
+          create: (_) => ProfileProvider()..loadProfileData(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => MissionProvider()..loadMissions(),
+        ),
       ],
       child: TranslationProvider(child: const MyApp()),
     ),

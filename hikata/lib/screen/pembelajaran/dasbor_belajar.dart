@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ppkd_b6/gen/strings.g.dart';
+import 'package:ppkd_b6/providers/mission_provider.dart';
 import 'package:ppkd_b6/providers/profile_provider.dart';
 import 'package:ppkd_b6/services/layanan_progres.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
@@ -27,6 +28,9 @@ class _DasborBelajarState extends State<DasborBelajar> {
   void initState() {
     super.initState();
     _loadProgress();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) context.read<MissionProvider>().loadMissions();
+    });
   }
 
   Future<void> _loadProgress() async {
@@ -44,7 +48,7 @@ class _DasborBelajarState extends State<DasborBelajar> {
   @override
   Widget build(BuildContext context) {
     final profileProvider = context.watch<ProfileProvider>();
-    
+
     if (_isLoading || profileProvider.isLoading) {
       return Scaffold(
         body: Center(
@@ -53,8 +57,10 @@ class _DasborBelajarState extends State<DasborBelajar> {
       );
     }
 
+    final colors = context.hiKata;
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F7F5),
+      backgroundColor: colors.cardBackground,
       body: Column(
         children: [
           _buildHeader(profileProvider),
@@ -182,6 +188,21 @@ class _DasborBelajarState extends State<DasborBelajar> {
 
   // ─── Misi Hari Ini ─────────────────────────────────────────────────────────
   Widget _buildMisiHariIni(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colors = context.hiKata;
+    final missionProvider = context.watch<MissionProvider>();
+
+    if (missionProvider.isLoading) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: CircularProgressIndicator(color: AppColors.primaryGreen),
+        ),
+      );
+    }
+
+    final missions = missionProvider.missions;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -191,73 +212,239 @@ class _DasborBelajarState extends State<DasborBelajar> {
             fontFamily: 'Poppins',
             fontSize: 18,
             fontWeight: FontWeight.bold,
-            color: AppColors.textPrimary,
+            color: isDark ? colors.textPrimary : AppColors.textPrimary,
           ),
         ),
         SizedBox(height: 12),
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            border: Border(
-              left: BorderSide(color: Color(0xFF2E9E5B), width: 6),
+        Column(
+          children: missions
+              .map(
+                (m) => Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: _buildMisiCard(context, m),
+                ),
+              )
+              .toList(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMisiCard(BuildContext context, Mission mission) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colors = context.hiKata;
+
+    final bool isCompleted = mission.isCompleted;
+    final bool isClaimed = mission.isClaimed;
+    final double progress = mission.progress;
+    final String title = mission.title;
+    final int xp = mission.xp;
+    final IconData icon = mission.icon;
+
+    return GestureDetector(
+      onTap: () async {
+        if (isCompleted && !isClaimed) {
+          final missionProv = context.read<MissionProvider>();
+          final profileProv = context.read<ProfileProvider>();
+          final scaffoldMessenger = ScaffoldMessenger.of(context);
+
+          await missionProv.claimMission(mission.id);
+          await profileProv.refresh();
+
+          scaffoldMessenger.showSnackBar(
+            SnackBar(
+              content: Text('Berhasil klaim $xp XP!'),
+              backgroundColor: AppColors.primaryGreen,
+              duration: const Duration(seconds: 2),
             ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.04),
-                blurRadius: 10,
-                offset: Offset(0, 4),
-              ),
-            ],
+          );
+        }
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: isDark ? colors.cardBackground : Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border(
+            left: BorderSide(
+              color: isCompleted
+                  ? const Color(0xFF2E9E5B)
+                  : (isDark ? colors.divider : Colors.grey.shade300),
+              width: 6,
+            ),
+            top: BorderSide(
+              color: isDark ? colors.divider : Colors.grey.shade100,
+            ),
+            right: BorderSide(
+              color: isDark ? colors.divider : Colors.grey.shade100,
+            ),
+            bottom: BorderSide(
+              color: isDark ? colors.divider : Colors.grey.shade100,
+            ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.03),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Icon Container
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: isCompleted
+                    ? const Color(0xFF2E9E5B).withValues(alpha: 0.15)
+                    : (isDark ? colors.divider : Colors.grey.shade100),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                icon,
+                size: 20,
+                color: isCompleted
+                    ? const Color(0xFF2E9E5B)
+                    : (isDark ? colors.textMuted : Colors.grey.shade500),
+              ),
+            ),
+            const SizedBox(width: 14),
+            // Content
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    context.t.home.finishOneLesson,
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Color(0xFFE9A825).withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      '+50 XP',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Color(0xFFE9A825),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          title,
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            color: isCompleted
+                                ? (isDark
+                                      ? colors.textPrimary
+                                      : AppColors.textPrimary)
+                                : (isDark
+                                      ? colors.textMuted
+                                      : Colors.grey.shade600),
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: isClaimed
+                              ? (isDark ? colors.divider : Colors.grey.shade200)
+                              : isCompleted
+                              ? (isDark
+                                    ? const Color(0xFF4A3E1B)
+                                    : const Color(
+                                        0xFFE9A825,
+                                      ).withValues(alpha: 0.15))
+                              : (isDark
+                                    ? colors.divider
+                                    : Colors.grey.shade100),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (!isClaimed)
+                              Icon(
+                                Icons.star_rounded,
+                                size: 12,
+                                color: isCompleted
+                                    ? const Color(0xFFE9A825)
+                                    : Colors.grey.shade500,
+                              ),
+                            if (!isClaimed) const SizedBox(width: 4),
+                            Text(
+                              isClaimed ? 'Diklaim' : '+$xp XP',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                color: isClaimed
+                                    ? Colors.grey.shade500
+                                    : (isCompleted
+                                          ? const Color(0xFFE9A825)
+                                          : Colors.grey.shade600),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 11,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: LinearProgressIndicator(
+                            value: progress,
+                            backgroundColor: isDark
+                                ? colors.progressTrack
+                                : Colors.grey.shade200,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              isCompleted
+                                  ? const Color(0xFF2E9E5B)
+                                  : Colors.blue.shade400,
+                            ),
+                            minHeight: 6,
+                          ),
+                        ),
+                      ),
+                      if (isCompleted && !isClaimed) ...[
+                        const SizedBox(width: 10),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF2E9E5B),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: const Text(
+                            'KLAIM',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 9,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ] else if (isClaimed) ...[
+                        const SizedBox(width: 10),
+                        const Icon(
+                          Icons.check_circle_rounded,
+                          color: Color(0xFF2E9E5B),
+                          size: 16,
+                        ),
+                      ],
+                    ],
                   ),
                 ],
               ),
-              SizedBox(height: 14),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: LinearProgressIndicator(
-                  value: 0.5,
-                  backgroundColor: Colors.grey.shade200,
-                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF2E9E5B)),
-                  minHeight: 8,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
@@ -281,7 +468,11 @@ class _DasborBelajarState extends State<DasborBelajar> {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => LayarHiragana()),
-            ).then((_) => _loadProgress());
+            ).then((_) async {
+              await _loadProgress();
+              if (!context.mounted) return;
+              context.read<MissionProvider>().loadMissions();
+            });
           },
         ),
         _buildGridItem(
@@ -294,7 +485,11 @@ class _DasborBelajarState extends State<DasborBelajar> {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => LayarKatakana()),
-            ).then((_) => _loadProgress());
+            ).then((_) async {
+              await _loadProgress();
+              if (!context.mounted) return;
+              context.read<MissionProvider>().loadMissions();
+            });
           },
         ),
         _buildGridItem(
@@ -325,23 +520,30 @@ class _DasborBelajarState extends State<DasborBelajar> {
     required bool isLocked,
     required VoidCallback onTap,
   }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colors = context.hiKata;
+
     return GestureDetector(
       onTap: isLocked ? null : onTap,
       child: Container(
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: isLocked ? Colors.grey.shade100 : Colors.white,
+          color: isDark
+              ? (isLocked ? colors.progressTrack : colors.cardBackground)
+              : (isLocked ? Colors.grey.shade100 : Colors.white),
           borderRadius: BorderRadius.circular(20),
           border: isLocked
-              ? null
+              ? Border.all(color: isDark ? colors.divider : Colors.transparent)
               : Border.all(
-                  color: accentColor.withValues(alpha: 0.15),
+                  color: isDark
+                      ? accentColor.withValues(alpha: 0.4)
+                      : accentColor.withValues(alpha: 0.15),
                   width: 1.5,
                 ),
           boxShadow: [
             if (!isLocked)
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.04),
+                color: Colors.black.withValues(alpha: isDark ? 0.2 : 0.04),
                 blurRadius: 10,
                 offset: Offset(0, 4),
               ),
@@ -355,13 +557,17 @@ class _DasborBelajarState extends State<DasborBelajar> {
               height: 52,
               decoration: BoxDecoration(
                 color: isLocked
-                    ? Colors.grey.shade200
-                    : accentColor.withValues(alpha: 0.1),
+                    ? (isDark ? colors.divider : Colors.grey.shade200)
+                    : accentColor.withValues(alpha: isDark ? 0.3 : 0.1),
                 shape: BoxShape.circle,
               ),
               child: Center(
                 child: isLocked
-                    ? Icon(Icons.lock_rounded, color: Colors.grey, size: 24)
+                    ? Icon(
+                        Icons.lock_rounded,
+                        color: isDark ? colors.textMuted : Colors.grey,
+                        size: 24,
+                      )
                     : Text(
                         badgeText,
                         style: TextStyle(
@@ -379,7 +585,9 @@ class _DasborBelajarState extends State<DasborBelajar> {
                 fontFamily: 'Poppins',
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
-                color: isLocked ? Colors.grey : AppColors.textPrimary,
+                color: isLocked
+                    ? (isDark ? colors.textMuted : Colors.grey)
+                    : (isDark ? colors.textPrimary : AppColors.textPrimary),
               ),
             ),
             if (!isLocked) ...[
@@ -388,7 +596,9 @@ class _DasborBelajarState extends State<DasborBelajar> {
                 borderRadius: BorderRadius.circular(10),
                 child: LinearProgressIndicator(
                   value: progressPercent,
-                  backgroundColor: Colors.grey.shade200,
+                  backgroundColor: isDark
+                      ? colors.progressTrack
+                      : Colors.grey.shade200,
                   valueColor: AlwaysStoppedAnimation<Color>(accentColor),
                   minHeight: 6,
                 ),

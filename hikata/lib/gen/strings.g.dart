@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 557 (278 per locale)
+/// Strings: 559 (279 per locale)
 ///
-/// Built on 2026-06-18 at 07:24 UTC
+/// Built on 2026-06-22 at 01:59 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -326,6 +326,7 @@ class _StringsQuizId {
 
 	// Translations
 	String get title => 'Kuis Pilihan Ganda';
+	String get answer => 'Jawab';
 	String question({required Object current, required Object total}) => '${current} dari ${total} soal';
 	String get score => 'Skor Anda';
 	String get correct => 'Benar';
@@ -843,6 +844,7 @@ class _StringsQuizEn extends _StringsQuizId {
 
 	// Translations
 	@override String get title => 'Multiple Choice Quiz';
+	@override String get answer => 'Answer';
 	@override String question({required Object current, required Object total}) => '${current} of ${total} questions';
 	@override String get score => 'Your Score';
 	@override String get correct => 'Correct';
@@ -1258,6 +1260,7 @@ extension on Translations {
 			case 'flashcard.congrats': return 'Selamat!';
 			case 'flashcard.finished': return 'Semua kartu telah dipelajari';
 			case 'quiz.title': return 'Kuis Pilihan Ganda';
+			case 'quiz.answer': return 'Jawab';
 			case 'quiz.question': return ({required Object current, required Object total}) => '${current} dari ${total} soal';
 			case 'quiz.score': return 'Skor Anda';
 			case 'quiz.correct': return 'Benar';
@@ -1545,6 +1548,7 @@ extension on _StringsEn {
 			case 'flashcard.congrats': return 'Congratulations!';
 			case 'flashcard.finished': return 'All cards have been studied';
 			case 'quiz.title': return 'Multiple Choice Quiz';
+			case 'quiz.answer': return 'Answer';
 			case 'quiz.question': return ({required Object current, required Object total}) => '${current} of ${total} questions';
 			case 'quiz.score': return 'Your Score';
 			case 'quiz.correct': return 'Correct';

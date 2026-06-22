@@ -138,6 +138,9 @@ class _TableIntroScreenState extends State<TableIntroScreen>
   }
 
   Widget _buildTabBar() {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colors = context.hiKata;
+
     return Container(
       height: 44,
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
@@ -148,7 +151,7 @@ class _TableIntroScreenState extends State<TableIntroScreen>
       child: TabBar(
         controller: _tabController,
         indicator: BoxDecoration(
-          color: Colors.white,
+          color: isDark ? colors.cardBackground : Colors.white,
           borderRadius: BorderRadius.circular(12),
         ),
         labelStyle: TextStyle(
@@ -161,8 +164,8 @@ class _TableIntroScreenState extends State<TableIntroScreen>
           fontSize: 14,
           fontWeight: FontWeight.w500,
         ),
-        labelColor: AppColors.textPrimary,
-        unselectedLabelColor: Colors.white70,
+        labelColor: isDark ? colors.textPrimary : AppColors.textPrimary,
+        unselectedLabelColor: isDark ? colors.textMuted : Colors.white70,
         dividerColor: Colors.transparent,
         tabs: [
           Tab(text: 'Hiragana'),

@@ -83,7 +83,7 @@ class KartuProgresPersen extends StatelessWidget {
               fontFamily: 'Poppins',
               fontSize: 11,
               fontWeight: FontWeight.w600,
-              color: Colors.grey.shade600,
+              color: Theme.of(context).brightness == Brightness.dark ? colors.textMuted : Colors.grey.shade600,
             ),
           ),
         ],

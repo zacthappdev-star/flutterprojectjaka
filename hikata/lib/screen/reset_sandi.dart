@@ -192,7 +192,7 @@ class _ResetPasswordState extends State<ResetPassword>
                             horizontal: 20,
                             vertical: 18,
                           ),
-                          decoration: AppDecorations.cardDecoration,
+                          decoration: AppDecorations.cardDecorationOf(context),
                           child: _emailSent
                               ? _buildSuccessContent()
                               : _buildFormContent(),
@@ -291,7 +291,7 @@ class _ResetPasswordState extends State<ResetPassword>
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 11,
-                      color: AppColors.textPrimary,
+                      color: Theme.of(context).brightness == Brightness.dark ? context.hiKata.textPrimary : AppColors.textPrimary,
                     ),
                   ),
                 ),
@@ -305,7 +305,7 @@ class _ResetPasswordState extends State<ResetPassword>
             style: TextStyle(
               fontFamily: 'Poppins',
               fontSize: 13,
-              color: Color(0xFF263238),
+              color: Theme.of(context).brightness == Brightness.dark ? context.hiKata.textPrimary : Color(0xFF263238),
             ),
             decoration: AppDecorations.fieldDecoration(
               hint: Translations.of(context).auth.emailHint,
@@ -355,7 +355,7 @@ class _ResetPasswordState extends State<ResetPassword>
             fontFamily: 'Poppins',
             fontSize: 18,
             fontWeight: FontWeight.w700,
-            color: AppColors.textPrimary,
+            color: Theme.of(context).brightness == Brightness.dark ? context.hiKata.textPrimary : AppColors.textPrimary,
           ),
         ),
         SizedBox(height: 4),
@@ -364,7 +364,7 @@ class _ResetPasswordState extends State<ResetPassword>
           style: TextStyle(
             fontFamily: 'Poppins',
             fontSize: 12,
-            color: AppColors.textMuted,
+            color: Theme.of(context).brightness == Brightness.dark ? context.hiKata.textMuted : AppColors.textMuted,
           ),
           textAlign: TextAlign.center,
         ),
@@ -430,7 +430,7 @@ class _ResetPasswordState extends State<ResetPassword>
           style: TextStyle(
             fontFamily: 'Poppins',
             fontSize: 12,
-            color: Color(0xFF37474F),
+            color: Theme.of(context).brightness == Brightness.dark ? context.hiKata.textPrimary : Color(0xFF37474F),
           ),
         ),
       ],

@@ -116,6 +116,7 @@
   },
   "quiz": {
     "title": "Multiple Choice Quiz",
+    "answer": "Answer",
     "question": "${current} of ${total} questions",
     "score": "Your Score",
     "correct": "Correct",

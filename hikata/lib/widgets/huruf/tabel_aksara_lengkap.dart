@@ -3,6 +3,24 @@ import 'package:ppkd_b6/models/model_karakter.dart';
 import 'package:ppkd_b6/services/layanan_audio.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 
+const List<String> _masteredRomajis = [
+  'a',
+  'i',
+  'u',
+  'e',
+  'o',
+  'ka',
+  'ki',
+  'ku',
+  'ke',
+  'ko',
+  'sa',
+  'shi',
+  'su',
+  'se',
+  'so',
+];
+
 class TabelAksaraLengkap extends StatelessWidget {
   final List<CharacterGroup> groups;
   final bool isHiragana;
@@ -82,11 +100,30 @@ class _BagianTabel extends StatelessWidget {
             itemCount: group.characters.length,
             itemBuilder: (ctx, i) {
               final c = group.characters[i];
-              final masteredRomajis = ['a','i','u','e','o','ka','ki','ku','ke','ko','sa','shi','su','se','so'];
-              final isMastered = masteredRomajis.contains(c.romaji.toLowerCase());
+              final isMastered = _masteredRomajis.contains(
+                c.romaji.toLowerCase(),
+              );
 
-              final cellBgColor = isMastered ? const Color(0xFFF0FAF5) : Colors.white;
-              final cellBorderColor = isMastered ? const Color(0xFF2E9E5B) : Colors.grey.shade300;
+              final isDark = Theme.of(context).brightness == Brightness.dark;
+              final colors = context.hiKata;
+
+              final cellBgColor = isMastered
+                  ? (isDark
+                        ? Color(0xFF1B5E20).withValues(alpha: 0.3)
+                        : Color(0xFFF0FAF5))
+                  : (isDark ? colors.cardBackground : Colors.white);
+              final cellBorderColor = isMastered
+                  ? (isDark ? Color(0xFF81C784) : Color(0xFF2E9E5B))
+                  : (isDark ? colors.divider : Colors.grey.shade300);
+
+              final textPrimaryColor = isMastered
+                  ? (isDark ? Color(0xFF81C784) : Color(0xFF2E9E5B))
+                  : colors.textPrimary;
+              final textRomajiColor = isMastered
+                  ? (isDark
+                        ? Color(0xFF81C784).withValues(alpha: 0.8)
+                        : Color(0xFF2E9E5B).withValues(alpha: 0.8))
+                  : colors.textMuted;
 
               return GestureDetector(
                 onTap: () => AudioService.playAudioWithFeedback(
@@ -97,13 +134,12 @@ class _BagianTabel extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: cellBgColor,
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: cellBorderColor,
-                      width: 1,
-                    ),
+                    border: Border.all(color: cellBorderColor, width: 1),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.02),
+                        color: Colors.black.withValues(
+                          alpha: isDark ? 0.2 : 0.02,
+                        ),
                         blurRadius: 4,
                         offset: const Offset(0, 2),
                       ),
@@ -117,16 +153,24 @@ class _BagianTabel extends StatelessWidget {
                         child: isMastered
                             ? Container(
                                 padding: const EdgeInsets.all(2),
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFF2E9E5B),
+                                decoration: BoxDecoration(
+                                  color: isDark
+                                      ? Color(0xFF81C784)
+                                      : Color(0xFF2E9E5B),
                                   shape: BoxShape.circle,
                                 ),
-                                child: const Icon(Icons.check, size: 10, color: Colors.white),
+                                child: Icon(
+                                  Icons.check,
+                                  size: 10,
+                                  color: isDark ? Colors.black87 : Colors.white,
+                                ),
                               )
                             : Icon(
                                 Icons.volume_up_rounded,
                                 size: 14,
-                                color: Colors.grey.shade400,
+                                color: isDark
+                                    ? Colors.white30
+                                    : Colors.grey.shade400,
                               ),
                       ),
                       Center(
@@ -138,7 +182,7 @@ class _BagianTabel extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: isMastered ? const Color(0xFF2E9E5B) : AppColors.textPrimary,
+                                color: textPrimaryColor,
                               ),
                             ),
                             const SizedBox(height: 2),
@@ -148,7 +192,7 @@ class _BagianTabel extends StatelessWidget {
                                 fontFamily: 'Poppins',
                                 fontSize: 9,
                                 fontWeight: FontWeight.w600,
-                                color: isMastered ? const Color(0xFF2E9E5B).withValues(alpha: 0.8) : Colors.grey.shade500,
+                                color: textRomajiColor,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,

@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:ppkd_b6/data/data_panduan_aksara.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
+import 'package:ppkd_b6/widgets/belajar/sheet_panduan_aksara.dart';
+import 'package:provider/provider.dart';
+import 'package:ppkd_b6/providers/profile_provider.dart';
 
 enum PanduanItemState { selesai, tersedia, terkunci }
 
 class KartuPanduanAksara extends StatelessWidget {
+  final int index;
   final ScriptGuideItem item;
   final PanduanItemState state;
 
   const KartuPanduanAksara({
     super.key,
+    required this.index,
     required this.item,
     required this.state,
   });
@@ -82,7 +87,22 @@ class KartuPanduanAksara extends StatelessWidget {
     if (isTerkunci) {
       return Opacity(opacity: 0.45, child: content);
     }
-    return GestureDetector(onTap: () {}, child: content);
+    return GestureDetector(
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+          builder: (_) => SheetPanduanAksara(item: item),
+        ).then((_) {
+          if (!context.mounted) return;
+          if (state == PanduanItemState.tersedia) {
+            context.read<ProfileProvider>().completeScriptGuide(index);
+          }
+        });
+      },
+      child: content,
+    );
   }
 
   Widget _buildRightAction() {

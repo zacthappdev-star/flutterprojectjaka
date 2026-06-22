@@ -9,9 +9,9 @@ import 'package:provider/provider.dart';
 class LayarPanduanAksara extends StatelessWidget {
   const LayarPanduanAksara({super.key});
 
-  PanduanItemState _getMockState(int index) {
-    if (index == 0 || index == 1) return PanduanItemState.selesai;
-    if (index == 2 || index == 3) return PanduanItemState.tersedia;
+  PanduanItemState _getState(int index, int userLevel) {
+    if (index < userLevel - 1) return PanduanItemState.selesai;
+    if (index == userLevel - 1) return PanduanItemState.tersedia;
     return PanduanItemState.terkunci;
   }
 
@@ -24,46 +24,54 @@ class LayarPanduanAksara extends StatelessWidget {
         color: AppColors.primaryGreen,
         child: SafeArea(
           bottom: false,
-          child: Column(
-            children: [
-              _buildHeader(context),
-              Expanded(
-                child: Container(
-                  width: double.infinity,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFf5f7f2),
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-                  ),
-                  child: Column(
-                    children: [
-                      _buildStreakBanner(context),
-                      Expanded(
-                        child: ListView.separated(
-                          physics: const BouncingScrollPhysics(),
-                          padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
-                          itemCount: ScriptGuideData.items.length,
-                          separatorBuilder: (context, index) => const SizedBox(height: 12),
-                          itemBuilder: (context, index) {
-                            return KartuPanduanAksara(
-                              item: ScriptGuideData.items[index],
-                              state: _getMockState(index),
-                            );
-                          },
-                        ),
+          child: Consumer<ProfileProvider>(
+            builder: (context, profile, _) {
+              final userLevel = profile.scriptGuideLevel;
+              return Column(
+                children: [
+                  _buildHeader(context, userLevel),
+                  Expanded(
+                    child: Container(
+                      width: double.infinity,
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFf5f7f2),
+                        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
                       ),
-                    ],
+                      child: Column(
+                        children: [
+                          _buildStreakBanner(context),
+                          Expanded(
+                            child: ListView.separated(
+                              physics: const BouncingScrollPhysics(),
+                              padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+                              itemCount: ScriptGuideData.items.length,
+                              separatorBuilder: (context, index) => const SizedBox(height: 12),
+                              itemBuilder: (context, index) {
+                                return KartuPanduanAksara(
+                                  index: index,
+                                  item: ScriptGuideData.items[index],
+                                  state: _getState(index, userLevel),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ],
+                ],
+              );
+            },
           ),
         ),
       ),
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
-    final progress = 2 / 8; // Mock data
+  Widget _buildHeader(BuildContext context, int userLevel) {
+    final int completed = userLevel - 1;
+    final int total = ScriptGuideData.items.length;
+    final double progress = total > 0 ? (completed / total).clamp(0.0, 1.0) : 0.0;
     
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
@@ -135,7 +143,7 @@ class LayarPanduanAksara extends StatelessWidget {
           Align(
             alignment: Alignment.centerRight,
             child: Text(
-              context.t.scriptGuide.completed(completed: 2, total: 8),
+              context.t.scriptGuide.completed(completed: completed, total: total),
               style: const TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 12,

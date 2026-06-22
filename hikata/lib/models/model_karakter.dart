@@ -3,6 +3,7 @@ import 'package:ppkd_b6/gen/strings.g.dart';
 class JapaneseCharacter {
   final String character;
   final String romaji;
+  final String type;
   final String? mnemonicID;
   final String? mnemonicEN;
   final String? audioPath;
@@ -10,6 +11,7 @@ class JapaneseCharacter {
   const JapaneseCharacter({
     required this.character,
     required this.romaji,
+    required this.type,
     this.mnemonicID,
     this.mnemonicEN,
     this.audioPath,

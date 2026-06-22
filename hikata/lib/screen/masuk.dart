@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:ppkd_b6/database/database_helper.dart';
 import 'package:ppkd_b6/gen/strings.g.dart';
+import 'package:ppkd_b6/providers/mission_provider.dart';
+import 'package:ppkd_b6/providers/profile_provider.dart';
 import 'package:ppkd_b6/screen/pengenalan/pilih_bahasa.dart';
 import 'package:ppkd_b6/screen/reset_sandi.dart';
 import 'package:ppkd_b6/theme/aset_aplikasi.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'daftar.dart';
@@ -77,6 +80,10 @@ class _LoginScreenState extends State<LoginScreen>
         await prefs.setInt('active_user_id', user['id'] as int);
         await prefs.setString('user_avatar', user['avatar'] as String? ?? '🐼');
         if (!mounted) return;
+        // Refresh providers with the newly logged-in user's data
+        await context.read<ProfileProvider>().refresh();
+        if (!mounted) return;
+        context.read<MissionProvider>().loadMissions();
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (_) => const LanguageSelectScreen()),

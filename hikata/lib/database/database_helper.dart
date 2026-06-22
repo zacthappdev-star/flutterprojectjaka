@@ -1,13 +1,23 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
   static const String _databaseName = "hikata_database.db";
-  static const int _databaseVersion = 2;
+  static const int _databaseVersion = 4;
 
   // Singleton instance
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
+
+  // ─── PASSWORD HASHING ──────────────────────────────────────────────────────
+  static String hashPassword(String password) {
+    final bytes = utf8.encode(password);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
+  }
 
   static Database? _database;
 
@@ -35,7 +45,29 @@ class DatabaseHelper {
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     if (oldVersion < 2) {
-      await db.execute("ALTER TABLE progress ADD COLUMN script_guide_level INTEGER DEFAULT 1");
+      await db.execute(
+        "ALTER TABLE progress ADD COLUMN script_guide_level INTEGER DEFAULT 1",
+      );
+    }
+    if (oldVersion < 3) {
+      await db.execute('''
+        CREATE TABLE claimed_missions (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          user_id INTEGER NOT NULL,
+          date TEXT NOT NULL,
+          mission_type TEXT NOT NULL,
+          xp_reward INTEGER NOT NULL,
+          created_at TEXT NOT NULL,
+          FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+          UNIQUE(user_id, date, mission_type)
+        )
+      ''');
+    }
+    if (oldVersion < 4) {
+      await db.execute("ALTER TABLE progress ADD COLUMN xp INTEGER DEFAULT 0");
+      await db.execute(
+        "ALTER TABLE progress ADD COLUMN level INTEGER DEFAULT 1",
+      );
     }
   }
 
@@ -62,6 +94,8 @@ class DatabaseHelper {
         hiragana_level INTEGER DEFAULT 1,
         katakana_level INTEGER DEFAULT 1,
         script_guide_level INTEGER DEFAULT 1,
+        xp INTEGER DEFAULT 0,
+        level INTEGER DEFAULT 1,
         updated_at TEXT NOT NULL,
         FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
       )
@@ -103,6 +137,20 @@ class DatabaseHelper {
         UNIQUE(user_id, character)
       )
     ''');
+
+    // Create claimed_missions table
+    await db.execute('''
+      CREATE TABLE claimed_missions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        date TEXT NOT NULL,
+        mission_type TEXT NOT NULL,
+        xp_reward INTEGER NOT NULL,
+        created_at TEXT NOT NULL,
+        FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+        UNIQUE(user_id, date, mission_type)
+      )
+    ''');
   }
 
   // ─── USER HELPER METHODS ───────────────────────────────────────────────────
@@ -114,7 +162,7 @@ class DatabaseHelper {
       final userId = await db.insert('users', {
         'nama': name,
         'email': email.trim().toLowerCase(),
-        'password': password,
+        'password': hashPassword(password),
         'avatar': '🐼',
         'created_at': nowStr,
       });
@@ -127,6 +175,8 @@ class DatabaseHelper {
         'hiragana_level': 1,
         'katakana_level': 1,
         'script_guide_level': 1,
+        'xp': 0,
+        'level': 1,
         'updated_at': nowStr,
       });
 
@@ -149,7 +199,7 @@ class DatabaseHelper {
     final List<Map<String, dynamic>> maps = await db.query(
       'users',
       where: 'email = ? AND password = ?',
-      whereArgs: [email.trim().toLowerCase(), password],
+      whereArgs: [email.trim().toLowerCase(), hashPassword(password)],
     );
 
     if (maps.isNotEmpty) {
@@ -187,14 +237,14 @@ class DatabaseHelper {
     final List<Map<String, dynamic>> maps = await db.query(
       'users',
       where: 'id = ? AND password = ?',
-      whereArgs: [id, oldPass],
+      whereArgs: [id, hashPassword(oldPass)],
     );
 
     if (maps.isEmpty) return false;
 
     await db.update(
       'users',
-      {'password': newPass},
+      {'password': hashPassword(newPass)},
       where: 'id = ?',
       whereArgs: [id],
     );
@@ -228,6 +278,39 @@ class DatabaseHelper {
     );
     if (maps.isNotEmpty) return maps.first;
     return null;
+  }
+
+  int calculateLevel(int xp) {
+    if (xp >= 1000) return 5;
+    if (xp >= 500) return 4;
+    if (xp >= 250) return 3;
+    if (xp >= 100) return 2;
+    return 1;
+  }
+
+  Future<void> addXp(int userId, int amount) async {
+    if (amount <= 0) return;
+
+    final db = await database;
+
+    // Get current progress
+    final currentProgress = await getProgress(userId);
+    if (currentProgress == null) return;
+
+    int currentXp = (currentProgress['xp'] as int?) ?? 0;
+    int newXp = currentXp + amount;
+    int newLevel = calculateLevel(newXp);
+
+    await db.update(
+      'progress',
+      {
+        'xp': newXp,
+        'level': newLevel,
+        'updated_at': DateTime.now().toIso8601String(),
+      },
+      where: 'user_id = ?',
+      whereArgs: [userId],
+    );
   }
 
   Future<int> updateProgress(
@@ -422,5 +505,55 @@ class DatabaseHelper {
       whereArgs: [userId, character],
     );
     return maps.isNotEmpty;
+  }
+
+  // ─── DAILY MISSIONS HELPER METHODS ─────────────────────────────────────────
+
+  Future<int> claimMission(
+    int userId,
+    String date,
+    String missionType,
+    int xpReward,
+  ) async {
+    final db = await database;
+    try {
+      final id = await db.insert('claimed_missions', {
+        'user_id': userId,
+        'date': date,
+        'mission_type': missionType,
+        'xp_reward': xpReward,
+        'created_at': DateTime.now().toIso8601String(),
+      });
+
+      // Auto add XP
+      if (id > 0) {
+        await addXp(userId, xpReward);
+      }
+
+      return id;
+    } catch (e) {
+      // Already claimed for today
+      return -1;
+    }
+  }
+
+  Future<List<String>> getClaimedMissions(int userId, String date) async {
+    final db = await database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'claimed_missions',
+      columns: ['mission_type'],
+      where: 'user_id = ? AND date = ?',
+      whereArgs: [userId, date],
+    );
+    return maps.map((row) => row['mission_type'] as String).toList();
+  }
+
+  Future<int> getTotalMissionXP(int userId) async {
+    final db = await database;
+    final result = await db.rawQuery(
+      'SELECT SUM(xp_reward) as total_xp FROM claimed_missions WHERE user_id = ?',
+      [userId],
+    );
+    return Sqflite.firstIntValue(result) ?? 0;
   }
 }

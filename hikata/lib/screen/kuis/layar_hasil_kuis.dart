@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ppkd_b6/screen/kuis/layar_kuis.dart';
 import 'package:ppkd_b6/gen/strings.g.dart';
+import 'package:ppkd_b6/providers/profile_provider.dart';
+import 'package:ppkd_b6/screen/kuis/layar_kuis.dart';
 import 'package:ppkd_b6/services/layanan_progres.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class QuizResultScreen extends StatefulWidget {
@@ -12,6 +14,7 @@ class QuizResultScreen extends StatefulWidget {
   final String mode;
   final int? levelIndex;
   final bool isListening;
+  final int durationSeconds;
 
   const QuizResultScreen({
     super.key,
@@ -20,6 +23,7 @@ class QuizResultScreen extends StatefulWidget {
     required this.mode,
     this.levelIndex,
     this.isListening = false,
+    this.durationSeconds = 0,
   });
 
   @override
@@ -36,25 +40,31 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
   Future<void> _saveHighScore() async {
     final prefs = await SharedPreferences.getInstance();
 
-    if (widget.levelIndex == null) {
-      final key =
-          'high_score_${widget.mode}${widget.isListening ? "_listening" : ""}';
-      final currentHigh = prefs.getInt(key) ?? 0;
-      if (widget.score > currentHigh) {
-        await prefs.setInt(key, widget.score);
-      }
-    } else {
-      if (widget.isListening) {
-        final unlockedNew = await ProgressService.handleQuizSubmission(
-          mode: widget.mode,
-          levelIndex: widget.levelIndex!,
-          score: widget.score,
-          total: widget.total,
-        );
+    final key =
+        'high_score_${widget.mode}${widget.isListening ? "_listening" : ""}';
+    final currentHigh = prefs.getInt(key) ?? 0;
+    if (widget.score > currentHigh) {
+      await prefs.setInt(key, widget.score);
+    }
 
-        if (unlockedNew && mounted) {
-          _showLevelUnlockedDialog(context);
-        }
+    final unlockedNew = await ProgressService.handleQuizSubmission(
+      mode: widget.mode,
+      levelIndex: widget.levelIndex,
+      score: widget.score,
+      total: widget.total,
+    );
+
+    if (mounted) {
+      // Refresh XP and Level globally
+      try {
+        final profileProv = context.read<ProfileProvider>();
+        await profileProv.refresh();
+      } catch (_) {}
+
+      if (!mounted) return;
+
+      if (unlockedNew) {
+        _showLevelUnlockedDialog(context);
       }
     }
   }
@@ -66,11 +76,11 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
     final isKatakana = widget.mode.toLowerCase() == 'katakana';
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final dialogPrimaryColor = isKatakana
-        ? (isDark ? const Color(0xFFFFD54F) : const Color(0xFFFFB300))
-        : (isDark ? const Color(0xFF81C784) : AppColors.primaryGreen);
+        ? (isDark ? Color(0xFFFFD54F) : Color(0xFFFFB300))
+        : (isDark ? Color(0xFF81C784) : AppColors.primaryGreen);
     final dialogSecondaryColor = isKatakana
-        ? (isDark ? const Color(0xFFFFE082) : const Color(0xFFFFC107))
-        : (isDark ? const Color(0xFFA5D6A7) : AppColors.secondaryGreen);
+        ? (isDark ? Color(0xFFFFE082) : Color(0xFFFFC107))
+        : (isDark ? Color(0xFFA5D6A7) : AppColors.secondaryGreen);
 
     showGeneralDialog(
       context: context,
@@ -90,7 +100,9 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
             opacity: opacity,
             child: AlertDialog(
               backgroundColor: Theme.of(context).brightness == Brightness.dark
-                  ? (isKatakana ? const Color(0xFF211D0A) : const Color(0xFF1E2D24))
+                  ? (isKatakana
+                        ? const Color(0xFF211D0A)
+                        : const Color(0xFF1E2D24))
                   : Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24),
@@ -145,10 +157,7 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
                     margin: EdgeInsets.only(bottom: 8, left: 8, right: 8),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [
-                          dialogPrimaryColor,
-                          dialogSecondaryColor,
-                        ],
+                        colors: [dialogPrimaryColor, dialogSecondaryColor],
                       ),
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
@@ -175,10 +184,7 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
     );
   }
 
-
   double get _percentage => (widget.score / widget.total) * 100;
-
-
 
   String _getFeedbackDesc(BuildContext context) {
     if (_percentage >= 80) {
@@ -196,10 +202,21 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
     return "😅";
   }
 
+  String _formatDuration() {
+    final m = widget.durationSeconds ~/ 60;
+    final s = widget.durationSeconds % 60;
+    return '${m}m ${s.toString().padLeft(2, '0')}s';
+  }
+
+  int get _earnedXp => 20 + (_percentage >= 80 ? 10 : 0);
+
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final colors = context.hiKata;
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F7F5),
+      backgroundColor: colors.cardBackground,
       body: Column(
         children: [
           _buildHeroHasil(context),
@@ -209,7 +226,7 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  _buildStatistikCard(context),
+                  _buildStatistikCard(context, isDark, colors),
                   const SizedBox(height: 32),
                   _buildTombolAksi(context),
                   const SizedBox(height: 20),
@@ -224,7 +241,9 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
                           fontFamily: 'Poppins',
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
-                          color: Colors.grey.shade600,
+                          color: isDark
+                              ? colors.textMuted
+                              : Colors.grey.shade600,
                         ),
                       ),
                     ),
@@ -254,10 +273,7 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
       ),
       child: Column(
         children: [
-          Text(
-            _getFeedbackEmoji(),
-            style: const TextStyle(fontSize: 80),
-          ),
+          Text(_getFeedbackEmoji(), style: const TextStyle(fontSize: 80)),
           const SizedBox(height: 16),
           Text(
             '${widget.score}/${widget.total}',
@@ -287,7 +303,7 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
-              "✨ +${widget.score * 10} XP didapat!",
+              "✨ +$_earnedXp XP didapat!",
               style: const TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 14,
@@ -301,45 +317,83 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
     );
   }
 
-  Widget _buildStatistikCard(BuildContext context) {
+  Widget _buildStatistikCard(
+    BuildContext context,
+    bool isDark,
+    HiKataColors colors,
+  ) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDark ? colors.cardBackground : Colors.white,
         borderRadius: BorderRadius.circular(16),
+        border: isDark ? Border.all(color: colors.divider) : null,
         boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
+          if (!isDark)
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.04),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
         ],
       ),
       child: Column(
         children: [
-          _buildStatRow("✅ Jawaban Benar", '${widget.score}', const Color(0xFF2E9E5B)),
-          Divider(color: Colors.grey.shade200, height: 24, thickness: 1),
-          _buildStatRow("❌ Jawaban Salah", '${widget.total - widget.score}', Colors.red),
-          Divider(color: Colors.grey.shade200, height: 24, thickness: 1),
-          _buildStatRow("⏱ Waktu Selesai", "1m 15s", const Color(0xFF1A1A1A), isBoldValue: false),
-          Divider(color: Colors.grey.shade200, height: 24, thickness: 1),
-          _buildStatRow("🎯 Akurasi", '${_percentage.toInt()}%', const Color(0xFF1A1A1A)),
+          _buildStatRow(
+            "✅ Jawaban Benar",
+            '${widget.score}',
+            isDark ? const Color(0xFF81C784) : const Color(0xFF2E9E5B),
+            isDark,
+            colors,
+          ),
+          Divider(color: colors.divider, height: 24, thickness: 1),
+          _buildStatRow(
+            "❌ Jawaban Salah",
+            '${widget.total - widget.score}',
+            isDark ? const Color(0xFFEF5350) : Colors.red,
+            isDark,
+            colors,
+          ),
+          Divider(color: colors.divider, height: 24, thickness: 1),
+          _buildStatRow(
+            "⏱ Waktu Selesai",
+            _formatDuration(),
+            isDark ? colors.textPrimary : const Color(0xFF1A1A1A),
+            isDark,
+            colors,
+            isBoldValue: false,
+          ),
+          Divider(color: colors.divider, height: 24, thickness: 1),
+          _buildStatRow(
+            "🎯 Akurasi",
+            '${_percentage.toInt()}%',
+            isDark ? colors.textPrimary : const Color(0xFF1A1A1A),
+            isDark,
+            colors,
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildStatRow(String label, String value, Color valueColor, {bool isBoldValue = true}) {
+  Widget _buildStatRow(
+    String label,
+    String value,
+    Color valueColor,
+    bool isDark,
+    HiKataColors colors, {
+    bool isBoldValue = true,
+  }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontFamily: 'Poppins',
             fontSize: 14,
             fontWeight: FontWeight.w600,
-            color: Color(0xFF1A1A1A),
+            color: isDark ? colors.textPrimary : const Color(0xFF1A1A1A),
           ),
         ),
         Text(
@@ -422,6 +476,4 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
       ],
     );
   }
-
-
 }
