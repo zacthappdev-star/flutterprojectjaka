@@ -93,12 +93,13 @@ class _ExperienceScreenState extends State<ExperienceScreen> {
   }
 
   String _ratingLabel() {
+    final r = context.t.feedback.ratings;
     switch (_rating) {
-      case 1: return '😞 Sangat Kecewa';
-      case 2: return '😕 Kurang Puas';
-      case 3: return '😐 Cukup';
-      case 4: return '😊 Puas';
-      default: return '🤩 Luar Biasa!';
+      case 1: return r.veryBad;
+      case 2: return r.notSatisfied;
+      case 3: return r.okay;
+      case 4: return r.satisfied;
+      default: return r.outstanding;
     }
   }
 

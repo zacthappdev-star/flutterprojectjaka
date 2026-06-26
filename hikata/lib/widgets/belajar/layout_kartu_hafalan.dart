@@ -50,10 +50,11 @@ class _LayoutKartuHafalanState extends State<LayoutKartuHafalan> {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                setState(() => _isFlipped = !_isFlipped);
+                final willShowAnswer = !_isFlipped;
+                setState(() => _isFlipped = willShowAnswer);
                 AudioService.playAudio(c.effectiveAudioPath);
-                // Mark as learned only when user flips (views the answer side)
-                if (!_isFlipped) _markCurrentAsLearned();
+                // Mark as learned when the user flips to the answer side.
+                if (willShowAnswer) _markCurrentAsLearned();
               },
               child: AnimatedContainer(
                 duration: Duration(milliseconds: 300),

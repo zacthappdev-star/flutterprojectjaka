@@ -5,6 +5,7 @@ import 'package:ppkd_b6/providers/mission_provider.dart';
 import 'package:ppkd_b6/providers/profile_provider.dart';
 import 'package:ppkd_b6/screen/pengenalan/pilih_bahasa.dart';
 import 'package:ppkd_b6/screen/reset_sandi.dart';
+import 'package:ppkd_b6/screen/tata_utama.dart';
 import 'package:ppkd_b6/theme/aset_aplikasi.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 import 'package:provider/provider.dart';
@@ -79,14 +80,22 @@ class _LoginScreenState extends State<LoginScreen>
         final prefs = await SharedPreferences.getInstance();
         await prefs.setInt('active_user_id', user['id'] as int);
         await prefs.setString('user_avatar', user['avatar'] as String? ?? '🐼');
+        final bool onboardingDone =
+            prefs.getBool('has_completed_onboarding') ?? false;
         if (!mounted) return;
         // Refresh providers with the newly logged-in user's data
         await context.read<ProfileProvider>().refresh();
         if (!mounted) return;
         context.read<MissionProvider>().loadMissions();
+        // Returning users who already finished onboarding go straight to the
+        // main app; only first-time users see the language/goal intro flow.
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => const LanguageSelectScreen()),
+          MaterialPageRoute(
+            builder: (_) => onboardingDone
+                ? const TataUtama()
+                : const LanguageSelectScreen(),
+          ),
         );
       }
     }

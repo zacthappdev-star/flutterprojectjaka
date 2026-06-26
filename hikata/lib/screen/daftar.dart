@@ -98,6 +98,10 @@ class _RegisterScreenState extends State<RegisterScreen>
             ),
           ),
         );
+        // Give the success SnackBar a moment to be seen before replacing this
+        // route (pushReplacement tears down this Scaffold's messenger).
+        await Future.delayed(const Duration(milliseconds: 900));
+        if (!mounted) return;
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (_) => LoginScreen()),

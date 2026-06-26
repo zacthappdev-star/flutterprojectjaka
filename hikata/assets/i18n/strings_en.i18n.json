@@ -342,6 +342,13 @@
       "easy": "Easy to Understand",
       "helpful": "Very Helpful",
       "improve": "Needs Improvement"
+    },
+    "ratings": {
+      "veryBad": "😞 Very Disappointed",
+      "notSatisfied": "😕 Not Satisfied",
+      "okay": "😐 Okay",
+      "satisfied": "😊 Satisfied",
+      "outstanding": "🤩 Outstanding!"
     }
   },
   "quizIntro": {

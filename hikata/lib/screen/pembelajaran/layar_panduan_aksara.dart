@@ -33,9 +33,9 @@ class LayarPanduanAksara extends StatelessWidget {
                   Expanded(
                     child: Container(
                       width: double.infinity,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFf5f7f2),
-                        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                      decoration: BoxDecoration(
+                        color: context.hiKata.cardBackground,
+                        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
                       ),
                       child: Column(
                         children: [

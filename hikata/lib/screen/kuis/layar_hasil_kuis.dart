@@ -492,13 +492,10 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
           child: GestureDetector(
             onTap: () {
               Navigator.of(context).popUntil((route) => route.isFirst);
-              if (widget.levelIndex != null) {
-                // If launched from learning levels, go back to DasborBelajar (tab 0)
-                TataUtama.of(context)?.setTab(0);
-              } else {
-                // If launched from independent quizzes, go back to DasborKuis (tab 2)
-                TataUtama.of(context)?.setTab(2);
-              }
+              // Both level quizzes and the independent "Latihan Cepat" quiz are
+              // launched from DasborBelajar (tab 0). There is no separate quiz
+              // tab anymore, so always return there.
+              TataUtama.of(context)?.setTab(0);
             },
             child: Container(
               height: 52,

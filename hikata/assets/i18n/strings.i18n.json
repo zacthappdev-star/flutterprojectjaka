@@ -341,6 +341,13 @@
       "easy": "Mudah Dipahami",
       "helpful": "Sangat Membantu",
       "improve": "Perlu Peningkatan"
+    },
+    "ratings": {
+      "veryBad": "😞 Sangat Kecewa",
+      "notSatisfied": "😕 Kurang Puas",
+      "okay": "😐 Cukup",
+      "satisfied": "😊 Puas",
+      "outstanding": "🤩 Luar Biasa!"
     }
   },
   "quizIntro": {
