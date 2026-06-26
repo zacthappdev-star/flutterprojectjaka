@@ -350,7 +350,7 @@ class _ResetPasswordState extends State<ResetPassword>
         ),
         SizedBox(height: 12),
         Text(
-          'Berhasil!',
+          context.t.auth.resetSuccessTitle,
           style: TextStyle(
             fontFamily: 'Poppins',
             fontSize: 18,
@@ -360,7 +360,7 @@ class _ResetPasswordState extends State<ResetPassword>
         ),
         SizedBox(height: 4),
         Text(
-          'Email reset password telah dikirim ke:\n${emailController.text}',
+          context.t.auth.resetSentTo(email: emailController.text),
           style: TextStyle(
             fontFamily: 'Poppins',
             fontSize: 12,

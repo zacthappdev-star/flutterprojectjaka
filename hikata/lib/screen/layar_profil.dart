@@ -455,9 +455,9 @@ class _LayarProfilState extends State<LayarProfil> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text(
-              'Batal',
-              style: TextStyle(
+            child: Text(
+              context.t.profile.cancel,
+              style: const TextStyle(
                 fontFamily: 'Poppins',
                 color: AppColors.primaryGreen,
                 fontWeight: FontWeight.w600,

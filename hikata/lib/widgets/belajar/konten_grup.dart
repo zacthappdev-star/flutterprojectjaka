@@ -190,7 +190,7 @@ class _KontenGrupState extends State<KontenGrup> {
           SizedBox(width: 10),
           PemilihModeBelajar(
             icon: Icons.hearing_rounded,
-            label: 'Dengar',
+            label: Translations.of(context).common.listen,
             isActive: _modeIndex == 3,
             accentColor: widget.accentColor,
             activeBgColor: widget.activeBgColor,
@@ -264,7 +264,7 @@ class _KontenGrupState extends State<KontenGrup> {
             Text(
               isReady
                   ? (isListening
-                        ? 'Siap Uji Pendengaran! 👂'
+                        ? context.t.quizIntro.readyListeningTitle
                         : context.t.quizIntro.readyTitle)
                   : context.t.quizIntro.notReadyTitle,
               style: TextStyle(
@@ -278,7 +278,7 @@ class _KontenGrupState extends State<KontenGrup> {
             Text(
               isReady
                   ? (isListening
-                        ? 'Dengarkan audio dan tebak huruf yang benar.'
+                        ? context.t.quizIntro.readyListeningBody
                         : context.t.quizIntro.readyBody)
                   : context.t.quizIntro.notReadyBody(
                       learned: learnedCount,
@@ -322,7 +322,7 @@ class _KontenGrupState extends State<KontenGrup> {
                 ),
                 child: Text(
                   isListening
-                      ? 'Mulai Kuis Dengar 🔊'
+                      ? context.t.quizIntro.startListeningQuiz
                       : context.t.home.startPractice,
                   style: TextStyle(
                     fontFamily: 'Poppins',

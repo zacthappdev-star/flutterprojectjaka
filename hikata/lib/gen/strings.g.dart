@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 629 (314 per locale)
+/// Strings: 665 (332 per locale)
 ///
-/// Built on 2026-06-26 at 04:40 UTC
+/// Built on 2026-06-26 at 05:14 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -192,6 +192,7 @@ class _StringsCommonId {
 	String get grid => 'Tabel';
 	String get flashcard => 'Kartu';
 	String get quiz => 'Kuis';
+	String get listen => 'Dengar';
 	String get tip => 'Pengingat:';
 	String get reading => 'Cara baca';
 	String get memoryTip => 'Tips Hafalan';
@@ -229,6 +230,8 @@ class _StringsAuthId {
 	String get resetPasswordTitle => 'Atur Ulang Sandi';
 	String get resetPasswordIntro => 'Masukkan email Anda untuk menerima instruksi pengaturan ulang kata sandi.';
 	String get sendEmail => 'KIRIM EMAIL';
+	String get resetSuccessTitle => 'Berhasil!';
+	String resetSentTo({required Object email}) => 'Email reset password telah dikirim ke:\n${email}';
 	late final _StringsAuthValidationId validation = _StringsAuthValidationId._(_root);
 	late final _StringsAuthMessagesId messages = _StringsAuthMessagesId._(_root);
 }
@@ -263,6 +266,9 @@ class _StringsHomeId {
 	String get kanji => 'Kanji';
 	String get conversation => 'Percakapan';
 	String get startPractice => 'Mulai Latihan';
+	String get quickPractice => 'Latihan Cepat ⚡';
+	String quickPracticeSubtitle({required Object count}) => '${count} huruf siap diuji';
+	String get start => 'Mulai';
 	String progressSummary({required Object completed, required Object percent, required Object total}) => '${completed} karakter · ${percent}% selesai (${completed}/${total})';
 	String claimedXP({required Object xp}) => 'Berhasil klaim ${xp} XP!';
 	String get claimed => 'Diklaim';
@@ -536,6 +542,14 @@ class _StringsAboutId {
 	// Translations
 	String get title => 'Tentang Aplikasi';
 	String get description => 'HI KATA membantu anda mempelajari Hiragana dan Katakana melalui pembelajaran interaktif, audio pelafalan, dan kuis yang menyenangkan.';
+	String get tagline => 'Teman Belajar Hiragana Dan Katakana';
+	String get featuresTitle => 'Fitur Utama';
+	String get featureTable => 'Tabel Hiragana & Katakana';
+	String get featurePractice => 'Latihan Cepat & Evaluasi';
+	String get featureAudio => 'Pelafalan Audio';
+	String get featureQuiz => 'Kuis Interaktif';
+	String get featureProgress => 'Sistem Progres & Level';
+	String get appInfoTitle => 'Informasi Aplikasi';
 	String get version => 'App Version';
 	String get developer => 'Pembuat Aplikasi';
 }
@@ -552,6 +566,7 @@ class _StringsGoalsId {
 	String get greatChoice => 'Pilihan mantap! Kamu belajar untuk: ';
 	String get dailyTargetQuestion => 'Berapa target belajar harianmu?';
 	String get startLearning => 'MULAI BELAJAR';
+	String get selectReasonFirst => 'Pilih salah satu alasan dulu ya!';
 	String targetSet({required Object name, required Object time}) => 'Target harian diatur ke: ${name} (${time})🔥';
 	String get goalRelaxed => 'Santai';
 	String get goalRegular => 'Biasa';
@@ -615,6 +630,9 @@ class _StringsQuizIntroId {
 	String get notReadyTitle => 'Materi Belum Selesai';
 	String get readyBody => 'Anda sudah siap untuk menguji kemampuan di level ini.';
 	String notReadyBody({required Object learned, required Object total}) => 'Pelajari semua huruf di tabel atau flashcard (${learned}/${total}) untuk membuka kuis.';
+	String get readyListeningTitle => 'Siap Uji Pendengaran! 👂';
+	String get readyListeningBody => 'Dengarkan audio dan tebak huruf yang benar.';
+	String get startListeningQuiz => 'Mulai Kuis Dengar 🔊';
 }
 
 // Path: missions
@@ -774,6 +792,7 @@ class _StringsCommonEn extends _StringsCommonId {
 	@override String get grid => 'Grid';
 	@override String get flashcard => 'Flashcard';
 	@override String get quiz => 'Quiz';
+	@override String get listen => 'Listen';
 	@override String get tip => 'Tip:';
 	@override String get reading => 'Reading';
 	@override String get memoryTip => 'Memory Tip';
@@ -812,6 +831,8 @@ class _StringsAuthEn extends _StringsAuthId {
 	@override String get resetPasswordTitle => 'Reset Password';
 	@override String get resetPasswordIntro => 'Enter your email to receive password reset instructions.';
 	@override String get sendEmail => 'SEND EMAIL';
+	@override String get resetSuccessTitle => 'Success!';
+	@override String resetSentTo({required Object email}) => 'Password reset email has been sent to:\n${email}';
 	@override late final _StringsAuthValidationEn validation = _StringsAuthValidationEn._(_root);
 	@override late final _StringsAuthMessagesEn messages = _StringsAuthMessagesEn._(_root);
 }
@@ -846,6 +867,9 @@ class _StringsHomeEn extends _StringsHomeId {
 	@override String get kanji => 'Kanji';
 	@override String get conversation => 'Conversation';
 	@override String get startPractice => 'Start Practice';
+	@override String get quickPractice => 'Quick Practice ⚡';
+	@override String quickPracticeSubtitle({required Object count}) => '${count} characters ready to test';
+	@override String get start => 'Start';
 	@override String progressSummary({required Object completed, required Object percent, required Object total}) => '${completed} characters · ${percent}% completed (${completed}/${total})';
 	@override String claimedXP({required Object xp}) => 'Successfully claimed ${xp} XP!';
 	@override String get claimed => 'Claimed';
@@ -1119,6 +1143,14 @@ class _StringsAboutEn extends _StringsAboutId {
 	// Translations
 	@override String get title => 'About App';
 	@override String get description => 'HI KATA helps you learn Hiragana and Katakana through interactive lessons, pronunciation audio, and engaging quizzes.';
+	@override String get tagline => 'Your Hiragana & Katakana Study Buddy';
+	@override String get featuresTitle => 'Key Features';
+	@override String get featureTable => 'Hiragana & Katakana Tables';
+	@override String get featurePractice => 'Quick Practice & Evaluation';
+	@override String get featureAudio => 'Audio Pronunciation';
+	@override String get featureQuiz => 'Interactive Quizzes';
+	@override String get featureProgress => 'Progress & Level System';
+	@override String get appInfoTitle => 'App Information';
 	@override String get version => 'App Version';
 	@override String get developer => 'App Developer';
 }
@@ -1135,6 +1167,7 @@ class _StringsGoalsEn extends _StringsGoalsId {
 	@override String get greatChoice => 'Great choice! You are learning for: ';
 	@override String get dailyTargetQuestion => 'How much is your daily target?';
 	@override String get startLearning => 'START LEARNING';
+	@override String get selectReasonFirst => 'Please pick one reason first!';
 	@override String targetSet({required Object name, required Object time}) => 'Daily target set to: ${name} (${time})🔥';
 	@override String get goalRelaxed => 'Relaxed';
 	@override String get goalRegular => 'Regular';
@@ -1198,6 +1231,9 @@ class _StringsQuizIntroEn extends _StringsQuizIntroId {
 	@override String get notReadyTitle => 'Material Not Complete';
 	@override String get readyBody => 'You are ready to test your skills at this level.';
 	@override String notReadyBody({required Object learned, required Object total}) => 'Study all characters in the grid or flashcard (${learned}/${total}) to unlock the quiz.';
+	@override String get readyListeningTitle => 'Ready for a Listening Test! 👂';
+	@override String get readyListeningBody => 'Listen to the audio and guess the correct character.';
+	@override String get startListeningQuiz => 'Start Listening Quiz 🔊';
 }
 
 // Path: missions
@@ -1309,6 +1345,7 @@ extension on Translations {
 			case 'common.grid': return 'Tabel';
 			case 'common.flashcard': return 'Kartu';
 			case 'common.quiz': return 'Kuis';
+			case 'common.listen': return 'Dengar';
 			case 'common.tip': return 'Pengingat:';
 			case 'common.reading': return 'Cara baca';
 			case 'common.memoryTip': return 'Tips Hafalan';
@@ -1337,6 +1374,8 @@ extension on Translations {
 			case 'auth.resetPasswordTitle': return 'Atur Ulang Sandi';
 			case 'auth.resetPasswordIntro': return 'Masukkan email Anda untuk menerima instruksi pengaturan ulang kata sandi.';
 			case 'auth.sendEmail': return 'KIRIM EMAIL';
+			case 'auth.resetSuccessTitle': return 'Berhasil!';
+			case 'auth.resetSentTo': return ({required Object email}) => 'Email reset password telah dikirim ke:\n${email}';
 			case 'auth.validation.emailEmpty': return 'Email tidak boleh kosong';
 			case 'auth.validation.emailInvalid': return 'Format email tidak valid';
 			case 'auth.validation.passwordEmpty': return 'Password tidak boleh kosong';
@@ -1370,6 +1409,9 @@ extension on Translations {
 			case 'home.kanji': return 'Kanji';
 			case 'home.conversation': return 'Percakapan';
 			case 'home.startPractice': return 'Mulai Latihan';
+			case 'home.quickPractice': return 'Latihan Cepat ⚡';
+			case 'home.quickPracticeSubtitle': return ({required Object count}) => '${count} huruf siap diuji';
+			case 'home.start': return 'Mulai';
 			case 'home.progressSummary': return ({required Object completed, required Object percent, required Object total}) => '${completed} karakter · ${percent}% selesai (${completed}/${total})';
 			case 'home.claimedXP': return ({required Object xp}) => 'Berhasil klaim ${xp} XP!';
 			case 'home.claimed': return 'Diklaim';
@@ -1545,6 +1587,14 @@ extension on Translations {
 			case 'language.englishDesc': return 'Guide in English Language';
 			case 'about.title': return 'Tentang Aplikasi';
 			case 'about.description': return 'HI KATA membantu anda mempelajari Hiragana dan Katakana melalui pembelajaran interaktif, audio pelafalan, dan kuis yang menyenangkan.';
+			case 'about.tagline': return 'Teman Belajar Hiragana Dan Katakana';
+			case 'about.featuresTitle': return 'Fitur Utama';
+			case 'about.featureTable': return 'Tabel Hiragana & Katakana';
+			case 'about.featurePractice': return 'Latihan Cepat & Evaluasi';
+			case 'about.featureAudio': return 'Pelafalan Audio';
+			case 'about.featureQuiz': return 'Kuis Interaktif';
+			case 'about.featureProgress': return 'Sistem Progres & Level';
+			case 'about.appInfoTitle': return 'Informasi Aplikasi';
 			case 'about.version': return 'App Version';
 			case 'about.developer': return 'Pembuat Aplikasi';
 			case 'goals.title': return 'Tujuan Belajarmu';
@@ -1552,6 +1602,7 @@ extension on Translations {
 			case 'goals.greatChoice': return 'Pilihan mantap! Kamu belajar untuk: ';
 			case 'goals.dailyTargetQuestion': return 'Berapa target belajar harianmu?';
 			case 'goals.startLearning': return 'MULAI BELAJAR';
+			case 'goals.selectReasonFirst': return 'Pilih salah satu alasan dulu ya!';
 			case 'goals.targetSet': return ({required Object name, required Object time}) => 'Target harian diatur ke: ${name} (${time})🔥';
 			case 'goals.goalRelaxed': return 'Santai';
 			case 'goals.goalRegular': return 'Biasa';
@@ -1604,6 +1655,9 @@ extension on Translations {
 			case 'quizIntro.notReadyTitle': return 'Materi Belum Selesai';
 			case 'quizIntro.readyBody': return 'Anda sudah siap untuk menguji kemampuan di level ini.';
 			case 'quizIntro.notReadyBody': return ({required Object learned, required Object total}) => 'Pelajari semua huruf di tabel atau flashcard (${learned}/${total}) untuk membuka kuis.';
+			case 'quizIntro.readyListeningTitle': return 'Siap Uji Pendengaran! 👂';
+			case 'quizIntro.readyListeningBody': return 'Dengarkan audio dan tebak huruf yang benar.';
+			case 'quizIntro.startListeningQuiz': return 'Mulai Kuis Dengar 🔊';
 			case 'missions.lesson': return 'Selesaikan 1 Pelajaran Baru';
 			case 'missions.quizMixed': return 'Mainkan 1 Kuis Mode Campuran';
 			case 'missions.streak': return 'Pertahankan Streak 3 Hari';
@@ -1631,6 +1685,7 @@ extension on _StringsEn {
 			case 'common.grid': return 'Grid';
 			case 'common.flashcard': return 'Flashcard';
 			case 'common.quiz': return 'Quiz';
+			case 'common.listen': return 'Listen';
 			case 'common.tip': return 'Tip:';
 			case 'common.reading': return 'Reading';
 			case 'common.memoryTip': return 'Memory Tip';
@@ -1660,6 +1715,8 @@ extension on _StringsEn {
 			case 'auth.resetPasswordTitle': return 'Reset Password';
 			case 'auth.resetPasswordIntro': return 'Enter your email to receive password reset instructions.';
 			case 'auth.sendEmail': return 'SEND EMAIL';
+			case 'auth.resetSuccessTitle': return 'Success!';
+			case 'auth.resetSentTo': return ({required Object email}) => 'Password reset email has been sent to:\n${email}';
 			case 'auth.validation.emailEmpty': return 'Email cannot be empty';
 			case 'auth.validation.emailInvalid': return 'Invalid email format';
 			case 'auth.validation.passwordEmpty': return 'Password cannot be empty';
@@ -1693,6 +1750,9 @@ extension on _StringsEn {
 			case 'home.kanji': return 'Kanji';
 			case 'home.conversation': return 'Conversation';
 			case 'home.startPractice': return 'Start Practice';
+			case 'home.quickPractice': return 'Quick Practice ⚡';
+			case 'home.quickPracticeSubtitle': return ({required Object count}) => '${count} characters ready to test';
+			case 'home.start': return 'Start';
 			case 'home.progressSummary': return ({required Object completed, required Object percent, required Object total}) => '${completed} characters · ${percent}% completed (${completed}/${total})';
 			case 'home.claimedXP': return ({required Object xp}) => 'Successfully claimed ${xp} XP!';
 			case 'home.claimed': return 'Claimed';
@@ -1868,6 +1928,14 @@ extension on _StringsEn {
 			case 'language.englishDesc': return 'Guide in English Language';
 			case 'about.title': return 'About App';
 			case 'about.description': return 'HI KATA helps you learn Hiragana and Katakana through interactive lessons, pronunciation audio, and engaging quizzes.';
+			case 'about.tagline': return 'Your Hiragana & Katakana Study Buddy';
+			case 'about.featuresTitle': return 'Key Features';
+			case 'about.featureTable': return 'Hiragana & Katakana Tables';
+			case 'about.featurePractice': return 'Quick Practice & Evaluation';
+			case 'about.featureAudio': return 'Audio Pronunciation';
+			case 'about.featureQuiz': return 'Interactive Quizzes';
+			case 'about.featureProgress': return 'Progress & Level System';
+			case 'about.appInfoTitle': return 'App Information';
 			case 'about.version': return 'App Version';
 			case 'about.developer': return 'App Developer';
 			case 'goals.title': return 'Your Learning Goal';
@@ -1875,6 +1943,7 @@ extension on _StringsEn {
 			case 'goals.greatChoice': return 'Great choice! You are learning for: ';
 			case 'goals.dailyTargetQuestion': return 'How much is your daily target?';
 			case 'goals.startLearning': return 'START LEARNING';
+			case 'goals.selectReasonFirst': return 'Please pick one reason first!';
 			case 'goals.targetSet': return ({required Object name, required Object time}) => 'Daily target set to: ${name} (${time})🔥';
 			case 'goals.goalRelaxed': return 'Relaxed';
 			case 'goals.goalRegular': return 'Regular';
@@ -1927,6 +1996,9 @@ extension on _StringsEn {
 			case 'quizIntro.notReadyTitle': return 'Material Not Complete';
 			case 'quizIntro.readyBody': return 'You are ready to test your skills at this level.';
 			case 'quizIntro.notReadyBody': return ({required Object learned, required Object total}) => 'Study all characters in the grid or flashcard (${learned}/${total}) to unlock the quiz.';
+			case 'quizIntro.readyListeningTitle': return 'Ready for a Listening Test! 👂';
+			case 'quizIntro.readyListeningBody': return 'Listen to the audio and guess the correct character.';
+			case 'quizIntro.startListeningQuiz': return 'Start Listening Quiz 🔊';
 			case 'missions.lesson': return 'Complete 1 New Lesson';
 			case 'missions.quizMixed': return 'Play 1 Mixed Mode Quiz';
 			case 'missions.streak': return 'Keep a 3-Day Streak';

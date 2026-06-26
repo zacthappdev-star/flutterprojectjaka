@@ -249,10 +249,10 @@ class _HomeReasonScreenState extends State<HomeReasonScreen>
                         );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
+                          SnackBar(
                             content: Text(
-                              'Pilih salah satu alasan dulu ya!',
-                              style: TextStyle(fontFamily: 'Poppins'),
+                              context.t.goals.selectReasonFirst,
+                              style: const TextStyle(fontFamily: 'Poppins'),
                             ),
                             backgroundColor: Colors.red,
                             behavior: SnackBarBehavior.floating,

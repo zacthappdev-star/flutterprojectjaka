@@ -16,6 +16,7 @@
     "grid": "Tabel",
     "flashcard": "Kartu",
     "quiz": "Kuis",
+    "listen": "Dengar",
     "tip": "Pengingat:",
     "reading": "Cara baca",
     "memoryTip": "Tips Hafalan",
@@ -46,6 +47,8 @@
     "resetPasswordTitle": "Atur Ulang Sandi",
     "resetPasswordIntro": "Masukkan email Anda untuk menerima instruksi pengaturan ulang kata sandi.",
     "sendEmail": "KIRIM EMAIL",
+    "resetSuccessTitle": "Berhasil!",
+    "resetSentTo": "Email reset password telah dikirim ke:\n${email}",
     "validation": {
       "emailEmpty": "Email tidak boleh kosong",
       "emailInvalid": "Format email tidak valid",
@@ -85,6 +88,9 @@
     "kanji": "Kanji",
     "conversation": "Percakapan",
     "startPractice": "Mulai Latihan",
+    "quickPractice": "Latihan Cepat ⚡",
+    "quickPracticeSubtitle": "${count} huruf siap diuji",
+    "start": "Mulai",
     "progressSummary": "${completed} karakter · ${percent}% selesai (${completed}/${total})",
     "claimedXP": "Berhasil klaim ${xp} XP!",
     "claimed": "Diklaim",
@@ -286,6 +292,14 @@
   "about": {
     "title": "Tentang Aplikasi",
     "description": "HI KATA membantu anda mempelajari Hiragana dan Katakana melalui pembelajaran interaktif, audio pelafalan, dan kuis yang menyenangkan.",
+    "tagline": "Teman Belajar Hiragana Dan Katakana",
+    "featuresTitle": "Fitur Utama",
+    "featureTable": "Tabel Hiragana & Katakana",
+    "featurePractice": "Latihan Cepat & Evaluasi",
+    "featureAudio": "Pelafalan Audio",
+    "featureQuiz": "Kuis Interaktif",
+    "featureProgress": "Sistem Progres & Level",
+    "appInfoTitle": "Informasi Aplikasi",
     "version": "App Version",
     "developer": "Pembuat Aplikasi"
   },
@@ -295,6 +309,7 @@
     "greatChoice": "Pilihan mantap! Kamu belajar untuk: ",
     "dailyTargetQuestion": "Berapa target belajar harianmu?",
     "startLearning": "MULAI BELAJAR",
+    "selectReasonFirst": "Pilih salah satu alasan dulu ya!",
     "targetSet": "Target harian diatur ke: ${name} (${time})🔥",
     "goalRelaxed": "Santai",
     "goalRegular": "Biasa",
@@ -354,7 +369,10 @@
     "readyTitle": "Materi Selesai!",
     "notReadyTitle": "Materi Belum Selesai",
     "readyBody": "Anda sudah siap untuk menguji kemampuan di level ini.",
-    "notReadyBody": "Pelajari semua huruf di tabel atau flashcard (${learned}/${total}) untuk membuka kuis."
+    "notReadyBody": "Pelajari semua huruf di tabel atau flashcard (${learned}/${total}) untuk membuka kuis.",
+    "readyListeningTitle": "Siap Uji Pendengaran! 👂",
+    "readyListeningBody": "Dengarkan audio dan tebak huruf yang benar.",
+    "startListeningQuiz": "Mulai Kuis Dengar 🔊"
   },
   "missions": {
     "lesson": "Selesaikan 1 Pelajaran Baru",

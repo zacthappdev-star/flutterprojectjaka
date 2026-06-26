@@ -130,7 +130,7 @@ class AboutAppScreen extends StatelessWidget {
                               ),
                               SizedBox(height: 6),
                               Text(
-                                'Teman Belajar Hiragana Dan Katakana',
+                                context.t.about.tagline,
                                 style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontSize: 12,
@@ -145,42 +145,42 @@ class AboutAppScreen extends StatelessWidget {
                         SizedBox(height: 24),
                         // Description removed
                         // Features list
-                        _buildSectionTitle('Fitur Utama', isDark, colors),
+                        _buildSectionTitle(context.t.about.featuresTitle, isDark, colors),
                         SizedBox(height: 12),
                         _buildFeatureItem(
                           Icons.grid_view_rounded,
-                          'Tabel Hiragana & Katakana',
+                          context.t.about.featureTable,
                           isDark,
                           colors,
                         ),
                         _buildFeatureItem(
                           Icons.bolt_rounded,
-                          'Latihan Cepat & Evaluasi',
+                          context.t.about.featurePractice,
                           isDark,
                           colors,
                         ),
                         _buildFeatureItem(
                           Icons.volume_up_rounded,
-                          'Pelafalan Audio',
+                          context.t.about.featureAudio,
                           isDark,
                           colors,
                         ),
                         _buildFeatureItem(
                           Icons.quiz_rounded,
-                          'Kuis Interaktif',
+                          context.t.about.featureQuiz,
                           isDark,
                           colors,
                         ),
                         _buildFeatureItem(
                           Icons.bar_chart_rounded,
-                          'Sistem Progres & Level',
+                          context.t.about.featureProgress,
                           isDark,
                           colors,
                         ),
                         SizedBox(height: 28),
                         // Version info
                         _buildSectionTitle(
-                          'Informasi Aplikasi',
+                          context.t.about.appInfoTitle,
                           isDark,
                           colors,
                         ),

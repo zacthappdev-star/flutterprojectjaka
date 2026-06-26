@@ -16,6 +16,7 @@
     "grid": "Grid",
     "flashcard": "Flashcard",
     "quiz": "Quiz",
+    "listen": "Listen",
     "tip": "Tip:",
     "reading": "Reading",
     "memoryTip": "Memory Tip",
@@ -47,6 +48,8 @@
     "resetPasswordTitle": "Reset Password",
     "resetPasswordIntro": "Enter your email to receive password reset instructions.",
     "sendEmail": "SEND EMAIL",
+    "resetSuccessTitle": "Success!",
+    "resetSentTo": "Password reset email has been sent to:\n${email}",
     "validation": {
       "emailEmpty": "Email cannot be empty",
       "emailInvalid": "Invalid email format",
@@ -86,6 +89,9 @@
     "kanji": "Kanji",
     "conversation": "Conversation",
     "startPractice": "Start Practice",
+    "quickPractice": "Quick Practice ⚡",
+    "quickPracticeSubtitle": "${count} characters ready to test",
+    "start": "Start",
     "progressSummary": "${completed} characters · ${percent}% completed (${completed}/${total})",
     "claimedXP": "Successfully claimed ${xp} XP!",
     "claimed": "Claimed",
@@ -287,6 +293,14 @@
   "about": {
     "title": "About App",
     "description": "HI KATA helps you learn Hiragana and Katakana through interactive lessons, pronunciation audio, and engaging quizzes.",
+    "tagline": "Your Hiragana & Katakana Study Buddy",
+    "featuresTitle": "Key Features",
+    "featureTable": "Hiragana & Katakana Tables",
+    "featurePractice": "Quick Practice & Evaluation",
+    "featureAudio": "Audio Pronunciation",
+    "featureQuiz": "Interactive Quizzes",
+    "featureProgress": "Progress & Level System",
+    "appInfoTitle": "App Information",
     "version": "App Version",
     "developer": "App Developer"
   },
@@ -296,6 +310,7 @@
     "greatChoice": "Great choice! You are learning for: ",
     "dailyTargetQuestion": "How much is your daily target?",
     "startLearning": "START LEARNING",
+    "selectReasonFirst": "Please pick one reason first!",
     "targetSet": "Daily target set to: ${name} (${time})🔥",
     "goalRelaxed": "Relaxed",
     "goalRegular": "Regular",
@@ -355,7 +370,10 @@
     "readyTitle": "Material Complete!",
     "notReadyTitle": "Material Not Complete",
     "readyBody": "You are ready to test your skills at this level.",
-    "notReadyBody": "Study all characters in the grid or flashcard (${learned}/${total}) to unlock the quiz."
+    "notReadyBody": "Study all characters in the grid or flashcard (${learned}/${total}) to unlock the quiz.",
+    "readyListeningTitle": "Ready for a Listening Test! 👂",
+    "readyListeningBody": "Listen to the audio and guess the correct character.",
+    "startListeningQuiz": "Start Listening Quiz 🔊"
   },
   "missions": {
     "lesson": "Complete 1 New Lesson",

@@ -255,7 +255,7 @@ class _DasborBelajarState extends State<DasborBelajar> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Latihan Cepat ⚡",
+                        context.t.home.quickPractice,
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 15,
@@ -264,7 +264,9 @@ class _DasborBelajarState extends State<DasborBelajar> {
                         ),
                       ),
                       Text(
-                        "${learnedChars.length} huruf siap diuji",
+                        context.t.home.quickPracticeSubtitle(
+                          count: learnedChars.length,
+                        ),
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 11,
@@ -283,7 +285,7 @@ class _DasborBelajarState extends State<DasborBelajar> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    'Mulai',
+                    context.t.home.start,
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 12,
