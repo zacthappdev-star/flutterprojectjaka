@@ -14,7 +14,6 @@ class _HomeReasonScreenState extends State<HomeReasonScreen>
     with SingleTickerProviderStateMixin {
   String? selected;
 
-  // Structuring reasons with labels, descriptions and custom icons
   List<Map<String, dynamic>> reasons(BuildContext context) => [
     {
       "id": "Sekolah",
@@ -51,16 +50,12 @@ class _HomeReasonScreenState extends State<HomeReasonScreen>
     super.initState();
     _animController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 800),
     );
-    _fadeAnim = Tween<double>(
-      begin: 0,
-      end: 1,
-    ).animate(CurvedAnimation(parent: _animController, curve: Curves.easeOut));
-    _slideAnim = Tween<Offset>(
-      begin: Offset(0, 0.1),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _animController, curve: Curves.easeOut));
+    _fadeAnim = Tween<double>(begin: 0, end: 1)
+        .animate(CurvedAnimation(parent: _animController, curve: Curves.easeOut));
+    _slideAnim = Tween<Offset>(begin: const Offset(0, 0.1), end: Offset.zero)
+        .animate(CurvedAnimation(parent: _animController, curve: Curves.easeOut));
     _animController.forward();
   }
 
@@ -78,292 +73,225 @@ class _HomeReasonScreenState extends State<HomeReasonScreen>
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(gradient: AppColors.backgroundGradient),
-        child: Stack(
-          children: [
-            // Decorative circles
-            Positioned(
-              top: -50,
-              left: -50,
-              child: Container(
-                width: 180,
-                height: 180,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.04),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: -50,
-              right: -50,
-              child: Container(
-                width: 180,
-                height: 180,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.04),
-                ),
-              ),
-            ),
-
-            SafeArea(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Top Progress Bar
+                Row(
                   children: [
-                    // Onboarding progress bar (Duolingo style)
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () => Navigator.pop(context),
-                          child: Icon(
-                            Icons.arrow_back_ios_new_rounded,
-                            color: Colors.white,
-                            size: 18,
-                          ),
-                        ),
-                        SizedBox(width: 16),
-                        Expanded(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: LinearProgressIndicator(
-                              value: 0.5, // Step 1 of 2
-                              backgroundColor: Colors.white24,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                AppColors.accentLight,
-                              ),
-                              minHeight: 8,
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 16),
-                        Text(
-                          "1/2",
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    Spacer(flex: 1),
-
-                    // Onboarding Title
-                    FadeTransition(
-                      opacity: _fadeAnim,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            context.t.goals.questionTitle,
-                            style: AppTextStyles.appTitle.copyWith(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w800,
-                              letterSpacing: 0,
-                            ),
-                          ),
-                          SizedBox(height: 6),
-                          Text(
-                            context.t.goals.questionSubtitle,
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize: 12,
-                              color: Colors.white70,
-                            ),
-                          ),
-                        ],
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: const Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        color: Colors.white,
+                        size: 18,
                       ),
                     ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: LinearProgressIndicator(
+                          value: 0.5,
+                          backgroundColor: Colors.white24,
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                            AppColors.accentLight,
+                          ),
+                          minHeight: 8,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    const Text(
+                      "1/2",
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 32),
 
-                    Spacer(flex: 2),
+                // Title
+                FadeTransition(
+                  opacity: _fadeAnim,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        context.t.goals.questionTitle,
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 24,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white,
+                          height: 1.3,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        context.t.goals.questionSubtitle,
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 13,
+                          color: Colors.white70,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 32),
 
-                    // Custom choice list (Compact & Clean)
-                    SlideTransition(
-                      position: _slideAnim,
-                      child: FadeTransition(
-                        opacity: _fadeAnim,
-                        child: Column(
-                          children: list.map((reason) {
-                            final isSelected = selected == reason["id"];
-                            return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  selected = reason["id"];
-                                });
-                              },
-                              child: AnimatedContainer(
-                                duration: Duration(milliseconds: 200),
-                                margin: EdgeInsets.only(bottom: 12),
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 12,
+                // Options
+                Expanded(
+                  child: SlideTransition(
+                    position: _slideAnim,
+                    child: FadeTransition(
+                      opacity: _fadeAnim,
+                      child: ListView.builder(
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: list.length,
+                        itemBuilder: (context, index) {
+                          final reason = list[index];
+                          final isSelected = selected == reason["id"];
+                          return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                selected = reason["id"];
+                              });
+                            },
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 200),
+                              margin: const EdgeInsets.only(bottom: 12),
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                                border: Border.all(
+                                  color: isSelected ? AppColors.primaryGreen : Colors.transparent,
+                                  width: 2.5,
                                 ),
-                                decoration: BoxDecoration(
-                                  color: isSelected
-                                      ? AppColors.softMint.withValues(
-                                          alpha: 0.95,
-                                        )
-                                      : Colors.white,
-                                  borderRadius: BorderRadius.circular(18),
-                                  border: Border.all(
-                                    color: isSelected
-                                        ? AppColors.primaryGreen
-                                        : Colors.white,
-                                    width: 2,
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
+                              ),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 44,
+                                    height: 44,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
                                       color: isSelected
-                                          ? AppColors.primaryGreen.withValues(
-                                              alpha: 0.15,
-                                            )
-                                          : Colors.black.withValues(
-                                              alpha: 0.04,
-                                            ),
-                                      blurRadius: 10,
-                                      offset: Offset(0, 4),
+                                          ? AppColors.primaryGreen.withValues(alpha: 0.1)
+                                          : Colors.grey.shade100,
                                     ),
-                                  ],
-                                ),
-                                child: Row(
-                                  children: [
-                                    // Custom circle icon container
-                                    Container(
-                                      width: 40,
-                                      height: 40,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: isSelected
-                                            ? AppColors.primaryGreen.withValues(
-                                                alpha: 0.15,
-                                              )
-                                            : Colors.grey.shade100,
-                                      ),
-                                      child: Icon(
-                                        reason["icon"],
-                                        color: isSelected
-                                            ? AppColors.primaryGreen
-                                            : Colors.grey.shade600,
-                                        size: 20,
-                                      ),
+                                    child: Icon(
+                                      reason["icon"],
+                                      color: isSelected ? AppColors.primaryGreen : Colors.grey.shade600,
+                                      size: 20,
                                     ),
-                                    SizedBox(width: 14),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            reason["title"],
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w700,
-                                              color: isSelected
-                                                  ? AppColors.textPrimary
-                                                  : Colors.grey.shade800,
-                                            ),
+                                  ),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          reason["title"],
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w700,
+                                            color: AppColors.textPrimary,
                                           ),
-                                          SizedBox(height: 2),
-                                          Text(
-                                            reason["desc"],
-                                            style: TextStyle(
-                                              fontFamily: 'Poppins',
-                                              fontSize: 11,
-                                              color: isSelected
-                                                  ? AppColors.textPrimary
-                                                        .withValues(alpha: 0.7)
-                                                  : Colors.grey.shade500,
-                                            ),
+                                        ),
+                                        const SizedBox(height: 2),
+                                        Text(
+                                          reason["desc"],
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontSize: 11,
+                                            color: Colors.grey.shade500,
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                    if (isSelected)
-                                      Icon(
-                                        Icons.check_circle_rounded,
-                                        color: AppColors.primaryGreen,
-                                        size: 22,
-                                      ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    ),
-
-                    Spacer(flex: 3),
-
-                    // "LANJUT" Button
-                    FadeTransition(
-                      opacity: _fadeAnim,
-                      child: _GradientButton(
-                        label: context.t.goals.continueBtn,
-                        enabled: selected != null,
-                        onPressed: () {
-                          if (selected != null) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) =>
-                                    ReasonResultScreen(reason: selected!),
-                              ),
-                            );
-                          }
+                            ),
+                          );
                         },
                       ),
                     ),
-                    Spacer(flex: 1),
-                  ],
+                  ),
                 ),
-              ),
+
+                // Continue Button
+                FadeTransition(
+                  opacity: _fadeAnim,
+                  child: _ContinueButton(
+                    label: context.t.common.continueText,
+                    onPressed: () {
+                      if (selected != null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => ReasonResultScreen(
+                              reason: selected!,
+                              isUpdate: false,
+                            ),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'Pilih salah satu alasan dulu ya!',
+                              style: TextStyle(fontFamily: 'Poppins'),
+                            ),
+                            backgroundColor: Colors.red,
+                            behavior: SnackBarBehavior.floating,
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ),
+                const SizedBox(height: 16),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
 
-// ─── Custom Gradient Button with Enabled/Disabled State ───────────────────────
-
-class _GradientButton extends StatefulWidget {
+class _ContinueButton extends StatefulWidget {
   final String label;
-  final bool enabled;
   final VoidCallback onPressed;
-
-  const _GradientButton({
-    required this.label,
-    required this.enabled,
-    required this.onPressed,
-  });
+  const _ContinueButton({required this.label, required this.onPressed});
 
   @override
-  State<_GradientButton> createState() => _GradientButtonState();
+  State<_ContinueButton> createState() => _ContinueButtonState();
 }
 
-class _GradientButtonState extends State<_GradientButton>
+class _ContinueButtonState extends State<_ContinueButton>
     with SingleTickerProviderStateMixin {
   late AnimationController _ctrl;
-  late Animation<double> _scaleAnim;
+  late Animation<double> _scale;
 
   @override
   void initState() {
     super.initState();
-    _ctrl = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 120),
-    );
-    _scaleAnim = Tween<double>(
-      begin: 1,
-      end: 0.97,
-    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
+    _ctrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 120));
+    _scale = Tween<double>(begin: 1, end: 0.97)
+        .animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
   }
 
   @override
@@ -374,31 +302,8 @@ class _GradientButtonState extends State<_GradientButton>
 
   @override
   Widget build(BuildContext context) {
-    if (!widget.enabled) {
-      return Container(
-        width: double.infinity,
-        height: 50,
-        decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.25),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.white24),
-        ),
-        child: Center(
-          child: Text(
-            widget.label,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-              color: Colors.white54,
-            ),
-          ),
-        ),
-      );
-    }
-
     return ScaleTransition(
-      scale: _scaleAnim,
+      scale: _scale,
       child: GestureDetector(
         onTapDown: (_) => _ctrl.forward(),
         onTapUp: (_) {
@@ -408,14 +313,22 @@ class _GradientButtonState extends State<_GradientButton>
         onTapCancel: () => _ctrl.reverse(),
         child: Container(
           width: double.infinity,
-          height: 50,
-          decoration: AppDecorations.gradientButton.copyWith(
+          height: 52,
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
           ),
           child: Center(
             child: Text(
-              widget.label,
-              style: AppTextStyles.buttonText.copyWith(fontSize: 15),
+              widget.label.toUpperCase(),
+              style: const TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                letterSpacing: 1.2,
+              ),
             ),
           ),
         ),

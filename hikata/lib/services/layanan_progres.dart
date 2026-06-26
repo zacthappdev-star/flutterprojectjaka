@@ -27,25 +27,13 @@ class ProgressService {
     final progressMap = await dbHelper.getProgress(userId);
     final stats = await dbHelper.getQuizStats(userId);
     final streak = await getAndUpdateStreak();
-    final unlockedHiragana = progressMap?['hiragana_level'] ?? 1;
-    final unlockedKatakana = progressMap?['katakana_level'] ?? 1;
-    final totalHiraganaLevels = HiraganaData.groups.length;
-    final totalKatakanaLevels = KatakanaData.groups.length;
-    final hiraganaPct = ((unlockedHiragana - 1) / totalHiraganaLevels).clamp(
-      0.0,
-      1.0,
-    );
-    final katakanaPct = ((unlockedKatakana - 1) / totalKatakanaLevels).clamp(
-      0.0,
-      1.0,
-    );
-    await dbHelper.updateProgress(
-      userId,
-      hiraganaPct,
-      katakanaPct,
-      unlockedHiragana,
-      unlockedKatakana,
-    );
+    final unlockedHiragana = (progressMap?['hiragana_level'] as int?) ?? 1;
+    final unlockedKatakana = (progressMap?['katakana_level'] as int?) ?? 1;
+    // Percent = % karakter yang dipelajari (ditulis oleh markCharacterAsLearned).
+    // Cukup baca nilai tersimpan; JANGAN recompute dari level di sini, karena
+    // dulu itu meng-clobber nilai berbasis-karakter setiap kali getProgress dipanggil.
+    final hiraganaPct = (progressMap?['hiragana_percent'] as num?)?.toDouble() ?? 0.0;
+    final katakanaPct = (progressMap?['katakana_percent'] as num?)?.toDouble() ?? 0.0;
     return AppProgressModel(
       progressHiragana: hiraganaPct,
       progressKatakana: katakanaPct,
@@ -62,40 +50,11 @@ class ProgressService {
     if (userId == null) return false;
     final progressMap = await DatabaseHelper.instance.getProgress(userId);
     if (mode == 'hiragana') {
-      final unlocked = progressMap?['hiragana_level'] ?? 1;
+      final unlocked = (progressMap?['hiragana_level'] as int?) ?? 1;
       return levelIndex < unlocked;
     } else {
-      final unlocked = progressMap?['katakana_level'] ?? 1;
+      final unlocked = (progressMap?['katakana_level'] as int?) ?? 1;
       return levelIndex < unlocked;
-    }
-  }
-
-  static Future<bool> isModuleUnlocked(String module) async {
-    final userId = await getActiveUserId();
-    if (userId == null) return false;
-    final progressMap = await DatabaseHelper.instance.getProgress(userId);
-    final double hPct = progressMap?['hiragana_percent'] ?? 0.0;
-    final double kPct = progressMap?['katakana_percent'] ?? 0.0;
-    
-    // Asumsikan Gojuon adalah gabungan dasar.
-    // Jika module spesifik ada nilai persentase di table, kita bisa pakai.
-    // Sementara kita gunakan persentase hiragana & katakana dasar sebagai patokan.
-    
-    switch (module.toLowerCase()) {
-      case 'hiragana':
-        return true; // Hiragana selalu terbuka
-      case 'katakana':
-        return hPct >= 0.50; // Minimal 50% Hiragana
-      case 'gojuon':
-        return hPct >= 1.0; // Hiragana selesai 100%
-      case 'dakuten':
-        return hPct >= 1.0 && kPct >= 0.50; // Hiragana 100% + Katakana 50%
-      case 'handakuten':
-        return hPct >= 1.0 && kPct >= 1.0; // Hiragana + Katakana selesai
-      case 'yoon':
-        return hPct >= 1.0 && kPct >= 1.0; // Sama dengan Handakuten untuk saat ini
-      default:
-        return true;
     }
   }
 
@@ -122,8 +81,8 @@ class ProgressService {
     if (passed && levelIndex != null) {
       final progressMap = await dbHelper.getProgress(userId);
       final int currentUnlocked = mode == 'hiragana'
-          ? (progressMap?['hiragana_level'] ?? 1)
-          : (progressMap?['katakana_level'] ?? 1);
+          ? ((progressMap?['hiragana_level'] as int?) ?? 1)
+          : ((progressMap?['katakana_level'] as int?) ?? 1);
 
       if (levelIndex + 1 == currentUnlocked) {
         await dbHelper.unlockLevel(userId, mode, currentUnlocked + 1);
@@ -140,9 +99,9 @@ class ProgressService {
     final today = DateTime.now();
     final todayStr = "${today.year}-${today.month.pad}-${today.day.pad}";
     final streakData = await dbHelper.getStreak(userId);
-    final lastActiveStr = streakData?['last_study_date'] ?? '';
-    int currentStreak = streakData?['current_streak'] ?? 0;
-    int bestStreak = streakData?['best_streak'] ?? 0;
+    final lastActiveStr = (streakData?['last_study_date'] as String?) ?? '';
+    int currentStreak = (streakData?['current_streak'] as int?) ?? 0;
+    int bestStreak = (streakData?['best_streak'] as int?) ?? 0;
 
     if (lastActiveStr.isEmpty) {
       if (forceActivity) {
@@ -176,6 +135,7 @@ class ProgressService {
         );
       }
     } else {
+      // Streak broken — reset. If forceActivity, start new streak from today.
       if (forceActivity) {
         currentStreak = 1;
         bestStreak = bestStreak < 1 ? 1 : bestStreak;
@@ -186,10 +146,11 @@ class ProgressService {
           bestStreak,
         );
       } else {
+        // Just reset counter in memory; clear date so next activity starts fresh
         currentStreak = 0;
         await dbHelper.updateStreak(
           userId,
-          lastActiveStr,
+          '',        // ← was: lastActiveStr (wrong — keeps old expired date)
           currentStreak,
           bestStreak,
         );
@@ -217,8 +178,8 @@ class ProgressService {
         double kPct = (kCount / allKatakana.length).clamp(0.0, 1.0);
         
         final progress = await DatabaseHelper.instance.getProgress(userId);
-        final hLevel = progress?['hiragana_level'] ?? 1;
-        final kLevel = progress?['katakana_level'] ?? 1;
+        final hLevel = (progress?['hiragana_level'] as int?) ?? 1;
+        final kLevel = (progress?['katakana_level'] as int?) ?? 1;
         
         await DatabaseHelper.instance.updateProgress(userId, hPct, kPct, hLevel, kLevel);
         await DatabaseHelper.instance.addXp(userId, 5); // +5 per char? Flashcard complete is handled elsewhere

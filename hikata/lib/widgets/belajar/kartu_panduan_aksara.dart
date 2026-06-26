@@ -24,11 +24,19 @@ class KartuPanduanAksara extends StatelessWidget {
     final bool isSelesai = state == PanduanItemState.selesai;
     final bool isTersedia = state == PanduanItemState.tersedia;
     final bool isTerkunci = state == PanduanItemState.terkunci;
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+    final colors = context.hiKata;
 
-    final Color bgColor = isSelesai ? const Color(0xFFf0f9f1) : Colors.white;
+    final Color bgColor = isSelesai
+        ? (isDark ? const Color(0xFF1A3322) : const Color(0xFFf0f9f1))
+        : (isDark ? colors.cardBackground : Colors.white);
     final Color borderColor = isSelesai
-        ? Color(0xFF1f7a35)
-        : (isTersedia ? const Color(0xFFd1e8c8) : Colors.transparent);
+        ? const Color(0xFF1f7a35)
+        : (isTersedia
+            ? (isDark
+                ? const Color(0xFF2E5E38)
+                : const Color(0xFFd1e8c8))
+            : Colors.transparent);
 
     Widget content = Container(
       padding: EdgeInsets.all(16),
@@ -61,7 +69,7 @@ class KartuPanduanAksara extends StatelessWidget {
                     fontFamily: 'Poppins',
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
+                    color: colors.textPrimary,
                   ),
                 ),
                 SizedBox(height: 4),

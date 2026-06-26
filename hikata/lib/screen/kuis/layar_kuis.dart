@@ -114,12 +114,13 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
     final isCorrect = index == _current.correctIndex;
 
     if (isCorrect) {
-      HapticFeedback.lightImpact();
+      HapticFeedback.heavyImpact();
       SystemSound.play(SystemSoundType.click);
     } else {
-      HapticFeedback.mediumImpact();
+      HapticFeedback.heavyImpact();
       _hasWrongAttempt[_currentIndex] = true;
     }
+
 
     setState(() {
       _selectedOption = index;
@@ -475,7 +476,6 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
   }
 
   void _showQuitDialog(BuildContext context) {
-    final isKatakana = widget.mode.toLowerCase() == 'katakana';
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
@@ -495,7 +495,7 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
               context.t.quiz.continueQuiz,
               style: TextStyle(
                 fontFamily: 'Poppins',
-                color: isKatakana ? const Color(0xFFFFB300) : AppColors.primaryGreen,
+                color: AppColors.primaryGreen,
               ),
             ),
           ),
@@ -624,7 +624,8 @@ class _QuizOptionCardState extends State<QuizOptionCard>
       },
       child: GestureDetector(
         onTap: widget.onTap,
-        child: Container(
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
           margin: const EdgeInsets.only(bottom: 10),
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
           decoration: BoxDecoration(
@@ -634,6 +635,16 @@ class _QuizOptionCardState extends State<QuizOptionCard>
               color: borderColor,
               width: 1.5,
             ),
+            boxShadow: [
+              if (widget.isSelected && widget.answered)
+                BoxShadow(
+                  color: widget.isCorrect 
+                      ? (isDark ? const Color(0xFF81C784).withValues(alpha: 0.2) : Colors.green.withValues(alpha: 0.2))
+                      : (isDark ? const Color(0xFFEF5350).withValues(alpha: 0.2) : Colors.red.withValues(alpha: 0.2)),
+                  blurRadius: 12,
+                  spreadRadius: 2,
+                )
+            ],
           ),
           child: Stack(
             alignment: Alignment.center,

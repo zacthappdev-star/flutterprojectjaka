@@ -6,8 +6,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ReasonResultScreen extends StatefulWidget {
   final String reason;
+  final bool isUpdate;
 
-  const ReasonResultScreen({super.key, required this.reason});
+  const ReasonResultScreen({super.key, required this.reason, this.isUpdate = false});
 
   @override
   State<ReasonResultScreen> createState() => _ReasonResultScreenState();
@@ -53,16 +54,12 @@ class _ReasonResultScreenState extends State<ReasonResultScreen>
     super.initState();
     _animController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 800),
     );
-    _fadeAnim = Tween<double>(
-      begin: 0,
-      end: 1,
-    ).animate(CurvedAnimation(parent: _animController, curve: Curves.easeOut));
-    _slideAnim = Tween<Offset>(
-      begin: Offset(0, 0.15),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _animController, curve: Curves.easeOut));
+    _fadeAnim = Tween<double>(begin: 0, end: 1)
+        .animate(CurvedAnimation(parent: _animController, curve: Curves.easeOut));
+    _slideAnim = Tween<Offset>(begin: const Offset(0, 0.1), end: Offset.zero)
+        .animate(CurvedAnimation(parent: _animController, curve: Curves.easeOut));
     _animController.forward();
   }
 
@@ -72,17 +69,16 @@ class _ReasonResultScreenState extends State<ReasonResultScreen>
     super.dispose();
   }
 
-  // Helper method to format reasons ID into human readable label if needed
   String _getReasonLabel(BuildContext context, String id) {
     switch (id) {
       case "Sekolah":
-        return context.t.goals.reasonSchool;
+        return "${context.t.goals.reasonSchool} 🏫";
       case "Hobi anime":
-        return context.t.goals.reasonAnime;
+        return "${context.t.goals.reasonAnime} 📺";
       case "Kerja / kuliah":
-        return context.t.goals.reasonWork;
+        return "${context.t.goals.reasonWork} 💼";
       case "Travel Jepang":
-        return context.t.goals.reasonTravel;
+        return "${context.t.goals.reasonTravel} ✈️";
       default:
         return "$id 🎉";
     }
@@ -96,200 +92,167 @@ class _ReasonResultScreenState extends State<ReasonResultScreen>
         width: double.infinity,
         height: double.infinity,
         decoration: BoxDecoration(gradient: AppColors.backgroundGradient),
-        child: Stack(
-          children: [
-            // Decorative circles
-            Positioned(
-              top: -50,
-              right: -50,
-              child: Container(
-                width: 180,
-                height: 180,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.04),
-                ),
-              ),
-            ),
-            Positioned(
-              bottom: -50,
-              left: -50,
-              child: Container(
-                width: 180,
-                height: 180,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.04),
-                ),
-              ),
-            ),
-
-            SafeArea(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                child: Column(
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            child: Column(
+              children: [
+                // Top Progress Bar
+                Row(
                   children: [
-                    // Onboarding progress bar (Duolingo style)
-                    Row(
-                      children: [
-                        GestureDetector(
-                          onTap: () => Navigator.pop(context),
-                          child: Icon(
-                            Icons.arrow_back_ios_new_rounded,
-                            color: Colors.white,
-                            size: 18,
-                          ),
-                        ),
-                        SizedBox(width: 16),
-                        Expanded(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: LinearProgressIndicator(
-                              value: 1.0, // Step 2 of 2 (Full)
-                              backgroundColor: Colors.white24,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                AppColors.accentLight,
-                              ),
-                              minHeight: 8,
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 16),
-                        Text(
-                          "2/2",
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Spacer(flex: 2),
-                    // Header section
-                    FadeTransition(
-                      opacity: _fadeAnim,
-                      child: Column(
-                        children: [
-                          Container(
-                            width: 60,
-                            height: 60,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white.withValues(alpha: 0.15),
-                              border: Border.all(
-                                color: Colors.white.withValues(alpha: 0.3),
-                                width: 1.5,
-                              ),
-                            ),
-                            child: Center(
-                              child: Text("🎯", style: TextStyle(fontSize: 28)),
-                            ),
-                          ),
-                          SizedBox(height: 10),
-                          Text(
-                            context.t.goals.title,
-                            style: AppTextStyles.appTitle.copyWith(
-                              fontSize: 24,
-                              letterSpacing: 1,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            context.t.goals.subtitle,
-                            style: AppTextStyles.appSubtitle.copyWith(
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: const Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        color: Colors.white,
+                        size: 18,
                       ),
                     ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: LinearProgressIndicator(
+                          value: 1.0,
+                          backgroundColor: Colors.white24,
+                          valueColor: const AlwaysStoppedAnimation<Color>(
+                            AppColors.accentLight,
+                          ),
+                          minHeight: 8,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    const Text(
+                      "2/2",
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 32),
 
-                    Spacer(flex: 3),
+                // Header section
+                FadeTransition(
+                  opacity: _fadeAnim,
+                  child: Column(
+                    children: [
+                      Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white.withValues(alpha: 0.15),
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.3),
+                            width: 1.5,
+                          ),
+                        ),
+                        child: const Center(
+                          child: Text("🎯", style: TextStyle(fontSize: 28)),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        context.t.goals.title,
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 24,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        context.t.goals.subtitle,
+                        style: const TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 13,
+                          color: Colors.white70,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 32),
 
-                    // Main goal selection card (Duolingo style)
-                    SlideTransition(
-                      position: _slideAnim,
-                      child: FadeTransition(
-                        opacity: _fadeAnim,
-                        child: Container(
-                          padding: EdgeInsets.all(20),
-                          decoration: AppDecorations.cardDecoration,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              // Reason banner
-                              Container(
-                                width: double.infinity,
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 14,
-                                  vertical: 10,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: AppColors.softMint.withValues(
-                                    alpha: 0.5,
-                                  ),
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(
-                                    color: AppColors.accent.withValues(
-                                      alpha: 0.3,
-                                    ),
-                                    width: 1,
-                                  ),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Text("💡", style: TextStyle(fontSize: 16)),
-                                    SizedBox(width: 8),
-                                    Expanded(
-                                      child: RichText(
-                                        text: TextSpan(
-                                          style: TextStyle(
-                                            fontFamily: 'Poppins',
-                                            fontSize: 12,
-                                            color: AppColors.textPrimary,
-                                          ),
-                                          children: [
-                                            TextSpan(
-                                              text: context.t.goals.greatChoice,
-                                            ),
-                                            TextSpan(
-                                              text: _getReasonLabel(
-                                                context,
-                                                widget.reason,
-                                              ),
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ],
+                // Main Content Card
+                Expanded(
+                  child: SlideTransition(
+                    position: _slideAnim,
+                    child: FadeTransition(
+                      opacity: _fadeAnim,
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Info Box
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: AppColors.primaryGreen.withValues(alpha: 0.08),
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text("💡", style: TextStyle(fontSize: 20)),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: RichText(
+                                      text: TextSpan(
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontSize: 12.5,
+                                          color: AppColors.textPrimary,
+                                          height: 1.5,
                                         ),
+                                        children: [
+                                          TextSpan(text: "${context.t.goals.greatChoice}\n"),
+                                          TextSpan(
+                                            text: _getReasonLabel(context, widget.reason),
+                                            style: const TextStyle(fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                              SizedBox(height: 18),
+                            ),
+                            const SizedBox(height: 20),
 
-                              Text(
-                                context.t.goals.dailyTargetQuestion,
-                                style: TextStyle(
-                                  fontFamily: 'Poppins',
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.textPrimary,
-                                ),
+                            // Subtitle
+                            const Text(
+                              'Berapa target belajar harianmu?',
+                              style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 13.5,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.primaryGreen,
                               ),
-                              SizedBox(height: 10),
+                            ),
+                            const SizedBox(height: 12),
 
-                              // Goal choices
-                              Column(
-                                children: List.generate(goals.length, (index) {
+                            // Options List
+                            Expanded(
+                              child: ListView.builder(
+                                physics: const BouncingScrollPhysics(),
+                                itemCount: goals.length,
+                                itemBuilder: (context, index) {
                                   final goal = goals[index];
-                                  final isSelected =
-                                      _selectedGoalIndex == index;
+                                  final isSelected = _selectedGoalIndex == index;
                                   return GestureDetector(
                                     onTap: () {
                                       setState(() {
@@ -297,47 +260,35 @@ class _ReasonResultScreenState extends State<ReasonResultScreen>
                                       });
                                     },
                                     child: AnimatedContainer(
-                                      duration: Duration(milliseconds: 200),
-                                      margin: EdgeInsets.only(bottom: 8),
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: 12,
-                                        vertical: 8,
+                                      duration: const Duration(milliseconds: 200),
+                                      margin: const EdgeInsets.only(bottom: 10),
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 16,
+                                        vertical: 14,
                                       ),
                                       decoration: BoxDecoration(
-                                        color: isSelected
-                                            ? AppColors.softMint.withValues(
-                                                alpha: 0.3,
-                                              )
-                                            : Colors.grey.shade50,
-                                        borderRadius: BorderRadius.circular(12),
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(16),
                                         border: Border.all(
-                                          color: isSelected
-                                              ? AppColors.secondaryGreen
-                                              : Colors.grey.shade200,
-                                          width: 1.5,
+                                          color: isSelected ? AppColors.primaryGreen : Colors.grey.shade200,
+                                          width: isSelected ? 1.5 : 1,
                                         ),
                                       ),
                                       child: Row(
                                         children: [
-                                          Text(
-                                            goal["badge"]!,
-                                            style: TextStyle(fontSize: 18),
-                                          ),
-                                          SizedBox(width: 10),
+                                          Text(goal["badge"]!, style: const TextStyle(fontSize: 24)),
+                                          const SizedBox(width: 12),
                                           Expanded(
                                             child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Text(
                                                   goal["name"]!,
                                                   style: TextStyle(
                                                     fontFamily: 'Poppins',
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: isSelected
-                                                        ? AppColors.textPrimary
-                                                        : Colors.grey.shade700,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: isSelected ? AppColors.primaryGreen : AppColors.textPrimary,
                                                   ),
                                                 ),
                                                 Text(
@@ -345,12 +296,7 @@ class _ReasonResultScreenState extends State<ReasonResultScreen>
                                                   style: TextStyle(
                                                     fontFamily: 'Poppins',
                                                     fontSize: 10,
-                                                    color: isSelected
-                                                        ? AppColors.textPrimary
-                                                              .withValues(
-                                                                alpha: 0.7,
-                                                              )
-                                                        : Colors.grey.shade500,
+                                                    color: Colors.grey.shade500,
                                                   ),
                                                 ),
                                               ],
@@ -362,118 +308,76 @@ class _ReasonResultScreenState extends State<ReasonResultScreen>
                                               fontFamily: 'Poppins',
                                               fontSize: 11,
                                               fontWeight: FontWeight.w600,
-                                              color: isSelected
-                                                  ? AppColors.secondaryGreen
-                                                  : Colors.grey.shade600,
+                                              color: Colors.grey.shade700,
                                             ),
                                           ),
                                         ],
                                       ),
                                     ),
                                   );
-                                }),
+                                },
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    Spacer(flex: 3),
-                    // "MULAI BELAJAR" button
-                    FadeTransition(
-                      opacity: _fadeAnim,
-                      child: _GradientButton(
-                        label: context.t.goals.startLearning,
-                        onPressed: () async {
-                          final scaffoldMessenger = ScaffoldMessenger.of(context);
-                          final navigator = Navigator.of(context);
-                          final targetSetText = context.t.goals.targetSet(
-                            name: goals[_selectedGoalIndex]["name"]!,
-                            time: goals[_selectedGoalIndex]["time"]!,
-                          );
-                          // Save to SharedPreferences
-                          try {
-                            final prefs = await SharedPreferences.getInstance();
-                            await prefs.setString(
-                              'daily_goal_name',
-                              goals[_selectedGoalIndex]["name"]!,
-                            );
-                            await prefs.setString(
-                              'daily_goal_time',
-                              goals[_selectedGoalIndex]["time"]!,
-                            );
-                            await prefs.setString(
-                              'study_reason',
-                              widget.reason,
-                            );
-                          } catch (e) {
-                            debugPrint("Error saving to SharedPreferences: $e");
-                          }
-
-                          // Success snackbar
-                          if (!mounted) return;
-                          scaffoldMessenger.showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                targetSetText,
-                                style: TextStyle(fontFamily: 'Poppins'),
-                              ),
-                              backgroundColor: AppColors.primaryGreen,
-                              behavior: SnackBarBehavior.floating,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                          );
-
-                          // Langsung ke MainLayout (Selamat Datang)
-                          navigator.pushAndRemoveUntil(
-                            MaterialPageRoute(builder: (_) => TataUtama()),
-                            (route) => false,
-                          );
-                        },
-                      ),
-                    ),
-                    Spacer(flex: 1),
-                  ],
+                  ),
                 ),
-              ),
+                const SizedBox(height: 16),
+
+                // Continue Button
+                FadeTransition(
+                  opacity: _fadeAnim,
+                  child: _ContinueButton(
+                    label: context.t.goals.startLearning,
+                    onPressed: () async {
+                      final navigator = Navigator.of(context);
+                      final prefs = await SharedPreferences.getInstance();
+                      await prefs.setString('selected_reason', widget.reason);
+                      await prefs.setInt('daily_goal_index', _selectedGoalIndex);
+                      await prefs.setBool('has_completed_onboarding', true);
+                      
+                      if (widget.isUpdate) {
+                        navigator.pop(); // returns to setting/profile
+                        navigator.pop();
+                      } else {
+                        navigator.pushReplacement(
+                          MaterialPageRoute(builder: (_) => const TataUtama()),
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
 
-// ─── Reusable Gradient Button ──────────────────────────────────────────────────
-
-class _GradientButton extends StatefulWidget {
+class _ContinueButton extends StatefulWidget {
   final String label;
   final VoidCallback onPressed;
-
-  const _GradientButton({required this.label, required this.onPressed});
+  const _ContinueButton({required this.label, required this.onPressed});
 
   @override
-  State<_GradientButton> createState() => _GradientButtonState();
+  State<_ContinueButton> createState() => _ContinueButtonState();
 }
 
-class _GradientButtonState extends State<_GradientButton>
+class _ContinueButtonState extends State<_ContinueButton>
     with SingleTickerProviderStateMixin {
   late AnimationController _ctrl;
-  late Animation<double> _scaleAnim;
+  late Animation<double> _scale;
 
   @override
   void initState() {
     super.initState();
-    _ctrl = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 120),
-    );
-    _scaleAnim = Tween<double>(
-      begin: 1,
-      end: 0.97,
-    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
+    _ctrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 120));
+    _scale = Tween<double>(begin: 1, end: 0.97)
+        .animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
   }
 
   @override
@@ -485,7 +389,7 @@ class _GradientButtonState extends State<_GradientButton>
   @override
   Widget build(BuildContext context) {
     return ScaleTransition(
-      scale: _scaleAnim,
+      scale: _scale,
       child: GestureDetector(
         onTapDown: (_) => _ctrl.forward(),
         onTapUp: (_) {
@@ -495,14 +399,22 @@ class _GradientButtonState extends State<_GradientButton>
         onTapCancel: () => _ctrl.reverse(),
         child: Container(
           width: double.infinity,
-          height: 50,
-          decoration: AppDecorations.gradientButton.copyWith(
+          height: 52,
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
           ),
           child: Center(
             child: Text(
-              widget.label,
-              style: AppTextStyles.buttonText.copyWith(fontSize: 15),
+              widget.label.toUpperCase(),
+              style: const TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                letterSpacing: 1.2,
+              ),
             ),
           ),
         ),

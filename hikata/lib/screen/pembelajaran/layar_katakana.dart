@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ppkd_b6/data/data_katakana.dart';
-import 'package:ppkd_b6/models/model_karakter.dart';
 import 'package:ppkd_b6/gen/strings.g.dart';
+import 'package:ppkd_b6/models/model_karakter.dart';
 import 'package:ppkd_b6/services/layanan_progres.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 import 'package:ppkd_b6/widgets/belajar/konten_grup.dart';
@@ -18,7 +18,6 @@ class LayarKatakana extends StatefulWidget {
 
 class _LayarKatakanaState extends State<LayarKatakana>
     with TickerProviderStateMixin {
-
   // ─── State Data ────────────────────────────────────────────────────────────
   late TabController _tabController;
   final _groups = KatakanaData.groups;
@@ -84,10 +83,12 @@ class _LayarKatakanaState extends State<LayarKatakana>
 
   // ─── Komponen Layar ────────────────────────────────────────────────────────
   Widget _buildHeader() {
-    final progress = _groups.isNotEmpty ? (_unlockedLevels / _groups.length).clamp(0.0, 1.0) : 0.0;
-    
+    final progress = _groups.isNotEmpty
+        ? (_unlockedLevels / _groups.length).clamp(0.0, 1.0)
+        : 0.0;
+
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
+      padding: EdgeInsets.fromLTRB(20, 16, 20, 8),
       child: Column(
         children: [
           Row(
@@ -102,19 +103,19 @@ class _LayarKatakanaState extends State<LayarKatakana>
                       shape: BoxShape.circle,
                       color: Colors.white.withValues(alpha: 0.15),
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.arrow_back_ios_new_rounded,
                       color: Colors.white,
                       size: 16,
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12),
               ],
               Expanded(
                 child: Text(
                   context.t.katakana.title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 20,
                     fontWeight: FontWeight.w800,
@@ -123,24 +124,27 @@ class _LayarKatakanaState extends State<LayarKatakana>
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFfbbf24), // Amber
+                  color: Colors.white.withValues(alpha: 0.25),
                   borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.4),
+                  ),
                 ),
-                child: const Text(
+                child: Text(
                   "+10 XP",
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 12,
                     fontWeight: FontWeight.w800,
-                    color: Color(0xFF78350f), // Dark brown
+                    color: Colors.white,
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: LinearProgressIndicator(
@@ -225,7 +229,7 @@ class _LayarKatakanaState extends State<LayarKatakana>
               group: group,
               onCharTap: (c) => _showCharDetail(c),
               levelIndex: levelIndex,
-              mode: 'Katakana',
+              mode: 'katakana',
               accentColor: AppColors.primaryGreen,
               activeBgColor: colors.softMint,
               cardBgColor: colors.lightBackground,

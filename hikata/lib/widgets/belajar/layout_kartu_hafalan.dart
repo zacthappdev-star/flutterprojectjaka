@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/models/model_karakter.dart';
 import 'package:ppkd_b6/services/layanan_audio.dart';
-import 'package:ppkd_b6/services/layanan_progres.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
+import 'package:provider/provider.dart';
+import 'package:ppkd_b6/providers/profile_provider.dart';
 
 class LayoutKartuHafalan extends StatefulWidget {
   final CharacterGroup group;
@@ -27,13 +28,14 @@ class _LayoutKartuHafalanState extends State<LayoutKartuHafalan> {
   @override
   void initState() {
     super.initState();
-    _markCurrentAsLearned();
+    // Do NOT mark on initState — only mark when user actually flips/navigates past the card
   }
 
   void _markCurrentAsLearned() {
     final c = widget.group.characters[_cardIndex];
-    ProgressService.markCharacterAsLearned(c.character);
+    context.read<ProfileProvider>().markCharacterLearned(c.character);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +52,8 @@ class _LayoutKartuHafalanState extends State<LayoutKartuHafalan> {
               onTap: () {
                 setState(() => _isFlipped = !_isFlipped);
                 AudioService.playAudio(c.effectiveAudioPath);
+                // Mark as learned only when user flips (views the answer side)
+                if (!_isFlipped) _markCurrentAsLearned();
               },
               child: AnimatedContainer(
                 duration: Duration(milliseconds: 300),
@@ -169,6 +173,7 @@ class _LayoutKartuHafalanState extends State<LayoutKartuHafalan> {
                 ),
                 onPressed: _cardIndex > 0
                     ? () {
+                        _markCurrentAsLearned();
                         setState(() {
                           _cardIndex--;
                           _isFlipped = false;
@@ -179,7 +184,6 @@ class _LayoutKartuHafalanState extends State<LayoutKartuHafalan> {
                                 .effectiveAudioPath,
                           );
                         });
-                        _markCurrentAsLearned();
                       }
                     : null,
               ),
@@ -199,6 +203,7 @@ class _LayoutKartuHafalanState extends State<LayoutKartuHafalan> {
                 ),
                 onPressed: _cardIndex < widget.group.characters.length - 1
                     ? () {
+                        _markCurrentAsLearned();
                         setState(() {
                           _cardIndex++;
                           _isFlipped = false;
@@ -209,7 +214,6 @@ class _LayoutKartuHafalanState extends State<LayoutKartuHafalan> {
                                 .effectiveAudioPath,
                           );
                         });
-                        _markCurrentAsLearned();
                       }
                     : null,
               ),

@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/providers/profile_provider.dart';
 import 'package:ppkd_b6/screen/kuis/layar_kuis.dart';
+import 'package:ppkd_b6/screen/tata_utama.dart';
 import 'package:ppkd_b6/services/layanan_progres.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class QuizResultScreen extends StatefulWidget {
   final int score;
@@ -38,15 +38,8 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
   }
 
   Future<void> _saveHighScore() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    final key =
-        'high_score_${widget.mode}${widget.isListening ? "_listening" : ""}';
-    final currentHigh = prefs.getInt(key) ?? 0;
-    if (widget.score > currentHigh) {
-      await prefs.setInt(key, widget.score);
-    }
-
+    // High scores are derived from the quiz_history table (see getQuizStats),
+    // so there's no separate SharedPreferences copy to maintain here.
     final unlockedNew = await ProgressService.handleQuizSubmission(
       mode: widget.mode,
       levelIndex: widget.levelIndex,
@@ -73,14 +66,11 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
     SystemSound.play(SystemSoundType.click);
     HapticFeedback.heavyImpact();
 
-    final isKatakana = widget.mode.toLowerCase() == 'katakana';
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final dialogPrimaryColor = isKatakana
-        ? (isDark ? Color(0xFFFFD54F) : Color(0xFFFFB300))
-        : (isDark ? Color(0xFF81C784) : AppColors.primaryGreen);
-    final dialogSecondaryColor = isKatakana
-        ? (isDark ? Color(0xFFFFE082) : Color(0xFFFFC107))
-        : (isDark ? Color(0xFFA5D6A7) : AppColors.secondaryGreen);
+    final dialogPrimaryColor =
+        isDark ? Color(0xFF81C784) : AppColors.primaryGreen;
+    final dialogSecondaryColor =
+        isDark ? Color(0xFFA5D6A7) : AppColors.secondaryGreen;
 
     showGeneralDialog(
       context: context,
@@ -100,9 +90,7 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
             opacity: opacity,
             child: AlertDialog(
               backgroundColor: Theme.of(context).brightness == Brightness.dark
-                  ? (isKatakana
-                        ? const Color(0xFF211D0A)
-                        : const Color(0xFF1E2D24))
+                  ? const Color(0xFF1E2D24)
                   : Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(24),
@@ -188,11 +176,11 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
 
   String _getFeedbackDesc(BuildContext context) {
     if (_percentage >= 80) {
-      return "Luar Biasa! よくできました！";
+      return context.t.quiz.resultFeedbackExcellent;
     } else if (_percentage >= 50) {
-      return "Bagus! いいね！";
+      return context.t.quiz.resultFeedbackGood;
     } else {
-      return "Coba Lagi! がんばって！";
+      return context.t.quiz.resultFeedbackRetry;
     }
   }
 
@@ -236,7 +224,7 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
                     },
                     child: Center(
                       child: Text(
-                        "Kembali ke Beranda",
+                        context.t.quiz.resultBackToHome,
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 13,
@@ -258,6 +246,9 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
   }
 
   Widget _buildHeroHasil(BuildContext context) {
+    final profile = context.read<ProfileProvider>();
+    final streak = profile.currentStreak;
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.only(
@@ -265,11 +256,23 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
         bottom: 40,
       ),
       decoration: const BoxDecoration(
-        color: Color(0xFF2E9E5B),
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(28),
-          bottomRight: Radius.circular(28),
+        gradient: LinearGradient(
+          colors: [Color(0xFF2E9E5B), Color(0xFF1B5E20)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(32),
+          bottomRight: Radius.circular(32),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Color(0xFF2E9E5B),
+            blurRadius: 20,
+            spreadRadius: -5,
+            offset: Offset(0, 10),
+          )
+        ]
       ),
       child: Column(
         children: [
@@ -296,26 +299,63 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Text(
-              "✨ +$_earnedXp XP didapat!",
-              style: const TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.star_rounded, color: Colors.amber, size: 20),
+                    const SizedBox(width: 6),
+                    Text(
+                      context.t.quiz.resultXpEarned(xp: _earnedXp),
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
+              const SizedBox(width: 12),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
+                ),
+                child: Row(
+                  children: [
+                    const Text('🔥', style: TextStyle(fontSize: 16)),
+                    const SizedBox(width: 6),
+                    Text(
+                      '$streak Streak',
+                      style: const TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ],
       ),
     );
   }
+
 
   Widget _buildStatistikCard(
     BuildContext context,
@@ -340,7 +380,7 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
       child: Column(
         children: [
           _buildStatRow(
-            "✅ Jawaban Benar",
+            context.t.quiz.resultCorrect,
             '${widget.score}',
             isDark ? const Color(0xFF81C784) : const Color(0xFF2E9E5B),
             isDark,
@@ -348,7 +388,7 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
           ),
           Divider(color: colors.divider, height: 24, thickness: 1),
           _buildStatRow(
-            "❌ Jawaban Salah",
+            context.t.quiz.resultWrong,
             '${widget.total - widget.score}',
             isDark ? const Color(0xFFEF5350) : Colors.red,
             isDark,
@@ -356,7 +396,7 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
           ),
           Divider(color: colors.divider, height: 24, thickness: 1),
           _buildStatRow(
-            "⏱ Waktu Selesai",
+            context.t.quiz.resultTime,
             _formatDuration(),
             isDark ? colors.textPrimary : const Color(0xFF1A1A1A),
             isDark,
@@ -365,7 +405,7 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
           ),
           Divider(color: colors.divider, height: 24, thickness: 1),
           _buildStatRow(
-            "🎯 Akurasi",
+            context.t.quiz.resultAccuracy,
             '${_percentage.toInt()}%',
             isDark ? colors.textPrimary : const Color(0xFF1A1A1A),
             isDark,
@@ -433,10 +473,10 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
                 borderRadius: BorderRadius.circular(14),
                 border: Border.all(color: const Color(0xFF2E9E5B), width: 2),
               ),
-              child: const Center(
+              child: Center(
                 child: Text(
-                  "Coba Lagi",
-                  style: TextStyle(
+                  context.t.quiz.resultTryAgain,
+                  style: const TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
@@ -451,7 +491,14 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
         Expanded(
           child: GestureDetector(
             onTap: () {
-              Navigator.of(context).pop();
+              Navigator.of(context).popUntil((route) => route.isFirst);
+              if (widget.levelIndex != null) {
+                // If launched from learning levels, go back to DasborBelajar (tab 0)
+                TataUtama.of(context)?.setTab(0);
+              } else {
+                // If launched from independent quizzes, go back to DasborKuis (tab 2)
+                TataUtama.of(context)?.setTab(2);
+              }
             },
             child: Container(
               height: 52,
@@ -459,10 +506,12 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
                 color: const Color(0xFF2E9E5B),
                 borderRadius: BorderRadius.circular(14),
               ),
-              child: const Center(
+              child: Center(
                 child: Text(
-                  "Quiz Lain",
-                  style: TextStyle(
+                  widget.levelIndex != null 
+                      ? context.t.quiz.continueLearning 
+                      : context.t.quiz.resultOtherQuiz,
+                  style: const TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 15,
                     fontWeight: FontWeight.w700,

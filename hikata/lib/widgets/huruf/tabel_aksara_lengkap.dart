@@ -3,23 +3,9 @@ import 'package:ppkd_b6/models/model_karakter.dart';
 import 'package:ppkd_b6/services/layanan_audio.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 
-const List<String> _masteredRomajis = [
-  'a',
-  'i',
-  'u',
-  'e',
-  'o',
-  'ka',
-  'ki',
-  'ku',
-  'ke',
-  'ko',
-  'sa',
-  'shi',
-  'su',
-  'se',
-  'so',
-];
+import 'package:provider/provider.dart';
+import 'package:ppkd_b6/providers/profile_provider.dart';
+
 
 class TabelAksaraLengkap extends StatelessWidget {
   final List<CharacterGroup> groups;
@@ -100,9 +86,9 @@ class _BagianTabel extends StatelessWidget {
             itemCount: group.characters.length,
             itemBuilder: (ctx, i) {
               final c = group.characters[i];
-              final isMastered = _masteredRomajis.contains(
-                c.romaji.toLowerCase(),
-              );
+              final profile = context.watch<ProfileProvider>();
+              final isMastered = profile.learnedCharacters.contains(c.character);
+
 
               final isDark = Theme.of(context).brightness == Brightness.dark;
               final colors = context.hiKata;

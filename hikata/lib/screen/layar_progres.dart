@@ -12,10 +12,10 @@ import 'package:ppkd_b6/services/layanan_notifikasi.dart';
 import 'package:ppkd_b6/services/layanan_progres.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 import 'package:ppkd_b6/widgets/progres/baris_statistik_progres.dart';
-import 'package:provider/provider.dart';
 import 'package:ppkd_b6/widgets/progres/kartu_pengingat_belajar.dart';
 import 'package:ppkd_b6/widgets/progres/kartu_progres_persen.dart';
 import 'package:ppkd_b6/widgets/progres/kartu_streak_progres.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LayarProgres extends StatefulWidget {
@@ -28,6 +28,7 @@ class LayarProgres extends StatefulWidget {
 class _LayarProgresState extends State<LayarProgres> {
   // ─── State Data ────────────────────────────────────────────────────────────
   bool _isLoading = true;
+  bool _hasError = false;
   late AppProgressModel _progress;
   bool _reminderEnabled = false;
   int _reminderHour = 20;
@@ -42,20 +43,33 @@ class _LayarProgresState extends State<LayarProgres> {
   }
 
   Future<void> _loadData() async {
-    final prog = await ProgressService.getProgress();
-    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isLoading = true;
+      _hasError = false;
+    });
+    try {
+      final prog = await ProgressService.getProgress();
+      final prefs = await SharedPreferences.getInstance();
 
-    if (mounted) {
-      setState(() {
-        _progress = prog;
-        _reminderEnabled = prefs.getBool('reminder_enabled') ?? false;
-        _reminderHour = prefs.getInt('reminder_hour') ?? 20;
-        _reminderMinute = prefs.getInt('reminder_minute') ?? 0;
-        _isLoading = false;
-      });
-      if (_reminderEnabled) {
-        _refreshCountdown();
-        _startCountdownTimer();
+      if (mounted) {
+        setState(() {
+          _progress = prog;
+          _reminderEnabled = prefs.getBool('reminder_enabled') ?? false;
+          _reminderHour = prefs.getInt('reminder_hour') ?? 20;
+          _reminderMinute = prefs.getInt('reminder_minute') ?? 0;
+          _isLoading = false;
+        });
+        if (_reminderEnabled) {
+          _refreshCountdown();
+          _startCountdownTimer();
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+          _hasError = true;
+        });
       }
     }
   }
@@ -195,6 +209,50 @@ class _LayarProgresState extends State<LayarProgres> {
       );
     }
 
+    if (_hasError) {
+      return Scaffold(
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(32),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.error_outline_rounded,
+                  size: 64,
+                  color: Colors.red.shade400,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  context.t.errors.loadFailed,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 15,
+                    color: context.hiKata.textPrimary,
+                  ),
+                ),
+                const SizedBox(height: 24),
+                ElevatedButton.icon(
+                  onPressed: _loadData,
+                  icon: const Icon(Icons.refresh_rounded),
+                  label: Text(context.t.errors.retry),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primaryGreen,
+                    foregroundColor: Colors.white,
+                    textStyle: const TextStyle(fontFamily: 'Poppins'),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
     final totalUnlocked =
         _progress.unlockedHiraganaLevels + _progress.unlockedKatakanaLevels;
     final colors = context.hiKata;
@@ -245,7 +303,9 @@ class _LayarProgresState extends State<LayarProgres> {
                       fontFamily: 'Poppins',
                       fontSize: 15,
                       fontWeight: FontWeight.w800,
-                      color: Theme.of(context).brightness == Brightness.dark ? colors.textPrimary : const Color(0xFF1A1A1A),
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? colors.textPrimary
+                          : const Color(0xFF1A1A1A),
                     ),
                   ),
                   SizedBox(height: 10),

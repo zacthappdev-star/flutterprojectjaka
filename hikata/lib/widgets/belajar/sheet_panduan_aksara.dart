@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ppkd_b6/data/data_panduan_aksara.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 
 class SheetPanduanAksara extends StatelessWidget {
@@ -85,7 +86,7 @@ class SheetPanduanAksara extends StatelessWidget {
           if (item.exampleChars.isNotEmpty) ...[
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: item.accentColor.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(16),
@@ -96,7 +97,7 @@ class SheetPanduanAksara extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    'Contoh Huruf:',
+                    context.t.common.exampleChars,
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 12,
@@ -104,7 +105,7 @@ class SheetPanduanAksara extends StatelessWidget {
                       color: item.accentColor,
                     ),
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
                   Text(
                     item.exampleChars,
                     style: TextStyle(
@@ -119,7 +120,7 @@ class SheetPanduanAksara extends StatelessWidget {
               ),
             ),
           ],
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           SizedBox(
             width: double.infinity,
             height: 50,
@@ -132,8 +133,8 @@ class SheetPanduanAksara extends StatelessWidget {
                 ),
                 elevation: 0,
               ),
-              child: const Text(
-                'Tutup',
+              child: Text(
+                context.t.common.close,
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 16,

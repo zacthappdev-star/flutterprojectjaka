@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ppkd_b6/database/database_helper.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/services/layanan_progres.dart';
 
 class Mission {
@@ -65,17 +66,13 @@ class MissionProvider with ChangeNotifier {
     final claimedMissions = await dbHelper.getClaimedMissions(userId, todayStr);
 
     // Check progress
-    final progress = await dbHelper.getProgress(userId);
     final streak = await dbHelper.getStreak(userId);
 
-    // Mission 1: Lesson progress (checking if updated today)
-    bool isLessonDone = false;
-    if (progress != null && progress['updated_at'] != null) {
-      final updatedStr = progress['updated_at'] as String;
-      if (updatedStr.startsWith(todayStr)) {
-        isLessonDone = true;
-      }
-    }
+    // Mission 1: Lesson done = learned at least one new character today.
+    // (Don't rely on progress.updated_at — that field is bumped by quizzes,
+    //  XP gains, and even just viewing the progress screen.)
+    final bool isLessonDone =
+        await dbHelper.hasLearnedCharacterOn(userId, todayStr);
 
     // Mission 2: Mixed quiz
     // Note: getQuizStats gives overall total. For a real app, we might want to query today's quizzes explicitly.
@@ -84,18 +81,19 @@ class MissionProvider with ChangeNotifier {
     final history = await dbHelper.getQuizHistory(userId);
     bool isQuizDone = history.any(
       (q) =>
-          (q['created_at'] as String).startsWith(todayStr) &&
+          ((q['created_at'] as String?) ?? '').startsWith(todayStr) &&
           q['quiz_type'] == 'mixed',
     );
 
     // Mission 3: Streak
-    int currentStreak = streak?['current_streak'] ?? 0;
+    int currentStreak = (streak?['current_streak'] as int?) ?? 0;
     bool isStreakDone = currentStreak >= 3;
 
+    final tr = LocaleSettings.currentLocale.translations;
     missions = [
       Mission(
         id: 'lesson',
-        title: 'Selesaikan 1 Pelajaran Baru',
+        title: tr.missions.lesson,
         xp: 50,
         progress: isLessonDone ? 1.0 : 0.0,
         icon: Icons.menu_book_rounded,
@@ -104,7 +102,7 @@ class MissionProvider with ChangeNotifier {
       ),
       Mission(
         id: 'quiz_mixed',
-        title: 'Mainkan 1 Kuis Mode Campuran',
+        title: tr.missions.quizMixed,
         xp: 30,
         progress: isQuizDone ? 1.0 : 0.0,
         icon: Icons.quiz_rounded,
@@ -113,7 +111,7 @@ class MissionProvider with ChangeNotifier {
       ),
       Mission(
         id: 'streak',
-        title: 'Pertahankan Streak 3 Hari',
+        title: tr.missions.streak,
         xp: 20,
         progress: (currentStreak / 3.0).clamp(0.0, 1.0),
         icon: Icons.local_fire_department_rounded,

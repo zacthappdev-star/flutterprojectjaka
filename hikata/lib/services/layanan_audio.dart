@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:ppkd_b6/data/data_hiragana.dart';
 import 'package:ppkd_b6/data/data_katakana.dart';
+import 'package:ppkd_b6/gen/strings.g.dart';
 
 class AudioService {
   static final AudioPlayer _audioPlayer = AudioPlayer();
@@ -99,12 +100,11 @@ class AudioService {
   ) async {
     final success = await playAudio(path);
     if (!success && context.mounted) {
+      // Use i18n string from context
+      final msg = Translations.of(context).errors.audioNotAvailable;
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Audio not available'),
-          duration: Duration(seconds: 2),
-        ),
+        SnackBar(content: Text(msg), duration: Duration(seconds: 2)),
       );
     }
   }

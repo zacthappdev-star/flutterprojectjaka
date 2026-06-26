@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ppkd_b6/screen/kuis/dasbor_kuis.dart';
-import 'package:ppkd_b6/screen/layar_beranda.dart';
 import 'package:ppkd_b6/screen/layar_profil.dart';
 import 'package:ppkd_b6/screen/layar_progres.dart';
 import 'package:ppkd_b6/screen/pembelajaran/dasbor_belajar.dart';
@@ -30,8 +28,6 @@ class StateTataUtama extends State<TataUtama> {
     super.initState();
     _screens = [
       DasborBelajar(),
-      LayarBeranda(),
-      DasborKuis(),
       LayarProgres(),
       LayarProfil(),
     ];
@@ -86,38 +82,6 @@ class StateTataUtama extends State<TataUtama> {
                 ),
               ),
               label: Translations.of(context).common.navHome,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.menu_book_outlined, size: 20),
-              activeIcon: Container(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                decoration: BoxDecoration(
-                  color: colors.softMint,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Icon(
-                  Icons.menu_book_rounded,
-                  size: 20,
-                  color: AppColors.primaryGreen,
-                ),
-              ),
-              label: Translations.of(context).common.navLearn,
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.quiz_outlined, size: 20),
-              activeIcon: Container(
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                decoration: BoxDecoration(
-                  color: colors.navLencanaKuis,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Icon(
-                  Icons.quiz_rounded,
-                  size: 20,
-                  color: Color(0xFFE65100),
-                ),
-              ),
-              label: Translations.of(context).common.navQuiz,
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.bar_chart_outlined, size: 20),

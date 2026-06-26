@@ -507,6 +507,17 @@ class DatabaseHelper {
     return maps.isNotEmpty;
   }
 
+  /// True if the user learned (marked) at least one new character on [dateStr]
+  /// (format: yyyy-MM-dd). Used to detect "completed a lesson today".
+  Future<bool> hasLearnedCharacterOn(int userId, String dateStr) async {
+    final db = await database;
+    final result = await db.rawQuery(
+      "SELECT COUNT(*) as cnt FROM learned_characters WHERE user_id = ? AND created_at LIKE ?",
+      [userId, '$dateStr%'],
+    );
+    return (Sqflite.firstIntValue(result) ?? 0) > 0;
+  }
+
   // ─── DAILY MISSIONS HELPER METHODS ─────────────────────────────────────────
 
   Future<int> claimMission(

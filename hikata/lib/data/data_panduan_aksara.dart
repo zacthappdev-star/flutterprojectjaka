@@ -68,8 +68,8 @@ class ScriptGuideData {
           'mempunyai 46 karakter.\n'
           'Contoh:\n コーヒー (kōhī = kopi)\n, テレビ (terebi = televisi).',
       bodyEN:
-          'Katakana is a writing system used for'
-          'foreign loanwords, names, and emphasis in Japanese and'
+          'Katakana is a writing system used for '
+          'foreign loanwords, names, and emphasis in Japanese and '
           'has 46 characters.\n'
           'Example: コーヒー (kōhī = coffee)'
           ', テレビ (terebi = television).',
@@ -141,7 +141,7 @@ class ScriptGuideData {
           '• へ (he) → ぺ (pe)\n'
           '• ほ (ho) → ぽ (po)\n\n',
       bodyEN:
-          'Handakuten (゜) is a small circle used only on the HA row'
+          'Handakuten (゜) is a small circle used only on the HA row. '
           'It changes the sound to "p".\n\n'
           'Examples of changes:\n'
           '• は (ha) → ぱ (pa)\n'

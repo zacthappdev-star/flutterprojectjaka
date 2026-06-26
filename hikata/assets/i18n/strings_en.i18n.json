@@ -28,8 +28,11 @@
     "navProgress": "Progress",
     "navProfile": "Profile",
     "introTablesTitle": "Alphabet Intro Tables",
-    "introTablesDesc": "Tap characters to hear their voice pronunciation 🔊",
-    "startStudyModules": "START STUDY MODULES"
+    "introTablesDesc": "Tap characters to hear their voice pronunciation \ud83d\udd0a",
+    "startStudyModules": "START STUDY MODULES",
+    "student": "HI KATA Learner",
+    "close": "Close",
+    "exampleChars": "Example Characters:"
   },
   "auth": {
     "login": "Login",
@@ -83,7 +86,10 @@
     "kanji": "Kanji",
     "conversation": "Conversation",
     "startPractice": "Start Practice",
-    "progressSummary": "${completed} characters · ${percent}% completed (${completed}/${total})"
+    "progressSummary": "${completed} characters · ${percent}% completed (${completed}/${total})",
+    "claimedXP": "Successfully claimed ${xp} XP!",
+    "claimed": "Claimed",
+    "claim": "CLAIM"
   },
   "scriptGuide": {
     "completed": "${completed} of ${total} completed",
@@ -162,14 +168,28 @@
     "listeningQuizMixed": "Mixed Listening Quiz",
     "descListeningHiragana": "Listening quiz covering basic 46 Hiragana characters",
     "descListeningKatakana": "Listening quiz covering basic 46 Katakana characters",
-    "descListeningMixed": "Listening challenge of Hiragana & Katakana",
-    "unlockPreviousQuiz": "Finish the previous quiz first",
+    "descListeningMixed": "Listening challenge combining Hiragana & Katakana",
+    "unlockPreviousQuiz": "Complete the previous quiz",
+    "unlockKatakana": "Get 80% score in Hiragana Quiz to unlock",
+    "unlockBoss": "Get 80% score in Hiragana & Katakana Quizzes",
     "countQuestions": "${count} questions",
     "estTime": "±${time} minutes",
     "difficultyMedium": "Medium",
     "difficultyHard": "Hard",
     "lockedStatus": "Locked",
-    "audioType": "Audio"
+    "audioType": "Audio",
+    "resultCorrect": "✅ Correct Answers",
+    "resultWrong": "❌ Wrong Answers",
+    "resultTime": "⏱ Time Taken",
+    "resultAccuracy": "🎯 Accuracy",
+    "resultBackToHome": "Back to Home",
+    "resultTryAgain": "Try Again",
+    "resultOtherQuiz": "Other Quiz",
+    "resultXpEarned": "✨ +${xp} XP earned!",
+    "resultFeedbackExcellent": "Excellent! よくできました！",
+    "resultFeedbackGood": "Good job! いいね！",
+    "resultFeedbackRetry": "Keep trying! がんばって！",
+    "resultAnswer": "answer"
   },
   "progress": {
     "title": "Learning Progress Statistics",
@@ -249,7 +269,10 @@
   },
   "errors": {
     "general": "An error occurred. Please try again.",
-    "network": "Network connection error."
+    "network": "Network connection error.",
+    "audioNotAvailable": "Audio is not available",
+    "loadFailed": "Failed to load data. Please try again.",
+    "retry": "Try Again"
   },
   "language": {
     "title": "Select Language",
@@ -320,5 +343,16 @@
       "helpful": "Very Helpful",
       "improve": "Needs Improvement"
     }
+  },
+  "quizIntro": {
+    "readyTitle": "Material Complete!",
+    "notReadyTitle": "Material Not Complete",
+    "readyBody": "You are ready to test your skills at this level.",
+    "notReadyBody": "Study all characters in the grid or flashcard (${learned}/${total}) to unlock the quiz."
+  },
+  "missions": {
+    "lesson": "Complete 1 New Lesson",
+    "quizMixed": "Play 1 Mixed Mode Quiz",
+    "streak": "Keep a 3-Day Streak"
   }
 }

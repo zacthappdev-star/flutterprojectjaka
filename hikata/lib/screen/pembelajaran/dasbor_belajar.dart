@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/providers/mission_provider.dart';
 import 'package:ppkd_b6/providers/profile_provider.dart';
+import 'package:ppkd_b6/screen/kuis/layar_kuis.dart';
 import 'package:ppkd_b6/services/layanan_progres.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
+import 'package:ppkd_b6/utils/animasi_rute.dart';
 import 'package:ppkd_b6/widgets/belajar/kartu_panduan_huruf.dart';
 import 'package:provider/provider.dart';
 
@@ -71,12 +73,20 @@ class _DasborBelajarState extends State<DasborBelajar> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  if (profileProvider.learnedCharacters.isNotEmpty) ...[
+                    _buildLatihanCepat(
+                      context,
+                      profileProvider.learnedCharacters,
+                    ),
+                    SizedBox(height: 20),
+                  ],
                   _buildMisiHariIni(context),
                   SizedBox(height: 20),
+
                   KartuPanduanHuruf(
                     onTap: () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (_) => LayarPanduanAksara()),
+                      RuteAnimasiBawah(page: LayarPanduanAksara()),
                     ),
                   ),
                   SizedBox(height: 4),
@@ -148,8 +158,10 @@ class _DasborBelajarState extends State<DasborBelajar> {
             ],
           ),
           SizedBox(height: 24),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Wrap(
+            alignment: WrapAlignment.start,
+            spacing: 8,
+            runSpacing: 8,
             children: [
               _buildStatPill('🔥', t.days(count: profile.currentStreak)),
               _buildStatPill('✨', t.xp(count: profile.totalXP)),
@@ -186,7 +198,159 @@ class _DasborBelajarState extends State<DasborBelajar> {
     );
   }
 
+  // ─── Latihan Cepat ─────────────────────────────────────────────────────────
+  Widget _buildLatihanCepat(BuildContext context, List<String> learnedChars) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final previewChars = learnedChars.take(6).toList();
+
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          RuteAnimasiBawah(page: QuizScreen(mode: 'mixed')),
+        );
+      },
+      child: Container(
+        padding: EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: isDark
+                ? [Color(0xFF1B3A2D), Color(0xFF1E4A35)]
+                : [Color(0xFFE8F5E9), Color(0xFFC8E6C9)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: AppColors.primaryGreen.withValues(alpha: isDark ? 0.3 : 0.2),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.primaryGreen.withValues(alpha: isDark ? 0.1 : 0.08),
+              blurRadius: 10,
+              offset: Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryGreen.withValues(alpha: 0.15),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.flash_on_rounded,
+                    color: AppColors.primaryGreen,
+                    size: 22,
+                  ),
+                ),
+                SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Latihan Cepat ⚡",
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: isDark ? Colors.white : AppColors.textPrimary,
+                        ),
+                      ),
+                      Text(
+                        "${learnedChars.length} huruf siap diuji",
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 11,
+                          color: isDark
+                              ? Colors.white60
+                              : AppColors.primaryGreen.withValues(alpha: 0.8),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: AppColors.primaryGreen,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    'Mulai',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 14),
+            Wrap(
+              spacing: 8,
+              runSpacing: 6,
+              children: [
+                ...previewChars.map((char) => Container(
+                  width: 38,
+                  height: 38,
+                  decoration: BoxDecoration(
+                    color: isDark
+                        ? Colors.white.withValues(alpha: 0.08)
+                        : Colors.white.withValues(alpha: 0.7),
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: AppColors.primaryGreen.withValues(alpha: 0.25),
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      char,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: isDark ? Colors.white : AppColors.textPrimary,
+                      ),
+                    ),
+                  ),
+                )),
+                if (learnedChars.length > 6)
+                  Container(
+                    width: 38,
+                    height: 38,
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryGreen.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text(
+                        '+${learnedChars.length - 6}',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.primaryGreen,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   // ─── Misi Hari Ini ─────────────────────────────────────────────────────────
+
   Widget _buildMisiHariIni(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final colors = context.hiKata;
@@ -247,13 +411,58 @@ class _DasborBelajarState extends State<DasborBelajar> {
           final missionProv = context.read<MissionProvider>();
           final profileProv = context.read<ProfileProvider>();
           final scaffoldMessenger = ScaffoldMessenger.of(context);
+          final claimMsg = context.t.home.claimedXP(xp: xp.toString());
+
+          // Show floating XP animation
+          final overlay = Overlay.of(context);
+          final renderBox = context.findRenderObject() as RenderBox?;
+          if (renderBox != null) {
+            final offset = renderBox.localToGlobal(Offset.zero);
+            late OverlayEntry entry;
+            entry = OverlayEntry(
+              builder: (context) {
+                return TweenAnimationBuilder<double>(
+                  tween: Tween(begin: 0.0, end: 1.0),
+                  duration: const Duration(milliseconds: 1200),
+                  curve: Curves.easeOutCubic,
+                  onEnd: () => entry.remove(),
+                  builder: (context, val, child) {
+                    return Positioned(
+                      top: offset.dy - (val * 100),
+                      left: offset.dx + (renderBox.size.width / 2) - 20,
+                      child: Opacity(
+                        opacity: 1.0 - val,
+                        child: Text(
+                          '+$xp XP',
+                          style: TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 24,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.amber,
+                            shadows: [
+                              Shadow(
+                                color: Colors.black26,
+                                blurRadius: 4,
+                                offset: Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            );
+            overlay.insert(entry);
+          }
 
           await missionProv.claimMission(mission.id);
           await profileProv.refresh();
 
           scaffoldMessenger.showSnackBar(
             SnackBar(
-              content: Text('Berhasil klaim $xp XP!'),
+              content: Text(claimMsg),
               backgroundColor: AppColors.primaryGreen,
               duration: const Duration(seconds: 2),
             ),
@@ -372,7 +581,7 @@ class _DasborBelajarState extends State<DasborBelajar> {
                               ),
                             if (!isClaimed) const SizedBox(width: 4),
                             Text(
-                              isClaimed ? 'Diklaim' : '+$xp XP',
+                              isClaimed ? context.t.home.claimed : '+$xp XP',
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 color: isClaimed
@@ -420,9 +629,9 @@ class _DasborBelajarState extends State<DasborBelajar> {
                             color: const Color(0xFF2E9E5B),
                             borderRadius: BorderRadius.circular(4),
                           ),
-                          child: const Text(
-                            'KLAIM',
-                            style: TextStyle(
+                          child: Text(
+                            context.t.home.claim,
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 9,
                               fontWeight: FontWeight.bold,

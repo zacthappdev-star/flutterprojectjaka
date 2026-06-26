@@ -20,6 +20,7 @@ class _SplashScreenState extends State<SplashScreen>
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   late Animation<double> _scaleAnimation;
+  Timer? _navTimer;
 
   @override
   void initState() {
@@ -41,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     _animationController.forward();
 
-    Timer(Duration(seconds: 4), () async {
+    _navTimer = Timer(Duration(seconds: 4), () async {
       if (mounted) {
         final prefs = await SharedPreferences.getInstance();
         final userId = prefs.getInt('active_user_id');
@@ -66,6 +67,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void dispose() {
+    _navTimer?.cancel();
     _animationController.dispose();
     super.dispose();
   }

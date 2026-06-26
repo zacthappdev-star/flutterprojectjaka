@@ -28,7 +28,10 @@
     "navProfile": "Profil",
     "introTablesTitle": "Tabel Pengenalan Huruf",
     "introTablesDesc": "Ketuk huruf untuk mendengarkan pelafalan suaranya 🔊",
-    "startStudyModules": "MULAI MODUL BELAJAR"
+    "startStudyModules": "MULAI MODUL BELAJAR",
+    "student": "Pelajar HI KATA",
+    "close": "Tutup",
+    "exampleChars": "Contoh Huruf:"
   },
   "auth": {
     "login": "Masuk",
@@ -82,7 +85,10 @@
     "kanji": "Kanji",
     "conversation": "Percakapan",
     "startPractice": "Mulai Latihan",
-    "progressSummary": "${completed} karakter · ${percent}% selesai (${completed}/${total})"
+    "progressSummary": "${completed} karakter · ${percent}% selesai (${completed}/${total})",
+    "claimedXP": "Berhasil klaim ${xp} XP!",
+    "claimed": "Diklaim",
+    "claim": "KLAIM"
   },
   "scriptGuide": {
     "completed": "${completed} dari ${total} selesai",
@@ -163,12 +169,26 @@
     "descListeningKatakana": "Quiz pendengaran dari 46 karakter dasar Katakana",
     "descListeningMixed": "Tantangan pendengaran kombinasi Hiragana & Katakana",
     "unlockPreviousQuiz": "Selesaikan kuis sebelumnya",
+    "unlockKatakana": "Dapatkan skor 80% di Quiz Hiragana untuk membuka",
+    "unlockBoss": "Dapatkan skor 80% di Quiz Hiragana & Katakana",
     "countQuestions": "${count} soal",
     "estTime": "±${time} menit",
     "difficultyMedium": "Sedang",
     "difficultyHard": "Sulit",
     "lockedStatus": "Terkunci",
-    "audioType": "Audio"
+    "audioType": "Audio",
+    "resultCorrect": "✅ Jawaban Benar",
+    "resultWrong": "❌ Jawaban Salah",
+    "resultTime": "⏱ Waktu Selesai",
+    "resultAccuracy": "🎯 Akurasi",
+    "resultBackToHome": "Kembali ke Beranda",
+    "resultTryAgain": "Coba Lagi",
+    "resultOtherQuiz": "Quiz Lain",
+    "resultXpEarned": "✨ +${xp} XP didapat!",
+    "resultFeedbackExcellent": "Luar Biasa! よくできました！",
+    "resultFeedbackGood": "Bagus! いいね！",
+    "resultFeedbackRetry": "Coba Lagi! がんばって！",
+    "resultAnswer": "answer"
   },
   "progress": {
     "title": "Statistik Progres belajar",
@@ -248,7 +268,10 @@
   },
   "errors": {
     "general": "Terjadi kesalahan. Silakan coba lagi.",
-    "network": "Koneksi internet bermasalah."
+    "network": "Koneksi internet bermasalah.",
+    "audioNotAvailable": "Audio tidak tersedia",
+    "loadFailed": "Gagal memuat data. Silakan coba lagi.",
+    "retry": "Coba Lagi"
   },
   "language": {
     "title": "Pilih Bahasa",
@@ -319,5 +342,16 @@
       "helpful": "Sangat Membantu",
       "improve": "Perlu Peningkatan"
     }
+  },
+  "quizIntro": {
+    "readyTitle": "Materi Selesai!",
+    "notReadyTitle": "Materi Belum Selesai",
+    "readyBody": "Anda sudah siap untuk menguji kemampuan di level ini.",
+    "notReadyBody": "Pelajari semua huruf di tabel atau flashcard (${learned}/${total}) untuk membuka kuis."
+  },
+  "missions": {
+    "lesson": "Selesaikan 1 Pelajaran Baru",
+    "quizMixed": "Mainkan 1 Kuis Mode Campuran",
+    "streak": "Pertahankan Streak 3 Hari"
   }
 }

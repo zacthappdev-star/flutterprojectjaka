@@ -65,12 +65,14 @@ class _KontenGrupState extends State<KontenGrup> {
           child: _modeIndex == 0
               ? _buildGrid()
               : _modeIndex == 1
-                  ? LayoutKartuHafalan(
-                      group: widget.group,
-                      accentColor: widget.accentColor,
-                      cardBgColor: widget.cardBgColor,
-                    )
-                  : _buildQuizIntro(),
+              ? LayoutKartuHafalan(
+                  group: widget.group,
+                  accentColor: widget.accentColor,
+                  cardBgColor: widget.cardBgColor,
+                )
+              : _modeIndex == 2
+              ? _buildKuisIntro(isListening: false)
+              : _buildKuisIntro(isListening: true),
         ),
       ],
     );
@@ -81,19 +83,21 @@ class _KontenGrupState extends State<KontenGrup> {
     final colors = context.hiKata;
 
     return Container(
-      margin: const EdgeInsets.fromLTRB(16, 12, 16, 4),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      margin: EdgeInsets.fromLTRB(16, 12, 16, 4),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
         color: isDark ? colors.cardBackground : Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isDark ? colors.divider : AppColors.primaryGreen.withValues(alpha: 0.3),
+          color: isDark
+              ? colors.divider
+              : AppColors.primaryGreen.withValues(alpha: 0.3),
         ),
       ),
       child: Row(
         children: [
-          const Text('🔥', style: TextStyle(fontSize: 24)),
-          const SizedBox(width: 12),
+          Text('🔥', style: TextStyle(fontSize: 24)),
+          SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,18 +123,20 @@ class _KontenGrupState extends State<KontenGrup> {
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
-              color: isDark ? const Color(0xFF4A3E1B) : const Color(0xFFfbbf24), // Amber
+              color: isDark
+                  ? AppColors.primaryGreen.withValues(alpha: 0.3)
+                  : AppColors.primaryGreen.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Text(
+            child: Text(
               '+5 XP',
               style: TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 10,
                 fontWeight: FontWeight.bold,
-                color: Color(0xFF78350f), // Dark brown
+                color: isDark ? Color(0xFF81C784) : AppColors.primaryGreen,
               ),
             ),
           ),
@@ -140,10 +146,10 @@ class _KontenGrupState extends State<KontenGrup> {
   }
 
   Widget _buildPemilihMode() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 10, 16, 8),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      padding: EdgeInsets.fromLTRB(16, 10, 16, 8),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           PemilihModeBelajar(
             icon: Icons.grid_view_rounded,
@@ -153,7 +159,7 @@ class _KontenGrupState extends State<KontenGrup> {
             activeBgColor: widget.activeBgColor,
             onTap: () => setState(() => _modeIndex = 0),
           ),
-          const SizedBox(width: 10),
+          SizedBox(width: 10),
           PemilihModeBelajar(
             icon: Icons.style_rounded,
             label: Translations.of(context).common.flashcard,
@@ -162,19 +168,36 @@ class _KontenGrupState extends State<KontenGrup> {
             activeBgColor: widget.activeBgColor,
             onTap: () {
               setState(() => _modeIndex = 1);
-              PronunciationService.speak(
-                widget.group.characters.first.character,
-              );
+              if (widget.group.characters.isNotEmpty) {
+                PronunciationService.speak(
+                  widget.group.characters.first.character,
+                );
+              }
             },
           ),
-          const SizedBox(width: 10),
+          SizedBox(width: 10),
           PemilihModeBelajar(
             icon: Icons.quiz_rounded,
             label: Translations.of(context).common.quiz,
             isActive: _modeIndex == 2,
             accentColor: widget.accentColor,
             activeBgColor: widget.activeBgColor,
-            onTap: () => setState(() => _modeIndex = 2),
+            onTap: () {
+              setState(() => _modeIndex = 2);
+              _loadLearnedChars();
+            },
+          ),
+          SizedBox(width: 10),
+          PemilihModeBelajar(
+            icon: Icons.hearing_rounded,
+            label: 'Dengar',
+            isActive: _modeIndex == 3,
+            accentColor: widget.accentColor,
+            activeBgColor: widget.activeBgColor,
+            onTap: () {
+              setState(() => _modeIndex = 3);
+              _loadLearnedChars();
+            },
           ),
         ],
       ),
@@ -211,27 +234,39 @@ class _KontenGrupState extends State<KontenGrup> {
     );
   }
 
-  Widget _buildQuizIntro() {
+  Widget _buildKuisIntro({required bool isListening}) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final totalChars = widget.group.characters.length;
-    final learnedCount = widget.group.characters.where((c) => _learnedChars.contains(c.character)).length;
+    final learnedCount = widget.group.characters
+        .where((c) => _learnedChars.contains(c.character))
+        .length;
     final progress = totalChars > 0 ? learnedCount / totalChars : 0.0;
     final bool isReady = progress >= 1.0;
 
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32),
+        padding: EdgeInsets.symmetric(horizontal: 32),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              isReady ? Icons.check_circle_outline_rounded : Icons.lock_outline_rounded,
+              isListening
+                  ? (isReady
+                        ? Icons.hearing_rounded
+                        : Icons.lock_outline_rounded)
+                  : (isReady
+                        ? Icons.check_circle_outline_rounded
+                        : Icons.lock_outline_rounded),
               size: 64,
               color: isReady ? widget.accentColor : Colors.grey.shade400,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             Text(
-              isReady ? "Materi Selesai!" : "Materi Belum Selesai",
+              isReady
+                  ? (isListening
+                        ? 'Siap Uji Pendengaran! 👂'
+                        : context.t.quizIntro.readyTitle)
+                  : context.t.quizIntro.notReadyTitle,
               style: TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 18,
@@ -239,11 +274,16 @@ class _KontenGrupState extends State<KontenGrup> {
                 color: isDark ? Colors.white : const Color(0xFF1A1A1A),
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             Text(
-              isReady 
-                  ? "Anda sudah siap untuk menguji kemampuan di level ini." 
-                  : "Pelajari semua huruf di tabel atau flashcard ($learnedCount/$totalChars) untuk membuka kuis.",
+              isReady
+                  ? (isListening
+                        ? 'Dengarkan audio dan tebak huruf yang benar.'
+                        : context.t.quizIntro.readyBody)
+                  : context.t.quizIntro.notReadyBody(
+                      learned: learnedCount,
+                      total: totalChars,
+                    ),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'Poppins',
@@ -251,32 +291,39 @@ class _KontenGrupState extends State<KontenGrup> {
                 color: isDark ? Colors.grey.shade400 : Colors.grey.shade600,
               ),
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: 32),
             SizedBox(
               width: double.infinity,
               height: 50,
               child: ElevatedButton(
-                onPressed: isReady ? () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => QuizScreen(
-                        mode: widget.mode,
-                        levelIndex: widget.levelIndex,
-                      ),
-                    ),
-                  );
-                } : null,
+                onPressed: isReady
+                    ? () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => QuizScreen(
+                              mode: widget.mode,
+                              levelIndex: widget.levelIndex,
+                              isListening: isListening,
+                            ),
+                          ),
+                        );
+                      }
+                    : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: widget.accentColor,
-                  disabledBackgroundColor: isDark ? Colors.grey.shade800 : Colors.grey.shade300,
+                  disabledBackgroundColor: isDark
+                      ? Colors.grey.shade800
+                      : Colors.grey.shade300,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
                   elevation: isReady ? 4 : 0,
                 ),
                 child: Text(
-                  context.t.home.startPractice,
+                  isListening
+                      ? 'Mulai Kuis Dengar 🔊'
+                      : context.t.home.startPractice,
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     fontSize: 16,

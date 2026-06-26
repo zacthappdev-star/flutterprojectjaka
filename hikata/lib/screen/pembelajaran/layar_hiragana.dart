@@ -129,8 +129,9 @@ class _LayarHiraganaState extends State<LayarHiragana>
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFfbbf24), // Amber
+                  color: Colors.white.withValues(alpha: 0.25),
                   borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.4)),
                 ),
                 child: const Text(
                   "+10 XP",
@@ -138,7 +139,7 @@ class _LayarHiraganaState extends State<LayarHiragana>
                     fontFamily: 'Poppins',
                     fontSize: 12,
                     fontWeight: FontWeight.w800,
-                    color: Color(0xFF78350f), // Dark brown
+                    color: Colors.white,
                   ),
                 ),
               ),

@@ -30,14 +30,10 @@ class _LanguageSelectScreenState extends State<LanguageSelectScreen>
       vsync: this,
       duration: const Duration(milliseconds: 900),
     );
-    _fade = Tween<double>(
-      begin: 0,
-      end: 1,
-    ).animate(CurvedAnimation(parent: _anim, curve: Curves.easeOut));
-    _slide = Tween<Offset>(
-      begin: Offset(0, 0.2),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _anim, curve: Curves.easeOut));
+    _fade = Tween<double>(begin: 0, end: 1)
+        .animate(CurvedAnimation(parent: _anim, curve: Curves.easeOut));
+    _slide = Tween<Offset>(begin: const Offset(0, 0.2), end: Offset.zero)
+        .animate(CurvedAnimation(parent: _anim, curve: Curves.easeOut));
     _anim.forward();
   }
 
@@ -56,68 +52,70 @@ class _LanguageSelectScreenState extends State<LanguageSelectScreen>
         decoration: BoxDecoration(gradient: AppColors.backgroundGradient),
         child: Stack(
           children: [
+            // Decorative background characters
             Positioned(
-              top: 60,
-              left: -20,
+              top: 80,
+              left: -40,
               child: Text(
                 'あ',
                 style: TextStyle(
-                  fontSize: 120,
+                  fontSize: 180,
                   color: Colors.white.withValues(alpha: 0.05),
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
             Positioned(
-              bottom: 80,
-              right: -20,
+              bottom: 40,
+              right: -30,
               child: Text(
                 'ア',
                 style: TextStyle(
-                  fontSize: 120,
-                  color: Colors.white.withValues(alpha: 0.05),
+                  fontSize: 160,
+                  color: Colors.white.withValues(alpha: 0.04),
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
             SafeArea(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
                 child: Column(
                   children: [
-                    Spacer(flex: 1),
+                    const Spacer(flex: 1),
                     FadeTransition(
                       opacity: _fade,
                       child: Column(
                         children: [
                           Container(
-                            width: 80,
-                            height: 80,
+                            width: 72,
+                            height: 72,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.white.withValues(alpha: 0.15),
                               border: Border.all(
                                 color: Colors.white.withValues(alpha: 0.4),
-                                width: 2,
+                                width: 1.5,
                               ),
                             ),
-                            child: Center(
-                              child: Text('🌏', style: TextStyle(fontSize: 38)),
+                            child: const Center(
+                              child: Text('🌏', style: TextStyle(fontSize: 34)),
                             ),
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 24),
                           Text(
                             context.t.language.title,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: 'Poppins',
-                              fontSize: 28,
+                              fontSize: 26,
                               fontWeight: FontWeight.w800,
                               color: Colors.white,
                               letterSpacing: 0.5,
                             ),
                           ),
-                          Text(
-                            context.t.language.subtitle,
+                          const SizedBox(height: 6),
+                          const Text(
+                            'Choose Language',
                             style: TextStyle(
                               fontFamily: 'Poppins',
                               fontSize: 14,
@@ -128,7 +126,7 @@ class _LanguageSelectScreenState extends State<LanguageSelectScreen>
                         ],
                       ),
                     ),
-                    Spacer(flex: 2),
+                    const Spacer(flex: 1),
                     SlideTransition(
                       position: _slide,
                       child: FadeTransition(
@@ -143,7 +141,7 @@ class _LanguageSelectScreenState extends State<LanguageSelectScreen>
                               isSelected: _selectedLang == 'id',
                               onTap: () => setState(() => _selectedLang = 'id'),
                             ),
-                            SizedBox(height: 16),
+                            const SizedBox(height: 16),
                             _LanguageCard(
                               flag: '🇬🇧',
                               name: context.t.language.english,
@@ -156,7 +154,7 @@ class _LanguageSelectScreenState extends State<LanguageSelectScreen>
                         ),
                       ),
                     ),
-                    Spacer(flex: 3),
+                    const Spacer(flex: 2),
                     FadeTransition(
                       opacity: _fade,
                       child: _ContinueButton(
@@ -164,29 +162,26 @@ class _LanguageSelectScreenState extends State<LanguageSelectScreen>
                         onPressed: () async {
                           final navigator = Navigator.of(context);
                           final prefs = await SharedPreferences.getInstance();
-                          await prefs.setString(
-                            'selected_language',
-                            _selectedLang,
-                          );
+                          await prefs.setString('selected_language', _selectedLang);
                           await prefs.setBool('language_selected', true);
                           AppLanguage.current = _selectedLang;
                           if (!mounted) return;
                           navigator.push(
                             MaterialPageRoute(
-                              builder: (_) => HomeReasonScreen(),
+                              builder: (_) => const HomeReasonScreen(),
                             ),
                           );
                         },
                       ),
                     ),
-                    SizedBox(height: 16),
+                    const SizedBox(height: 24),
                     FadeTransition(
                       opacity: _fade,
                       child: Text(
                         _selectedLang == 'id'
-                            ? context.t.language.changeAnytimeEn
-                            : context.t.language.changeAnytime,
-                        style: TextStyle(
+                            ? context.t.language.changeAnytime
+                            : context.t.language.changeAnytimeEn,
+                        style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 12,
                           color: Colors.white60,
@@ -194,7 +189,6 @@ class _LanguageSelectScreenState extends State<LanguageSelectScreen>
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    SizedBox(height: 8),
                   ],
                 ),
               ),
@@ -228,33 +222,29 @@ class _LanguageCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 250),
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+        duration: const Duration(milliseconds: 250),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         decoration: BoxDecoration(
-          color: isSelected
-              ? Colors.white
-              : Colors.white.withValues(alpha: 0.12),
+          color: isSelected ? Colors.white : Colors.white.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected
-                ? AppColors.secondaryGreen
-                : Colors.white.withValues(alpha: 0.3),
-            width: 2.5,
+            color: isSelected ? AppColors.primaryGreen : Colors.white.withValues(alpha: 0.3),
+            width: isSelected ? 2.5 : 1,
           ),
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: AppColors.primaryGreen.withValues(alpha: 0.3),
-                    blurRadius: 20,
-                    offset: Offset(0, 8),
+                    color: Colors.black.withValues(alpha: 0.1),
+                    blurRadius: 15,
+                    offset: const Offset(0, 5),
                   ),
                 ]
               : [],
         ),
         child: Row(
           children: [
-            Text(flag, style: TextStyle(fontSize: 36)),
-            SizedBox(width: 16),
+            Text(flag, style: const TextStyle(fontSize: 32)),
+            const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -268,22 +258,22 @@ class _LanguageCard extends StatelessWidget {
                       color: isSelected ? AppColors.textPrimary : Colors.white,
                     ),
                   ),
-                  SizedBox(height: 2),
+                  const SizedBox(height: 2),
                   Text(
                     subtitle,
                     style: TextStyle(
                       fontFamily: 'Poppins',
-                      fontSize: 11,
-                      color: isSelected ? AppColors.textMuted : Colors.white70,
+                      fontSize: 11.5,
+                      color: isSelected ? Colors.grey.shade500 : Colors.white70,
                     ),
                   ),
                 ],
               ),
             ),
             AnimatedContainer(
-              duration: Duration(milliseconds: 250),
-              width: 26,
-              height: 26,
+              duration: const Duration(milliseconds: 250),
+              width: 28,
+              height: 28,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: isSelected ? AppColors.primaryGreen : Colors.transparent,
@@ -293,7 +283,7 @@ class _LanguageCard extends StatelessWidget {
                 ),
               ),
               child: isSelected
-                  ? Icon(Icons.check, color: Colors.white, size: 16)
+                  ? const Icon(Icons.check, color: Colors.white, size: 18)
                   : null,
             ),
           ],
@@ -320,14 +310,9 @@ class _ContinueButtonState extends State<_ContinueButton>
   @override
   void initState() {
     super.initState();
-    _ctrl = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 120),
-    );
-    _scale = Tween<double>(
-      begin: 1,
-      end: 0.97,
-    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
+    _ctrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 120));
+    _scale = Tween<double>(begin: 1, end: 0.97)
+        .animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
   }
 
   @override
@@ -350,13 +335,21 @@ class _ContinueButtonState extends State<_ContinueButton>
         child: Container(
           width: double.infinity,
           height: 52,
-          decoration: AppDecorations.gradientButton.copyWith(
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.15),
             borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
           ),
           child: Center(
             child: Text(
-              widget.label,
-              style: AppTextStyles.buttonText.copyWith(fontSize: 15),
+              widget.label.toUpperCase(),
+              style: const TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                letterSpacing: 1.2,
+              ),
             ),
           ),
         ),
