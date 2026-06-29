@@ -78,12 +78,17 @@ class MissionProvider with ChangeNotifier {
     // Note: getQuizStats gives overall total. For a real app, we might want to query today's quizzes explicitly.
     // For now, if they played any quiz, we can mock it or assume if total completed > 0 they played something.
     // Let's assume if total_completed > 0 we give them credit (or better: fetch quiz history for today).
+    // Selesai = main kuis "mixed" hari ini DAN lulus (skor >= 80%).
     final history = await dbHelper.getQuizHistory(userId);
-    bool isQuizDone = history.any(
-      (q) =>
-          ((q['created_at'] as String?) ?? '').startsWith(todayStr) &&
-          q['quiz_type'] == 'mixed',
-    );
+    bool isQuizDone = history.any((q) {
+      if (!((q['created_at'] as String?) ?? '').startsWith(todayStr)) {
+        return false;
+      }
+      if (q['quiz_type'] != 'mixed') return false;
+      final score = (q['score'] as int?) ?? 0;
+      final total = (q['total'] as int?) ?? 0;
+      return total > 0 && score / total >= 0.80;
+    });
 
     // Mission 3: Streak
     int currentStreak = (streak?['current_streak'] as int?) ?? 0;

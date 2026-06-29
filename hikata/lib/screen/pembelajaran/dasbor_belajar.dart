@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ppkd_b6/gen/strings.g.dart';
 import 'package:ppkd_b6/providers/mission_provider.dart';
 import 'package:ppkd_b6/providers/profile_provider.dart';
-import 'package:ppkd_b6/screen/kuis/layar_kuis.dart';
 import 'package:ppkd_b6/services/layanan_progres.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 import 'package:ppkd_b6/utils/animasi_rute.dart';
@@ -83,7 +82,7 @@ class _DasborBelajarState extends State<DasborBelajar> {
                   MisiHariIniWidget(
                     onMissionProgressChanged: () async {
                       await _loadProgress();
-                      if (!mounted) return;
+                      if (!context.mounted) return;
                       context.read<MissionProvider>().loadMissions();
                     },
                   ),

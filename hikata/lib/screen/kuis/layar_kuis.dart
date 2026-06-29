@@ -3,8 +3,8 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ppkd_b6/data/data_kuis.dart';
-import 'package:ppkd_b6/screen/kuis/layar_hasil_kuis.dart';
 import 'package:ppkd_b6/gen/strings.g.dart';
+import 'package:ppkd_b6/screen/kuis/layar_hasil_kuis.dart';
 import 'package:ppkd_b6/services/layanan_audio.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 
@@ -29,7 +29,6 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
   int _score = 0;
   int? _selectedOption;
   bool _answered = false;
-  late List<bool> _hasWrongAttempt;
   final Stopwatch _stopwatch = Stopwatch();
 
   late AnimationController _cardAnim;
@@ -51,17 +50,24 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
     } else {
       switch (widget.mode.toLowerCase()) {
         case 'hiragana':
-          _questions = QuizData.generateHiraganaQuiz(count: 10, isListening: widget.isListening);
+          _questions = QuizData.generateHiraganaQuiz(
+            count: 10,
+            isListening: widget.isListening,
+          );
           break;
         case 'katakana':
-          _questions = QuizData.generateKatakanaQuiz(count: 10, isListening: widget.isListening);
+          _questions = QuizData.generateKatakanaQuiz(
+            count: 10,
+            isListening: widget.isListening,
+          );
           break;
         default:
-          _questions = QuizData.generateMixedQuiz(count: 10, isListening: widget.isListening);
+          _questions = QuizData.generateMixedQuiz(
+            count: 10,
+            isListening: widget.isListening,
+          );
       }
     }
-    
-    _hasWrongAttempt = List.filled(_questions.length, false);
 
     _cardAnim = AnimationController(
       vsync: this,
@@ -113,33 +119,21 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
     if (_answered) return;
     final isCorrect = index == _current.correctIndex;
 
+    HapticFeedback.heavyImpact();
     if (isCorrect) {
-      HapticFeedback.heavyImpact();
       SystemSound.play(SystemSoundType.click);
-    } else {
-      HapticFeedback.heavyImpact();
-      _hasWrongAttempt[_currentIndex] = true;
     }
-
 
     setState(() {
       _selectedOption = index;
       _answered = true;
-      if (isCorrect && !_hasWrongAttempt[_currentIndex]) {
+      if (isCorrect) {
         _score++;
       }
     });
   }
 
   void _nextQuestion() {
-    if (_answered && _selectedOption != _current.correctIndex) {
-      setState(() {
-        _answered = false;
-        _selectedOption = null;
-      });
-      return;
-    }
-
     if (_currentIndex + 1 >= _questions.length) {
       _stopwatch.stop();
       Navigator.pushReplacement(
@@ -219,7 +213,11 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
             children: [
               GestureDetector(
                 onTap: () => _showQuitDialog(context),
-                child: const Icon(Icons.arrow_back_rounded, color: Colors.white, size: 24),
+                child: const Icon(
+                  Icons.arrow_back_rounded,
+                  color: Colors.white,
+                  size: 24,
+                ),
               ),
               Text(
                 quizTitle,
@@ -366,18 +364,24 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
               final isWrong = _answered && isSelected && !isCorrect;
               final showCorrect = _answered && isCorrect;
 
-              Color textColor = isDark ? colors.textPrimary : AppColors.textPrimary;
+              Color textColor = isDark
+                  ? colors.textPrimary
+                  : AppColors.textPrimary;
               Widget? trailingIcon;
 
               if (showCorrect) {
-                textColor = isDark ? const Color(0xFF81C784) : const Color(0xFF1B5E20);
+                textColor = isDark
+                    ? const Color(0xFF81C784)
+                    : const Color(0xFF1B5E20);
                 trailingIcon = const Icon(
                   Icons.check_circle_rounded,
                   color: Colors.green,
                   size: 22,
                 );
               } else if (isWrong) {
-                textColor = isDark ? const Color(0xFFEF5350) : const Color(0xFFB71C1C);
+                textColor = isDark
+                    ? const Color(0xFFEF5350)
+                    : const Color(0xFFB71C1C);
                 trailingIcon = const Icon(
                   Icons.cancel_rounded,
                   color: Colors.red,
@@ -408,8 +412,12 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
                   color: _selectedOption == _current.correctIndex
-                      ? (isDark ? const Color(0xFF1E3A24) : const Color(0xFFE8F5E9))
-                      : (isDark ? const Color(0xFF4A1C1C) : const Color(0xFFFFEBEE)),
+                      ? (isDark
+                            ? const Color(0xFF1E3A24)
+                            : const Color(0xFFE8F5E9))
+                      : (isDark
+                            ? const Color(0xFF4A1C1C)
+                            : const Color(0xFFFFEBEE)),
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Row(
@@ -422,15 +430,23 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                     Expanded(
                       child: Text(
                         _selectedOption == _current.correctIndex
-                            ? context.t.quiz.feedbackCorrect(answer: _current.options[_current.correctIndex])
-                            : context.t.quiz.feedbackWrong(answer: _current.options[_current.correctIndex]),
+                            ? context.t.quiz.feedbackCorrect(
+                                answer: _current.options[_current.correctIndex],
+                              )
+                            : context.t.quiz.feedbackWrong(
+                                answer: _current.options[_current.correctIndex],
+                              ),
                         style: TextStyle(
                           fontFamily: 'Poppins',
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
                           color: _selectedOption == _current.correctIndex
-                              ? (isDark ? const Color(0xFF81C784) : const Color(0xFF1B5E20))
-                              : (isDark ? const Color(0xFFEF5350) : const Color(0xFFB71C1C)),
+                              ? (isDark
+                                    ? const Color(0xFF81C784)
+                                    : const Color(0xFF1B5E20))
+                              : (isDark
+                                    ? const Color(0xFFEF5350)
+                                    : const Color(0xFFB71C1C)),
                         ),
                       ),
                     ),
@@ -447,17 +463,17 @@ class _QuizScreenState extends State<QuizScreen> with TickerProviderStateMixin {
                 width: double.infinity,
                 height: 52,
                 decoration: BoxDecoration(
-                  color: _answered ? AppColors.primaryGreen : Colors.grey.shade400,
+                  color: _answered
+                      ? AppColors.primaryGreen
+                      : Colors.grey.shade400,
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: Center(
                   child: Text(
                     _answered
-                        ? (_selectedOption == _current.correctIndex
-                            ? (_currentIndex + 1 >= _questions.length
-                                ? context.t.quiz.seeResult
-                                : context.t.quiz.nextQuestion)
-                            : context.t.quiz.retry)
+                        ? (_currentIndex + 1 >= _questions.length
+                              ? context.t.quiz.seeResult
+                              : context.t.quiz.nextQuestion)
                         : context.t.quiz.answer,
                     style: const TextStyle(
                       fontFamily: 'Poppins',
@@ -631,19 +647,20 @@ class _QuizOptionCardState extends State<QuizOptionCard>
           decoration: BoxDecoration(
             color: bgColor,
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: borderColor,
-              width: 1.5,
-            ),
+            border: Border.all(color: borderColor, width: 1.5),
             boxShadow: [
               if (widget.isSelected && widget.answered)
                 BoxShadow(
-                  color: widget.isCorrect 
-                      ? (isDark ? const Color(0xFF81C784).withValues(alpha: 0.2) : Colors.green.withValues(alpha: 0.2))
-                      : (isDark ? const Color(0xFFEF5350).withValues(alpha: 0.2) : Colors.red.withValues(alpha: 0.2)),
+                  color: widget.isCorrect
+                      ? (isDark
+                            ? const Color(0xFF81C784).withValues(alpha: 0.2)
+                            : Colors.green.withValues(alpha: 0.2))
+                      : (isDark
+                            ? const Color(0xFFEF5350).withValues(alpha: 0.2)
+                            : Colors.red.withValues(alpha: 0.2)),
                   blurRadius: 12,
                   spreadRadius: 2,
-                )
+                ),
             ],
           ),
           child: Stack(
