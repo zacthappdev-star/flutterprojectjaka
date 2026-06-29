@@ -34,6 +34,7 @@ class _RegisterPageState extends State<RegisterPage> {
         password: _passwordController.text,
       );
       await DatabaseHelper.instance.insertPeserta(peserta);
+      if (!mounted) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text("Registrasi Berhasil")));

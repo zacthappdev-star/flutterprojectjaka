@@ -54,6 +54,7 @@ class _ListDataPageState extends State<ListDataPage> {
                   password: peserta.password,
                 );
                 await DatabaseHelper.instance.updatePeserta(dataBaru);
+                if (!context.mounted) return;
                 Navigator.pop(context);
 
                 setState(() {});

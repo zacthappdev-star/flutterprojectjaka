@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ppkd_b6/api/views/crypto_market.dart';
 import 'package:ppkd_b6/navigator_widget.dart';
 import 'package:ppkd_b6/views/list.dart';
-import 'package:ppkd_b6/views/listwithmodel.dart';
 import 'package:ppkd_b6/views/map.dart';
 
 class Navigator8 extends StatefulWidget {
@@ -24,14 +24,14 @@ class _Navigator8State extends State<Navigator8> {
   int _currentIndex = 0;
 
   // List Judul AppBar sesuai dengan tab yang dipilih
-  final List<String> titles = ["HI KATA", 'List', "List Map", 'List Model'];
+  final List<String> titles = ["HI KATA", 'List', "List Map", 'Crypto Model'];
 
   // List Halaman yang dipanggil saat tab di-klik
   final List<Widget> _pages = [
     const NavigatorWidget(),
     const HiKataPage(),
     const ListWithMap(),
-    const ListWithModels(),
+    const CryptoMarketPage(),
   ];
 
   @override
@@ -129,8 +129,8 @@ class _Navigator8State extends State<Navigator8> {
             label: "List Map",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.view_agenda),
-            label: "List Model",
+            icon: Icon(Icons.currency_bitcoin),
+            label: "Crypto",
           ),
         ],
       ),

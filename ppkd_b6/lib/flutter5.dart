@@ -76,7 +76,7 @@ class _Hikata1State extends State<Hikata1> {
           InkWell(
             splashColor: Colors.red,
             onTap: () {
-              print("JAPAN");
+              debugPrint("JAPAN");
             },
             child: Padding(
               padding: EdgeInsets.all(5),
@@ -87,19 +87,19 @@ class _Hikata1State extends State<Hikata1> {
             onTap: () {
               setState(() {
                 nilaiGesture++;
-                print("Hiragana");
+                debugPrint("Hiragana");
               });
             },
             onDoubleTap: () {
               setState(() {
                 nilaiGesture += 2;
-                print("Katakana");
+                debugPrint("Katakana");
               });
             },
             onLongPress: () {
               setState(() {
                 nilaiGesture += 3;
-                print("Kanji");
+                debugPrint("Kanji");
               });
             },
             child: Padding(
@@ -115,7 +115,7 @@ class _Hikata1State extends State<Hikata1> {
         onPressed: () {
           setState(() {
             nilaiGesture--;
-            print("Hiragana");
+            debugPrint("Hiragana");
           });
         },
         child: Icon(Icons.delete),

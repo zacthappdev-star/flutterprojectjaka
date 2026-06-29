@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:ppkd_b6/NextSlide.dart';
+import 'package:ppkd_b6/next_slide.dart';
 import 'package:ppkd_b6/extension.dart';
 
 class Formlogin extends StatefulWidget {
@@ -135,7 +135,7 @@ class _FormloginState extends State<Formlogin> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                print("Forgot Password Clicked");
+                                debugPrint("Forgot Password Clicked");
                               },
                               child: Text("Forgot Password?"),
                             ),
@@ -149,7 +149,7 @@ class _FormloginState extends State<Formlogin> {
                           child: ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                print("Sudah memenuhi syarat");
+                                debugPrint("Sudah memenuhi syarat");
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {
@@ -198,7 +198,7 @@ class _FormloginState extends State<Formlogin> {
                           child: ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                print("Sudah memenuhi syarat");
+                                debugPrint("Sudah memenuhi syarat");
                                 showDialog(
                                   context: context,
                                   builder: (BuildContext context) {

@@ -24,6 +24,14 @@ class Preference {
     return _prefs?.getString('userEmail') ?? '';
   }
 
+  static Future<bool> setUserName(String name) async {
+    return await _prefs?.setString('userName', name) ?? false;
+  }
+
+  static String getUserName() {
+    return _prefs?.getString('userName') ?? '';
+  }
+
   static Future<bool> clearAll() async {
     return await _prefs?.clear() ?? false;
   }

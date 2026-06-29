@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ppkd_b6/flutter7.dart';
+import 'package:ppkd_b6/flutter8.dart';
 import 'package:ppkd_b6/register.dart';
 
 class TampilanLogin extends StatefulWidget {
@@ -136,7 +136,7 @@ class _TampilanLoginState extends State<TampilanLogin> {
                                         Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => Navigator7(),
+                                            builder: (context) => Navigator8(),
                                             settings: RouteSettings(
                                               arguments: {
                                                 "email": _emailController.text,

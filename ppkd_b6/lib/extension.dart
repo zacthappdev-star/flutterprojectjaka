@@ -58,7 +58,7 @@ extension ExtendedNavigator on BuildContext {
     );
   }
 
-  void pop([PopResultCallback]) async {
-    return Navigator.of(this).pop(PopResultCallback);
+  void pop<T extends Object?>([T? result]) {
+    Navigator.of(this).pop(result);
   }
 }
