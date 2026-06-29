@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ppkd_b6/gen/strings.g.dart';
+import 'package:ppkd_b6/widgets/common/tombol_gradient.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 
 import 'masuk.dart';
@@ -171,9 +172,9 @@ class _ResetPasswordState extends State<ResetPassword>
                           ),
                           SizedBox(height: 8),
                           Text(
-                            _emailSent
-                                ? 'Email Terkirim!'
-                                : t.auth.resetPasswordTitle,
+                             _emailSent
+                                 ? context.t.auth.resetEmailSentTitle
+                                 : t.auth.resetPasswordTitle,
                             style: AppTextStyles.appTitle.copyWith(
                               fontSize: 28,
                               letterSpacing: 2,
@@ -322,7 +323,8 @@ class _ResetPasswordState extends State<ResetPassword>
             },
           ),
           SizedBox(height: 18),
-          _GradientButton(
+          TombolGradient(
+            height: 44,
             label: Translations.of(context).auth.sendEmail,
             onPressed: sendReset,
           ),
@@ -369,11 +371,11 @@ class _ResetPasswordState extends State<ResetPassword>
           textAlign: TextAlign.center,
         ),
         SizedBox(height: 14),
-        _buildStep('1', 'Buka email kamu', Icons.email_outlined),
+        _buildStep('1', context.t.auth.resetStep1, Icons.email_outlined),
         SizedBox(height: 6),
-        _buildStep('2', 'Klik link reset password', Icons.link_rounded),
+        _buildStep('2', context.t.auth.resetStep2, Icons.link_rounded),
         SizedBox(height: 6),
-        _buildStep('3', 'Buat password baru', Icons.lock_outline_rounded),
+        _buildStep('3', context.t.auth.resetStep3, Icons.lock_outline_rounded),
         SizedBox(height: 16),
         GestureDetector(
           onTap: () {
@@ -386,7 +388,7 @@ class _ResetPasswordState extends State<ResetPassword>
               border: Border.all(color: AppColors.secondaryGreen, width: 1.5),
             ),
             child: Text(
-              'Kirim ulang email',
+              context.t.auth.resendEmail,
               style: TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 13,
@@ -438,57 +440,3 @@ class _ResetPasswordState extends State<ResetPassword>
   }
 }
 
-class _GradientButton extends StatefulWidget {
-  final String label;
-  final VoidCallback onPressed;
-  const _GradientButton({required this.label, required this.onPressed});
-  @override
-  State<_GradientButton> createState() => _GradientButtonState();
-}
-
-class _GradientButtonState extends State<_GradientButton>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _ctrl;
-  late Animation<double> _scaleAnim;
-  @override
-  void initState() {
-    super.initState();
-    _ctrl = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 120),
-    );
-    _scaleAnim = Tween<double>(
-      begin: 1,
-      end: 0.97,
-    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
-  }
-
-  @override
-  void dispose() {
-    _ctrl.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ScaleTransition(
-      scale: _scaleAnim,
-      child: GestureDetector(
-        onTapDown: (_) => _ctrl.forward(),
-        onTapUp: (_) {
-          _ctrl.reverse();
-          widget.onPressed();
-        },
-        onTapCancel: () => _ctrl.reverse(),
-        child: Container(
-          width: double.infinity,
-          height: 44,
-          decoration: AppDecorations.gradientButton,
-          child: Center(
-            child: Text(widget.label, style: AppTextStyles.buttonText),
-          ),
-        ),
-      ),
-    );
-  }
-}

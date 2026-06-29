@@ -78,12 +78,17 @@ class KartuProgresPersen extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            context.t.progress.charactersCount(completed: (progress * 46).round(), total: 46),
+            context.t.progress.charactersCount(
+              completed: (progress * 46).round(),
+              total: 46,
+            ),
             style: TextStyle(
               fontFamily: 'Poppins',
               fontSize: 11,
               fontWeight: FontWeight.w600,
-              color: Theme.of(context).brightness == Brightness.dark ? colors.textMuted : Colors.grey.shade600,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? colors.textMuted
+                  : Colors.grey.shade600,
             ),
           ),
         ],

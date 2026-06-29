@@ -32,7 +32,8 @@
     "startStudyModules": "MULAI MODUL BELAJAR",
     "student": "Pelajar HI KATA",
     "close": "Tutup",
-    "exampleChars": "Contoh Huruf:"
+    "exampleChars": "Contoh Huruf:",
+    "error": "Terjadi kesalahan. Silakan coba lagi."
   },
   "auth": {
     "login": "Masuk",
@@ -48,7 +49,12 @@
     "resetPasswordIntro": "Masukkan email Anda untuk menerima instruksi pengaturan ulang kata sandi.",
     "sendEmail": "KIRIM EMAIL",
     "resetSuccessTitle": "Berhasil!",
+    "resetEmailSentTitle": "Email Terkirim!",
     "resetSentTo": "Email reset password telah dikirim ke:\n${email}",
+    "resetStep1": "Buka email kamu",
+    "resetStep2": "Klik link reset password",
+    "resetStep3": "Buat password baru",
+    "resendEmail": "Kirim ulang email",
     "validation": {
       "emailEmpty": "Email tidak boleh kosong",
       "emailInvalid": "Format email tidak valid",
@@ -61,7 +67,8 @@
       "loginFailed": "Email atau kata sandi salah!",
       "resetEmailSent": "Tautan reset kata sandi telah dikirim ke email Anda.",
       "emailAlreadyExists": "Email sudah terdaftar! Gunakan email lain.",
-      "registerSuccess": "Akun berhasil dibuat! Selamat bergabung 🥳"
+      "registerSuccess": "Akun berhasil dibuat! Selamat bergabung 🥳",
+      "socialLoginComingSoon": "Fitur login sosial segera hadir!"
     }
   },
   "home": {
@@ -77,6 +84,7 @@
     "dailyGoal": "Target Harian",
     "morning": "Ohayou / Selamat Pagi",
     "afternoon": "Konnichiwa / Selamat Siang",
+    "evening": "Konnichiwa / Selamat Sore",
     "night": "Konbanwa / Selamat Malam",
     "dailyMission": "Misi Hari Ini",
     "finishOneLesson": "Selesaikan 1 Pelajaran",

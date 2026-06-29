@@ -21,6 +21,12 @@ class QuizData {
     return [...HiraganaData.allBasicChars, ...KatakanaData.allBasicChars];
   }
 
+  /// Semua karakter termasuk dakuten, handakuten, dan youon — dipakai sebagai
+  /// pool opsi salah untuk level quiz agar opsi relevan dan sepanjang sama.
+  static List<JapaneseCharacter> get allTableCharacters {
+    return [...HiraganaData.allTableChars, ...KatakanaData.allTableChars];
+  }
+
   static List<QuizQuestion> generateLevelQuiz({
     required String type,
     required int levelIndex,
@@ -32,19 +38,28 @@ class QuizData {
         : KatakanaData.groups[levelIndex];
     final selected = List<JapaneseCharacter>.from(group.characters)..shuffle();
 
-    final pool = allCharacters
+    // Gunakan allTableCharacters agar soal dakuten/youon punya opsi salah
+    // yang relevan (sepanjang sama), bukan hanya dari 46 karakter dasar.
+    final pool = allTableCharacters
         .where((char) => char.type == type.toLowerCase())
         .toList();
 
     return _buildQuestions(selected, pool, type, isListening);
   }
 
-  static List<QuizQuestion> _generateQuizHelper(String type, int count, bool isListening) {
+  static List<QuizQuestion> _generateQuizHelper(
+    String type,
+    int count,
+    bool isListening,
+  ) {
     final filteredCharacters = type == 'Mixed'
         ? allCharacters
-        : allCharacters.where((char) => char.type == type.toLowerCase()).toList();
+        : allCharacters
+              .where((char) => char.type == type.toLowerCase())
+              .toList();
 
-    final shuffledChars = List<JapaneseCharacter>.from(filteredCharacters)..shuffle();
+    final shuffledChars = List<JapaneseCharacter>.from(filteredCharacters)
+      ..shuffle();
     final selected = shuffledChars.take(count).toList();
     return _buildQuestions(selected, filteredCharacters, type, isListening);
   }
@@ -78,8 +93,32 @@ class QuizData {
   ) {
     final List<QuizQuestion> questions = [];
     for (final char in selected) {
-      final wrongOptions = pool.where((c) => c.romaji != char.romaji).toList()
-        ..shuffle();
+      List<JapaneseCharacter> wrongOptions;
+
+      if (isListening) {
+        // Untuk mode listening, prioritaskan opsi salah dengan panjang karakter
+        // yang SAMA agar jawaban benar tidak langsung ketara karena beda panjang.
+        final sameLength =
+            pool
+                .where(
+                  (c) =>
+                      c.romaji != char.romaji &&
+                      c.character.length == char.character.length,
+                )
+                .toList()
+              ..shuffle();
+
+        if (sameLength.length >= 3) {
+          wrongOptions = sameLength;
+        } else {
+          // Fallback: pakai semua pool jika tidak cukup karakter sepanjang sama
+          wrongOptions = pool.where((c) => c.romaji != char.romaji).toList()
+            ..shuffle();
+        }
+      } else {
+        wrongOptions = pool.where((c) => c.romaji != char.romaji).toList()
+          ..shuffle();
+      }
 
       final wrongs = isListening
           ? wrongOptions.take(3).map((c) => c.character).toList()

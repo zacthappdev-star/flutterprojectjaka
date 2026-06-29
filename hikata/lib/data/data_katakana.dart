@@ -16,6 +16,7 @@ class KatakanaData {
           character: 'イ',
           romaji: 'i',
           type: 'katakana',
+
           mnemonicID: 'Seperti dua garis miring huruf "i"',
           mnemonicEN: 'Two slanted lines',
         ),
@@ -203,7 +204,7 @@ class KatakanaData {
       ],
     ),
     CharacterGroup(
-      groupName: 'HA-HI-FU-HE-HO ',
+      groupName: 'HA-HI-FU-HE-HO',
       characters: [
         JapaneseCharacter(
           character: 'ハ',

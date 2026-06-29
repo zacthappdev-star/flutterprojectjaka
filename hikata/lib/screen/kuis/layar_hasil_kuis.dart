@@ -172,7 +172,8 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
     );
   }
 
-  double get _percentage => (widget.score / widget.total) * 100;
+  double get _percentage =>
+      widget.total == 0 ? 0 : (widget.score / widget.total) * 100;
 
   String _getFeedbackDesc(BuildContext context) {
     if (_percentage >= 80) {
@@ -246,7 +247,7 @@ class _QuizResultScreenState extends State<QuizResultScreen> {
   }
 
   Widget _buildHeroHasil(BuildContext context) {
-    final profile = context.read<ProfileProvider>();
+    final profile = context.watch<ProfileProvider>();
     final streak = profile.currentStreak;
 
     return Container(

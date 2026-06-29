@@ -33,7 +33,8 @@
     "startStudyModules": "START STUDY MODULES",
     "student": "HI KATA Learner",
     "close": "Close",
-    "exampleChars": "Example Characters:"
+    "exampleChars": "Example Characters:",
+    "error": "An error occurred. Please try again."
   },
   "auth": {
     "login": "Login",
@@ -49,7 +50,12 @@
     "resetPasswordIntro": "Enter your email to receive password reset instructions.",
     "sendEmail": "SEND EMAIL",
     "resetSuccessTitle": "Success!",
+    "resetEmailSentTitle": "Email Sent!",
     "resetSentTo": "Password reset email has been sent to:\n${email}",
+    "resetStep1": "Open your email",
+    "resetStep2": "Click the reset password link",
+    "resetStep3": "Create a new password",
+    "resendEmail": "Resend email",
     "validation": {
       "emailEmpty": "Email cannot be empty",
       "emailInvalid": "Invalid email format",
@@ -62,7 +68,8 @@
       "loginFailed": "Incorrect email or password!",
       "resetEmailSent": "Password reset link has been sent to your email.",
       "emailAlreadyExists": "Email is already registered! Please use another email.",
-      "registerSuccess": "Account successfully created! Welcome 🥳"
+      "registerSuccess": "Account successfully created! Welcome 🥳",
+      "socialLoginComingSoon": "Social login feature coming soon!"
     }
   },
   "home": {
@@ -78,7 +85,8 @@
     "dailyGoal": "Daily Goal",
     "morning": "Ohayou / Good Morning",
     "afternoon": "Konnichiwa / Good Afternoon",
-    "night": "Konbanwa / Good Evening",
+    "evening": "Konnichiwa / Good Evening",
+    "night": "Konbanwa / Good Night",
     "dailyMission": "Today's Mission",
     "finishOneLesson": "Finish 1 Lesson",
     "days": "${count} Days",

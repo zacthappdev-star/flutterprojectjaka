@@ -7,6 +7,7 @@ import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'masuk.dart';
+import 'package:ppkd_b6/screen/pengenalan/pilih_bahasa.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -46,7 +47,16 @@ class _SplashScreenState extends State<SplashScreen>
       if (mounted) {
         final prefs = await SharedPreferences.getInstance();
         final userId = prefs.getInt('active_user_id');
-        final Widget nextScreen = userId != null ? TataUtama() : LoginScreen();
+        final bool onboardingDone = prefs.getBool('has_completed_onboarding') ?? false;
+        
+        Widget nextScreen;
+        if (userId != null) {
+          nextScreen = TataUtama();
+        } else if (onboardingDone) {
+          nextScreen = LoginScreen();
+        } else {
+          nextScreen = LanguageSelectScreen();
+        }
 
         if (!mounted) return;
 

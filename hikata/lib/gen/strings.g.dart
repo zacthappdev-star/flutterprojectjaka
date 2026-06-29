@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 665 (332 per locale)
+/// Strings: 681 (340 per locale)
 ///
-/// Built on 2026-06-26 at 05:14 UTC
+/// Built on 2026-06-26 at 07:46 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -209,6 +209,7 @@ class _StringsCommonId {
 	String get student => 'Pelajar HI KATA';
 	String get close => 'Tutup';
 	String get exampleChars => 'Contoh Huruf:';
+	String get error => 'Terjadi kesalahan. Silakan coba lagi.';
 }
 
 // Path: auth
@@ -231,7 +232,12 @@ class _StringsAuthId {
 	String get resetPasswordIntro => 'Masukkan email Anda untuk menerima instruksi pengaturan ulang kata sandi.';
 	String get sendEmail => 'KIRIM EMAIL';
 	String get resetSuccessTitle => 'Berhasil!';
+	String get resetEmailSentTitle => 'Email Terkirim!';
 	String resetSentTo({required Object email}) => 'Email reset password telah dikirim ke:\n${email}';
+	String get resetStep1 => 'Buka email kamu';
+	String get resetStep2 => 'Klik link reset password';
+	String get resetStep3 => 'Buat password baru';
+	String get resendEmail => 'Kirim ulang email';
 	late final _StringsAuthValidationId validation = _StringsAuthValidationId._(_root);
 	late final _StringsAuthMessagesId messages = _StringsAuthMessagesId._(_root);
 }
@@ -255,6 +261,7 @@ class _StringsHomeId {
 	String get dailyGoal => 'Target Harian';
 	String get morning => 'Ohayou / Selamat Pagi';
 	String get afternoon => 'Konnichiwa / Selamat Siang';
+	String get evening => 'Konnichiwa / Selamat Sore';
 	String get night => 'Konbanwa / Selamat Malam';
 	String get dailyMission => 'Misi Hari Ini';
 	String get finishOneLesson => 'Selesaikan 1 Pelajaran';
@@ -673,6 +680,7 @@ class _StringsAuthMessagesId {
 	String get resetEmailSent => 'Tautan reset kata sandi telah dikirim ke email Anda.';
 	String get emailAlreadyExists => 'Email sudah terdaftar! Gunakan email lain.';
 	String get registerSuccess => 'Akun berhasil dibuat! Selamat bergabung 🥳';
+	String get socialLoginComingSoon => 'Fitur login sosial segera hadir!';
 }
 
 // Path: profile.statistics
@@ -810,6 +818,7 @@ class _StringsCommonEn extends _StringsCommonId {
 	@override String get student => 'HI KATA Learner';
 	@override String get close => 'Close';
 	@override String get exampleChars => 'Example Characters:';
+	@override String get error => 'An error occurred. Please try again.';
 }
 
 // Path: auth
@@ -832,7 +841,12 @@ class _StringsAuthEn extends _StringsAuthId {
 	@override String get resetPasswordIntro => 'Enter your email to receive password reset instructions.';
 	@override String get sendEmail => 'SEND EMAIL';
 	@override String get resetSuccessTitle => 'Success!';
+	@override String get resetEmailSentTitle => 'Email Sent!';
 	@override String resetSentTo({required Object email}) => 'Password reset email has been sent to:\n${email}';
+	@override String get resetStep1 => 'Open your email';
+	@override String get resetStep2 => 'Click the reset password link';
+	@override String get resetStep3 => 'Create a new password';
+	@override String get resendEmail => 'Resend email';
 	@override late final _StringsAuthValidationEn validation = _StringsAuthValidationEn._(_root);
 	@override late final _StringsAuthMessagesEn messages = _StringsAuthMessagesEn._(_root);
 }
@@ -856,7 +870,8 @@ class _StringsHomeEn extends _StringsHomeId {
 	@override String get dailyGoal => 'Daily Goal';
 	@override String get morning => 'Ohayou / Good Morning';
 	@override String get afternoon => 'Konnichiwa / Good Afternoon';
-	@override String get night => 'Konbanwa / Good Evening';
+	@override String get evening => 'Konnichiwa / Good Evening';
+	@override String get night => 'Konbanwa / Good Night';
 	@override String get dailyMission => 'Today\'s Mission';
 	@override String get finishOneLesson => 'Finish 1 Lesson';
 	@override String days({required Object count}) => '${count} Days';
@@ -1274,6 +1289,7 @@ class _StringsAuthMessagesEn extends _StringsAuthMessagesId {
 	@override String get resetEmailSent => 'Password reset link has been sent to your email.';
 	@override String get emailAlreadyExists => 'Email is already registered! Please use another email.';
 	@override String get registerSuccess => 'Account successfully created! Welcome 🥳';
+	@override String get socialLoginComingSoon => 'Social login feature coming soon!';
 }
 
 // Path: profile.statistics
@@ -1362,6 +1378,7 @@ extension on Translations {
 			case 'common.student': return 'Pelajar HI KATA';
 			case 'common.close': return 'Tutup';
 			case 'common.exampleChars': return 'Contoh Huruf:';
+			case 'common.error': return 'Terjadi kesalahan. Silakan coba lagi.';
 			case 'auth.login': return 'Masuk';
 			case 'auth.register': return 'Daftar';
 			case 'auth.emailHint': return 'Alamat Email';
@@ -1375,7 +1392,12 @@ extension on Translations {
 			case 'auth.resetPasswordIntro': return 'Masukkan email Anda untuk menerima instruksi pengaturan ulang kata sandi.';
 			case 'auth.sendEmail': return 'KIRIM EMAIL';
 			case 'auth.resetSuccessTitle': return 'Berhasil!';
+			case 'auth.resetEmailSentTitle': return 'Email Terkirim!';
 			case 'auth.resetSentTo': return ({required Object email}) => 'Email reset password telah dikirim ke:\n${email}';
+			case 'auth.resetStep1': return 'Buka email kamu';
+			case 'auth.resetStep2': return 'Klik link reset password';
+			case 'auth.resetStep3': return 'Buat password baru';
+			case 'auth.resendEmail': return 'Kirim ulang email';
 			case 'auth.validation.emailEmpty': return 'Email tidak boleh kosong';
 			case 'auth.validation.emailInvalid': return 'Format email tidak valid';
 			case 'auth.validation.passwordEmpty': return 'Password tidak boleh kosong';
@@ -1386,6 +1408,7 @@ extension on Translations {
 			case 'auth.messages.resetEmailSent': return 'Tautan reset kata sandi telah dikirim ke email Anda.';
 			case 'auth.messages.emailAlreadyExists': return 'Email sudah terdaftar! Gunakan email lain.';
 			case 'auth.messages.registerSuccess': return 'Akun berhasil dibuat! Selamat bergabung 🥳';
+			case 'auth.messages.socialLoginComingSoon': return 'Fitur login sosial segera hadir!';
 			case 'home.title': return 'Home';
 			case 'home.subtitle': return 'Mari belajar Hiragana & Katakana';
 			case 'home.learnCardTitle': return 'Belajar Huruf';
@@ -1398,6 +1421,7 @@ extension on Translations {
 			case 'home.dailyGoal': return 'Target Harian';
 			case 'home.morning': return 'Ohayou / Selamat Pagi';
 			case 'home.afternoon': return 'Konnichiwa / Selamat Siang';
+			case 'home.evening': return 'Konnichiwa / Selamat Sore';
 			case 'home.night': return 'Konbanwa / Selamat Malam';
 			case 'home.dailyMission': return 'Misi Hari Ini';
 			case 'home.finishOneLesson': return 'Selesaikan 1 Pelajaran';
@@ -1703,6 +1727,7 @@ extension on _StringsEn {
 			case 'common.student': return 'HI KATA Learner';
 			case 'common.close': return 'Close';
 			case 'common.exampleChars': return 'Example Characters:';
+			case 'common.error': return 'An error occurred. Please try again.';
 			case 'auth.login': return 'Login';
 			case 'auth.register': return 'Register';
 			case 'auth.emailHint': return 'Email Address';
@@ -1716,7 +1741,12 @@ extension on _StringsEn {
 			case 'auth.resetPasswordIntro': return 'Enter your email to receive password reset instructions.';
 			case 'auth.sendEmail': return 'SEND EMAIL';
 			case 'auth.resetSuccessTitle': return 'Success!';
+			case 'auth.resetEmailSentTitle': return 'Email Sent!';
 			case 'auth.resetSentTo': return ({required Object email}) => 'Password reset email has been sent to:\n${email}';
+			case 'auth.resetStep1': return 'Open your email';
+			case 'auth.resetStep2': return 'Click the reset password link';
+			case 'auth.resetStep3': return 'Create a new password';
+			case 'auth.resendEmail': return 'Resend email';
 			case 'auth.validation.emailEmpty': return 'Email cannot be empty';
 			case 'auth.validation.emailInvalid': return 'Invalid email format';
 			case 'auth.validation.passwordEmpty': return 'Password cannot be empty';
@@ -1727,6 +1757,7 @@ extension on _StringsEn {
 			case 'auth.messages.resetEmailSent': return 'Password reset link has been sent to your email.';
 			case 'auth.messages.emailAlreadyExists': return 'Email is already registered! Please use another email.';
 			case 'auth.messages.registerSuccess': return 'Account successfully created! Welcome 🥳';
+			case 'auth.messages.socialLoginComingSoon': return 'Social login feature coming soon!';
 			case 'home.title': return 'Home';
 			case 'home.subtitle': return 'Let\'s learn Hiragana & Katakana';
 			case 'home.learnCardTitle': return 'Learn Characters';
@@ -1739,7 +1770,8 @@ extension on _StringsEn {
 			case 'home.dailyGoal': return 'Daily Goal';
 			case 'home.morning': return 'Ohayou / Good Morning';
 			case 'home.afternoon': return 'Konnichiwa / Good Afternoon';
-			case 'home.night': return 'Konbanwa / Good Evening';
+			case 'home.evening': return 'Konnichiwa / Good Evening';
+			case 'home.night': return 'Konbanwa / Good Night';
 			case 'home.dailyMission': return 'Today\'s Mission';
 			case 'home.finishOneLesson': return 'Finish 1 Lesson';
 			case 'home.days': return ({required Object count}) => '${count} Days';

@@ -8,6 +8,7 @@ import 'package:ppkd_b6/screen/reset_sandi.dart';
 import 'package:ppkd_b6/screen/tata_utama.dart';
 import 'package:ppkd_b6/theme/aset_aplikasi.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
+import 'package:ppkd_b6/widgets/common/tombol_gradient.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -311,7 +312,7 @@ class _LoginScreenState extends State<LoginScreen>
                                         ),
                                       ),
                                     ),
-                                    _GradientButton(
+                                    TombolGradient(
                                       label: t.auth.login.toUpperCase(),
                                       onPressed: login,
                                     ),
@@ -357,7 +358,20 @@ class _LoginScreenState extends State<LoginScreen>
                                     child: _SocialButton(
                                       label: 'Google',
                                       iconAsset: AppAssets.googleIcon,
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              t.auth.messages.socialLoginComingSoon,
+                                              style: const TextStyle(fontFamily: 'Poppins'),
+                                            ),
+                                            behavior: SnackBarBehavior.floating,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(12),
+                                            ),
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ),
                                   SizedBox(width: 12),
@@ -365,7 +379,20 @@ class _LoginScreenState extends State<LoginScreen>
                                     child: _SocialButton(
                                       label: 'Apple',
                                       iconAsset: AppAssets.appleIcon,
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              t.auth.messages.socialLoginComingSoon,
+                                              style: const TextStyle(fontFamily: 'Poppins'),
+                                            ),
+                                            behavior: SnackBarBehavior.floating,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(12),
+                                            ),
+                                          ),
+                                        );
+                                      },
                                     ),
                                   ),
                                 ],
@@ -419,64 +446,6 @@ class _LoginScreenState extends State<LoginScreen>
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class _GradientButton extends StatefulWidget {
-  final String label;
-  final VoidCallback onPressed;
-
-  const _GradientButton({required this.label, required this.onPressed});
-
-  @override
-  State<_GradientButton> createState() => _GradientButtonState();
-}
-
-class _GradientButtonState extends State<_GradientButton>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _ctrl;
-  late Animation<double> _scaleAnim;
-
-  @override
-  void initState() {
-    super.initState();
-    _ctrl = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 120),
-    );
-    _scaleAnim = Tween<double>(
-      begin: 1,
-      end: 0.97,
-    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
-  }
-
-  @override
-  void dispose() {
-    _ctrl.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ScaleTransition(
-      scale: _scaleAnim,
-      child: GestureDetector(
-        onTapDown: (_) => _ctrl.forward(),
-        onTapUp: (_) {
-          _ctrl.reverse();
-          widget.onPressed();
-        },
-        onTapCancel: () => _ctrl.reverse(),
-        child: Container(
-          width: double.infinity,
-          height: 48,
-          decoration: AppDecorations.gradientButton,
-          child: Center(
-            child: Text(widget.label, style: AppTextStyles.buttonText),
-          ),
         ),
       ),
     );

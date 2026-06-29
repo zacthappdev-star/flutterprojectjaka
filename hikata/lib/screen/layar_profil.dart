@@ -226,7 +226,7 @@ class _LayarProfilState extends State<LayarProfil> {
                       fontFamily: 'Poppins',
                       fontSize: 15,
                       fontWeight: FontWeight.w800,
-                      color: isDark ? colors.textMuted : Colors.grey.shade200,
+                      color: isDark ? colors.textMuted : Colors.red.shade300,
                     ),
                   ),
                   const SizedBox(height: 12),
@@ -467,7 +467,9 @@ class _LayarProfilState extends State<LayarProfil> {
           TextButton(
             onPressed: () async {
               final navigator = Navigator.of(context, rootNavigator: true);
+              final messenger = ScaffoldMessenger.of(context);
               final profileProv = context.read<ProfileProvider>();
+              final errorStr = Translations.of(context).common.error;
               Navigator.pop(context);
               final userId = await ProgressService.getActiveUserId();
               if (userId != null) {
@@ -479,6 +481,13 @@ class _LayarProfilState extends State<LayarProfil> {
                   navigator.pushAndRemoveUntil(
                     MaterialPageRoute(builder: (_) => const LoginScreen()),
                     (route) => false,
+                  );
+                } else {
+                  messenger.showSnackBar(
+                    SnackBar(
+                      content: Text(errorStr),
+                      backgroundColor: Colors.red,
+                    ),
                   );
                 }
               }

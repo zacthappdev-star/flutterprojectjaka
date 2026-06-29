@@ -76,7 +76,7 @@ class ProfileProvider with ChangeNotifier {
     final progress = await dbHelper.getProgress(userId);
 
     avatar = user?['avatar'] ?? '🐼';
-    userName = user?['nama'] ?? t.common.student;
+    userName = user?['nama'] ?? LocaleSettings.currentLocale.translations.common.student;
     userEmail = user?['email'] ?? '';
 
     final createdAt = user?['created_at'] as String?;

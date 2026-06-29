@@ -163,7 +163,7 @@ class HiraganaData {
       ],
     ),
     CharacterGroup(
-      groupName: 'NA-NI-NU-NE-NO ',
+      groupName: 'NA-NI-NU-NE-NO',
       characters: [
         JapaneseCharacter(
           character: 'な',
@@ -203,7 +203,7 @@ class HiraganaData {
       ],
     ),
     CharacterGroup(
-      groupName: 'HA-HI-HU-HE-HO ',
+      groupName: 'HA-HI-HU-HE-HO',
       characters: [
         JapaneseCharacter(
           character: 'は',
@@ -243,7 +243,7 @@ class HiraganaData {
       ],
     ),
     CharacterGroup(
-      groupName: 'MA-MI-MU-ME-MO ',
+      groupName: 'MA-MI-MU-ME-MO',
       characters: [
         JapaneseCharacter(
           character: 'ま',
@@ -283,7 +283,7 @@ class HiraganaData {
       ],
     ),
     CharacterGroup(
-      groupName: 'YA-YU-YO ',
+      groupName: 'YA-YU-YO',
       characters: [
         JapaneseCharacter(
           character: 'や',
@@ -309,7 +309,7 @@ class HiraganaData {
       ],
     ),
     CharacterGroup(
-      groupName: 'RA-RI-RU-RE-RO ',
+      groupName: 'RA-RI-RU-RE-RO',
       characters: [
         JapaneseCharacter(
           character: 'ら',
@@ -575,7 +575,7 @@ class HiraganaData {
       ],
     ),
     CharacterGroup(
-      groupName: 'Kombinasi KYA・SHI・CHI ',
+      groupName: 'Kombinasi KYA・SHI・CHI',
       characters: [
         JapaneseCharacter(
           character: 'きゃ',
@@ -706,7 +706,7 @@ class HiraganaData {
       ],
     ),
   ];
-  static final int _basicGroupCount = 10;
+  static const int _basicGroupCount = 10;
 
   /// 46 huruf dasar (sebelum dakuten).
   static List<JapaneseCharacter> get allBasicChars {

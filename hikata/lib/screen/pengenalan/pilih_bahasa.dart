@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ppkd_b6/gen/strings.g.dart';
+import 'package:ppkd_b6/widgets/common/tombol_lanjut.dart';
 import 'package:ppkd_b6/screen/alasan_beranda.dart';
 import 'package:ppkd_b6/theme/tema_aplikasi.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ppkd_b6/screen/masuk.dart';
 
 class AppLanguage {
   static String get current => LocaleSettings.currentLocale.languageCode;
@@ -157,7 +159,7 @@ class _LanguageSelectScreenState extends State<LanguageSelectScreen>
                     const Spacer(flex: 2),
                     FadeTransition(
                       opacity: _fade,
-                      child: _ContinueButton(
+                      child: TombolLanjut(
                         label: context.t.common.continueText,
                         onPressed: () async {
                           final navigator = Navigator.of(context);
@@ -187,6 +189,32 @@ class _LanguageSelectScreenState extends State<LanguageSelectScreen>
                           color: Colors.white60,
                         ),
                         textAlign: TextAlign.center,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    FadeTransition(
+                      opacity: _fade,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const LoginScreen(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "Sudah punya akun? Masuk",
+                          style: const TextStyle(
+                            fontFamily: 'Poppins',
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                            decoration: TextDecoration.underline,
+                            decorationColor: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
                   ],
@@ -293,67 +321,3 @@ class _LanguageCard extends StatelessWidget {
   }
 }
 
-class _ContinueButton extends StatefulWidget {
-  final String label;
-  final VoidCallback onPressed;
-  const _ContinueButton({required this.label, required this.onPressed});
-
-  @override
-  State<_ContinueButton> createState() => _ContinueButtonState();
-}
-
-class _ContinueButtonState extends State<_ContinueButton>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _ctrl;
-  late Animation<double> _scale;
-
-  @override
-  void initState() {
-    super.initState();
-    _ctrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 120));
-    _scale = Tween<double>(begin: 1, end: 0.97)
-        .animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
-  }
-
-  @override
-  void dispose() {
-    _ctrl.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ScaleTransition(
-      scale: _scale,
-      child: GestureDetector(
-        onTapDown: (_) => _ctrl.forward(),
-        onTapUp: (_) {
-          _ctrl.reverse();
-          widget.onPressed();
-        },
-        onTapCancel: () => _ctrl.reverse(),
-        child: Container(
-          width: double.infinity,
-          height: 52,
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.15),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
-          ),
-          child: Center(
-            child: Text(
-              widget.label.toUpperCase(),
-              style: const TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                letterSpacing: 1.2,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}

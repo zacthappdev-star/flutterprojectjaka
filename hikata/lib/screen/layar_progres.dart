@@ -287,7 +287,7 @@ class _LayarProgresState extends State<LayarProgres> {
                         child: KartuProgresPersen(
                           title: 'Katakana',
                           progress: _progress.progressKatakana,
-                          accentColor: const Color(0xFFE9A825),
+                          accentColor: const Color(0xFF2E9E5B),
                           badgeBg: colors.tableCardBgKatakana,
                           icon: 'ア',
                         ),
