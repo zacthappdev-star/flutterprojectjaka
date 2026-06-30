@@ -1,0 +1,23 @@
+=== Register ===
+{"message":"Registrasi berhasil","data":{"token":"5|ckl7NZOm9I9sDKFIsr2qR00yCDTHNoPiPIuiIgpu75164044","user":{"name":"Budi","email":"budi@examspless.com","updated_at":"2025-04-11T01:14:55.000000Z","created_at":"2025-04-11T01:14:55.000000Z","id":4}}}
+{"message":"Email sudah terdaftar.","errors":{"email":["Email sudah terdaftar."]}}
+{"message":"Nama wajib diisi. (and 2 more errors)","errors":{"name":["Nama wajib diisi."],"email":["Email wajib diisi."],"password":["Password wajib diisi."]}}
+=== Login ===
+{"message":"Email atau password salah","data":null}
+{"message":"Login berhasil","data":{"token":"14|zzUM9ra1heamxdO6EcQqmWXEb9eQsqE67NuNWPbV15f2e48d","user":{"id":1,"name":"budianduks","email":"budi@example.com","email_verified_at":null,"created_at":"2025-04-10T07:01:59.000000Z","updated_at":"2025-04-11T01:45:42.000000Z"}}}
+{"message":"Email belum terdaftar.","data":null}
+=== Profile ===
+{"message":"Berhasil mengambil data profil pengguna","data":{"id":1,"name":"Budi","email":"budi@example.com","email_verified_at":null,"created_at":"2025-04-10T07:01:59.000000Z","updated_at":"2025-04-10T07:01:59.000000Z"}}
+{"message":"Unauthenticated."}
+=== Edit Profile ===
+{"message":"Profil berhasil diperbarui","data":{"id":1,"name":"budianduks","email":"budi@example.com","email_verified_at":null,"created_at":"2025-04-10T07:01:59.000000Z","updated_at":"2025-04-11T01:45:42.000000Z"}}
+{"message":"Nama wajib diisi.","errors":{"name":["Nama wajib diisi."]}}
+=== Edit Profile Photo ===
+{"message":"Foto profil berhasil diperbarui","data":{"profile_photo":"..."}}
+=== All data user ===
+{"message":"Berhasil mengambil seluruh data pengguna","data":[{"id":1,"name":"budianduks","email":"budi@example.com","email_verified_at":null,"created_at":"2025-04-10T07:01:59.000000Z","updated_at":"2025-04-11T01:45:42.000000Z"},{"id":2,"name":"Budi","email":"budi@examples.com","email_verified_at":null,"created_at":"2025-04-11T01:12:01.000000Z","updated_at":"2025-04-11T01:12:01.000000Z"},{"id":3,"name":"Budi","email":"budi@exampless.com","email_verified_at":null,"created_at":"2025-04-11T01:13:29.000000Z","updated_at":"2025-04-11T01:13:29.000000Z"},{"id":4,"name":"Budi","email":"budi@examspless.com","email_verified_at":null,"created_at":"2025-04-11T01:14:55.000000Z","updated_at":"2025-04-11T01:14:55.000000Z"},{"id":5,"name":"Budi","email":"budi@sexamspless.com","email_verified_at":null,"created_at":"2025-04-11T02:10:15.000000Z","updated_at":"2025-04-11T02:10:15.000000Z"}]}
+=== GET - List Trainings (Public) ===
+{"message":"List data pelatihan","data":[{"id":1,"title":"Data Management Staff (Operator Komputer)"},{"id":2,"title":"Bahasa Inggris"},{"id":3,"title":"Desainer Grafis Madya"},{"id":4,"title":"Tata Boga"},{"id":5,"title":"Tata Busana"},{"id":6,"title":"Perhotelan"},{"id":7,"title":"Teknisi Komputer"},{"id":8,"title":"Teknisi Jaringan"},{"id":9,"title":"Barista"},{"id":10,"title":"Bahasa Korea"},{"id":11,"title":"Make Up Artist"},{"id":12,"title":"Desainer Multimedia"},{"id":13,"title":"Content Creator"},{"id":14,"title":"Web Programming"},{"id":15,"title":"Digital Marketing"},{"id":16,"title":"Mobile Programming"},{"id":17,"title":"Akuntansi Junior"},{"id":18,"title":"Konstruksi Bangunan dengan CAD"}]}
+=== GET - Detail Training by ID (Public) ===
+{"message":"Detail pelatihan","data":{"id":1,"title":"Data Management Staff (Operator Komputer)","description":null,"participant_count":null,"standard":null,"duration":null,"created_at":"2025-07-06T22:51:32.000000Z","updated_at":"2025-07-06T22:51:32.000000Z","units":[],"activities":[]}}
+=== GET - List All Batches ===

@@ -1,0 +1,9 @@
+- Register [POST] {{base_url}}/api/register
+- Login [POST] {{base_url}}/api/login
+- Profile [GET] {{base_url}}/api/profile
+- Edit Profile [PUT] {{base_url}}/api/profile
+- Edit Profile Photo [PUT] {{base_url}}/api/profile/photo
+- All data user [GET] {{base_url}}/api/users
+- GET - List Trainings (Public) [GET] {{base_url}}/api/trainings
+- GET - Detail Training by ID (Public) [GET] {{base_url}}/api/trainings/1
+- GET - List All Batches [GET] {{base_url}}/api/batches
